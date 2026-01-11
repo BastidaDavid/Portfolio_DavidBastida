@@ -605,6 +605,63 @@
       letter-spacing:.06em;
     }
 
+    /* Tech notes (collapsible) under each YouTube card */
+    .tech-details{
+      padding: 10px 14px 14px;
+      border-top: 1px solid rgba(108,243,255,.12);
+      background: rgba(0,0,0,.10);
+    }
+
+    .tech-details summary{
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+      font-family: "Oswald", sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: .9rem;
+      opacity: .92;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Hide default marker, replace with + / − */
+    .tech-details summary::-webkit-details-marker{ display:none; }
+    .tech-details summary::before{
+      content: "+";
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      border: 1px solid rgba(108,243,255,.18);
+      background: rgba(8,10,18,.35);
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    }
+
+    .tech-details[open] summary{ color: var(--neon); }
+    .tech-details[open] summary::before{ content: "−"; }
+
+    .tech-details ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+
+    .tech-details li{
+      margin: 6px 0;
+      opacity: .86;
+      font-size: .92rem;
+      line-height: 1.5;
+      letter-spacing: .02em;
+    }
+
+    @media (max-width: 520px){
+      .tech-details{ padding: 10px 12px 12px; }
+      .tech-details li{ font-size: .9rem; }
+    }
+
     @media (max-width: 520px){
       /* Mobile: 1 slide per view, swipe enabled, and nav buttons BELOW */
       .carousel-wrap{
@@ -1306,6 +1363,16 @@
                       <strong>Urban Sphere</strong>
                       <span>City‑Scale UE5</span>
                     </div>
+                    <details class="tech-details">
+                      <summary>Technical notes</summary>
+                      <ul>
+                        <li>UE5 environment blockout + kitbashing (modular city-scale layout).</li>
+                        <li>Lighting: Lumen (dynamic) + strong rim / neon accents.</li>
+                        <li>Cameras: Sequencer + CineCamera framing (wide city reads).</li>
+                        <li>Post: subtle bloom, exposure control, cinematic contrast.</li>
+                        <li>Render: Movie Render Queue (HQ frames for a clean reel).</li>
+                      </ul>
+                    </details>
                   </div>
 
                   <div class="slide">
@@ -1317,6 +1384,16 @@
                       <strong>Nebula Remastered</strong>
                       <span>Real‑Time UE5</span>
                     </div>
+                    <details class="tech-details">
+                      <summary>Technical notes</summary>
+                      <ul>
+                        <li>VFX: Niagara particles for nebula / space dust layering.</li>
+                        <li>Atmosphere: volumetric fog + depth cues for scale.</li>
+                        <li>Materials: emissive PBR accents to drive mood.</li>
+                        <li>Lighting: Lumen bounce + controlled highlights.</li>
+                        <li>Sequencer: timing and camera beats for impact.</li>
+                      </ul>
+                    </details>
                   </div>
 
                   <div class="slide">
@@ -1328,6 +1405,16 @@
                       <strong>Sphere Study</strong>
                       <span>Lighting Study</span>
                     </div>
+                    <details class="tech-details">
+                      <summary>Technical notes</summary>
+                      <ul>
+                        <li>Lighting study focused on exposure, contrast, and readability.</li>
+                        <li>Emissive / neon balance to keep the silhouette clean.</li>
+                        <li>Camera: lens choice + framing to sell scale.</li>
+                        <li>Post: color grading and bloom tuned for a premium look.</li>
+                        <li>Render checks: noise control + consistency across shots.</li>
+                      </ul>
+                    </details>
                   </div>
 
                   <div class="slide">
@@ -1339,6 +1426,16 @@
                       <strong>Stratosphere</strong>
                       <span>UE5 Cinematic</span>
                     </div>
+                    <details class="tech-details">
+                      <summary>Technical notes</summary>
+                      <ul>
+                        <li>Real-time cinematic using Sequencer for camera cuts and pacing.</li>
+                        <li>Lighting: night-city style with practicals + neon highlights.</li>
+                        <li>Composition: skyline reads + controlled depth-of-field moments.</li>
+                        <li>Post: cinematic grade + subtle filmic softness.</li>
+                        <li>Render: MRQ settings tuned for clarity and stability.</li>
+                      </ul>
+                    </details>
                   </div>
 
                   <div class="slide">
@@ -1350,6 +1447,16 @@
                       <strong>Proyecto Nebula</strong>
                       <span>UE5 Cinematic</span>
                     </div>
+                    <details class="tech-details">
+                      <summary>Technical notes</summary>
+                      <ul>
+                        <li>Environment storytelling with layered VFX and atmospheric depth.</li>
+                        <li>Niagara-driven particles + volumetrics for mood.</li>
+                        <li>Materials: PBR surfaces with emissive accents.</li>
+                        <li>Sequencer: beats synced to camera movement and reveals.</li>
+                        <li>Color: controlled palette to keep focus on the hero moments.</li>
+                      </ul>
+                    </details>
                   </div>
 
                   <div class="slide">
@@ -1361,6 +1468,16 @@
                       <strong>3D Cinematic</strong>
                       <span>Unreal Engine</span>
                     </div>
+                    <details class="tech-details">
+                      <summary>Technical notes</summary>
+                      <ul>
+                        <li>Sequencer cinematic with camera blocking + clean transitions.</li>
+                        <li>Lighting pass focused on subject separation and depth.</li>
+                        <li>Material polish: roughness/metal balance for realism.</li>
+                        <li>Post: grade + vignette/bloom tuned to avoid crushing detail.</li>
+                        <li>Render: MRQ output for sharp delivery.</li>
+                      </ul>
+                    </details>
                   </div>
 
                   <div class="slide">
@@ -1372,6 +1489,16 @@
                       <strong>Eventus</strong>
                       <span>UE5 Cinematic</span>
                     </div>
+                    <details class="tech-details">
+                      <summary>Technical notes</summary>
+                      <ul>
+                        <li>Cinematic sequence built with Sequencer + cinematic camera language.</li>
+                        <li>Lighting: key/fill separation + practical highlights.</li>
+                        <li>VFX: subtle Niagara elements to add motion and energy.</li>
+                        <li>Post: filmic grade with controlled saturation.</li>
+                        <li>Optimization: scene kept real-time friendly for iteration.</li>
+                      </ul>
+                    </details>
                   </div>
 
                   <div class="slide">
@@ -1383,6 +1510,16 @@
                       <strong>Stylized Lantern</strong>
                       <span>Fire Simulation · Breakdown</span>
                     </div>
+                    <details class="tech-details">
+                      <summary>Technical notes</summary>
+                      <ul>
+                        <li>Stylized look with clean shapes + readable silhouettes.</li>
+                        <li>Fire simulation / VFX breakdown (timing, layers, motion).</li>
+                        <li>Materials: stylized PBR with controlled roughness.</li>
+                        <li>Lighting: warm key + contrast for the flame read.</li>
+                        <li>Presentation: turntable-style framing for clarity.</li>
+                      </ul>
+                    </details>
                   </div>
 
                   <div class="slide">
@@ -1394,6 +1531,16 @@
                       <strong>Portfolio Reel</strong>
                       <span>Unreal Cinematic Artist</span>
                     </div>
+                    <details class="tech-details">
+                      <summary>Technical notes</summary>
+                      <ul>
+                        <li>Best-of compilation: cinematics, lighting studies, and realtime shots.</li>
+                        <li>Editing: pacing + shot selection to highlight strengths.</li>
+                        <li>Lookdev consistency: unified grade and contrast across clips.</li>
+                        <li>Delivery: optimized for web playback (clean, fast load).</li>
+                        <li>Focus: Unreal Engine real-time cinematic workflow.</li>
+                      </ul>
+                    </details>
                   </div>
 
                 </div>
@@ -1565,6 +1712,15 @@
                   Real‑time demonstration showcasing the sword in action, including animation,
                   lighting response, and cinematic usage inside Unreal Engine.
                 </p>
+                <details class="tech-details">
+                  <summary>Technical notes</summary>
+                  <ul>
+                    <li>Realtime demo focused on animation readability + cinematic motion.</li>
+                    <li>Lighting pass to showcase material response (metal/roughness).</li>
+                    <li>Camera moves + framing to sell scale and impact.</li>
+                    <li>Render/recording tuned for stable playback and clean details.</li>
+                  </ul>
+                </details>
               </div>
             </div>
 
