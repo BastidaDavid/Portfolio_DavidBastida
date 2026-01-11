@@ -105,6 +105,7 @@
       align-items:center;
       justify-content:space-between;
       gap:16px;
+      position:relative;
     }
 
     .brand{
@@ -227,6 +228,54 @@
       background: rgba(108,243,255,.06);
       border-color: rgba(108,243,255,.16);
     }
+
+
+    /* Mobile hamburger button (hidden on desktop) */
+    .menu-btn{
+      display:none;
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      border:1px solid rgba(108,243,255,.20);
+      background: rgba(8,10,18,.42);
+      box-shadow: 0 14px 50px rgba(0,0,0,.45);
+      cursor:pointer;
+      align-items:center;
+      justify-content:center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .menu-btn:hover{ border-color: rgba(255,79,216,.25); }
+
+    .menu-icon{
+      width:18px;
+      height:2px;
+      background: rgba(255,255,255,.92);
+      border-radius:999px;
+      position:relative;
+      display:block;
+    }
+
+    .menu-icon::before,
+    .menu-icon::after{
+      content:"";
+      position:absolute;
+      left:0;
+      width:18px;
+      height:2px;
+      background: rgba(255,255,255,.92);
+      border-radius:999px;
+    }
+
+    .menu-icon::before{ top:-6px; }
+    .menu-icon::after{ top:6px; }
+
+    /* Animate icon when open */
+    body.menu-open .menu-icon{ background: transparent; }
+    body.menu-open .menu-icon::before{ transform: translateY(6px) rotate(45deg); }
+    body.menu-open .menu-icon::after{ transform: translateY(-6px) rotate(-45deg); }
+    .menu-icon::before,
+    .menu-icon::after{ transition: transform .2s ease; }
 
     .actions{
       display:flex;
@@ -997,6 +1046,35 @@
       /* Profile header */
       .profile-head{ gap:10px; padding:10px 10px; }
       .profile-avatar{ width:56px; height:56px; }
+      /* Mobile: hamburger menu */
+      .menu-btn{ display:inline-flex; }
+
+      /* Hide the inline nav by default on mobile */
+      .topbar .nav{
+        display:none;
+        position:absolute;
+        right:0;
+        top:100%;
+        margin-top:10px;
+        width:min(360px, 92vw);
+        padding:10px;
+        border-radius:18px;
+        background: rgba(6,8,14,.92);
+        border:1px solid rgba(108,243,255,.16);
+        box-shadow: 0 30px 110px rgba(0,0,0,.65);
+        flex-direction:column;
+        align-items:stretch;
+        gap:6px;
+        overflow:hidden;
+      }
+
+      .topbar .nav a{
+        width:100%;
+        justify-content:flex-start;
+        border-radius:14px;
+      }
+
+      body.menu-open .topbar .nav{ display:flex; }
     }
 
     /* Contact links neutral (no blue / no primary look) */
@@ -1034,7 +1112,11 @@
         </div>
       </div>
 
-      <nav class="nav" aria-label="Portfolio Navigation">
+      <button class="menu-btn" type="button" id="menuBtn" aria-label="Menu" aria-controls="primaryNav" aria-expanded="false">
+        <span class="menu-icon" aria-hidden="true"></span>
+      </button>
+      <nav class="nav" id="primaryNav" aria-label="Portfolio Navigation">
+        <a href="#about">About</a>
         <a href="#cinematics">Cinematics</a>
         <a href="#models">3D Models</a>
         <a href="#skills">Skills</a>
@@ -1522,11 +1604,19 @@
     (function(){
       const btn = document.getElementById('enterPortfolio');
       const overlay = document.getElementById('overlay');
+      const menuBtn = document.getElementById('menuBtn');
+      const primaryNav = document.getElementById('primaryNav');
+
+      const setMenuOpen = (open) => {
+        document.body.classList.toggle('menu-open', !!open);
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
       const carousel = document.getElementById('videoCarousel');
       const prev = document.getElementById('carPrev');
       const next = document.getElementById('carNext');
 
       function enter(){
+        setMenuOpen(false);
         document.body.classList.add('entered');
         if (overlay) overlay.setAttribute('aria-hidden', 'true');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1536,6 +1626,33 @@
         btn.addEventListener('click', enter);
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') enter();
+        });
+      }
+
+
+      // Hamburger menu (mobile)
+      if (menuBtn && primaryNav) {
+        menuBtn.addEventListener('click', () => {
+          const isOpen = document.body.classList.contains('menu-open');
+          setMenuOpen(!isOpen);
+        });
+
+        // Close when tapping a link
+        primaryNav.querySelectorAll('a').forEach((a) => {
+          a.addEventListener('click', () => setMenuOpen(false));
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') setMenuOpen(false);
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!document.body.classList.contains('menu-open')) return;
+          const t = e.target;
+          if (menuBtn.contains(t) || primaryNav.contains(t)) return;
+          setMenuOpen(false);
         });
       }
 
