@@ -26,6 +26,7 @@
 
     *{ box-sizing:border-box; }
     html, body{ height:100%; }
+    html{ scroll-padding-top:110px; }
 
     body{
       margin:0;
@@ -38,6 +39,10 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
       overflow-x:hidden;
+    }
+
+    @media (max-width: 980px){
+      body{ background-attachment: scroll; }
     }
 
     /* cinematic overlays */
@@ -88,7 +93,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:14px 0;
+      padding: calc(14px + env(safe-area-inset-top)) 0 14px;
       backdrop-filter: blur(8px);
       background: rgba(6,8,14,.52);
       border-bottom: 1px solid rgba(108,243,255,.12);
@@ -759,6 +764,7 @@
       cursor: grab;
       user-select:none;
       -webkit-user-select:none;
+      touch-action:none;
       z-index:80; /* above overlay/sign */
       background: transparent;
       left: 18px;
@@ -1021,16 +1027,62 @@
 
     /* Responsive */
     @media (max-width: 980px){
+      html{ scroll-padding-top:160px; }
+
       .grid{ grid-template-columns: 1fr; }
       .actions{ display:none; }
-      .wrap{ padding-top:96px; }
+
+      /* Topbar stacks nicely on mobile/tablet */
+      .topbar-inner{
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:10px;
+      }
+
+      .brand{
+        width:100%;
+        justify-content:center;
+        text-align:center;
+      }
+
+      .nav{
+        width:100%;
+        justify-content:flex-start;
+        overflow-x:auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom:4px;
+      }
+
+      .nav a{ flex:0 0 auto; }
+
+      /* Extra top padding because the fixed header becomes taller */
+      .wrap{ padding-top:150px; }
     }
 
     @media (max-width: 520px){
-      .wrap{ padding-top:92px; }
+      html{ scroll-padding-top:175px; }
+
+      .wrap{ padding-top:170px; }
       .panel.pad{ padding:16px; }
-      .nav a{ padding:8px 10px; font-size:.85rem; }
-      .model-slot{ height: 320px; }
+
+      .badge{ width:34px; height:34px; border-radius:10px; }
+      .brand{ letter-spacing:.14em; }
+      .brand small{ margin-top:4px; font-size:.85rem; }
+
+      .nav a{ padding:8px 10px; font-size:.82rem; }
+
+      /* Overlay card + buttons fit nicely */
+      .hero-card{ padding:28px 18px; }
+      .hero-btn{ width:100%; }
+      #startGame.btn{ width:100%; justify-content:center; }
+
+      /* Slightly smaller 3D blocks */
+      model-viewer{ height:240px; }
+      .model-slot{ height:320px; }
+
+      /* Profile header */
+      .profile-head{ gap:10px; padding:10px 10px; }
+      .profile-avatar{ width:56px; height:56px; }
     }
 
     /* Contact links neutral (no blue / no primary look) */
