@@ -796,9 +796,10 @@
       text-transform:uppercase;
       font-size:.8rem;
       color: rgba(255,255,255,.88);
-      background: rgba(0,0,0,.20);
+      text-shadow: 0 10px 30px rgba(0,0,0,.75);
+      background: transparent;
       border-radius: 16px;
-      border: 1px dashed rgba(108,243,255,.22);
+      border: none;
       pointer-events:none;
     }
 
@@ -823,7 +824,7 @@
     }
 
     /* Keep the ship visible after entering the site */
-    body.entered .ufo-wrap{ display:block; }
+    body.entered .ufo-wrap{ display:none; }
 
     .hero-title{
       font-family:"Oswald", sans-serif;
@@ -1520,31 +1521,30 @@
 
       const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
-      const placeUfoOnSign = () => {
+      const placeUfoOnOverlayCorner = () => {
         if (!ufoWrap) return;
-        const hero = document.querySelector('.hero-card');
         const overlayEl = document.getElementById('overlay');
+        if (!overlayEl || document.body.classList.contains('entered')) return;
+
         const w = ufoWrap.offsetWidth || 180;
         const h = ufoWrap.offsetHeight || 130;
 
-        // Keep the UFO positioned on the sign ONLY while the overlay is visible
-        if (overlayEl && hero && !document.body.classList.contains('entered')) {
-          const r = hero.getBoundingClientRect();
-          const left = clamp(r.left + r.width - w - 18, 10, window.innerWidth - w - 10);
-          const top = clamp(r.top + 14, 10, window.innerHeight - h - 10);
-          ufoWrap.style.left = `${left}px`;
-          ufoWrap.style.top = `${top}px`;
-        }
+        // Bottom-right corner, away from the sign content
+        const left = clamp(window.innerWidth - w - 18, 10, window.innerWidth - w - 10);
+        const top  = clamp(window.innerHeight - h - 18, 10, window.innerHeight - h - 10);
+
+        ufoWrap.style.left = `${left}px`;
+        ufoWrap.style.top = `${top}px`;
+        ufoWrap.style.right = 'auto';
+        ufoWrap.style.bottom = 'auto';
       };
 
-      // Make sure it appears in front of the sign when the page loads
+      // Place UFO away from the sign during the overlay
       if (ufoWrap) {
-        ufoWrap.style.left = ufoWrap.style.left || '18px';
-        ufoWrap.style.top = ufoWrap.style.top || '18px';
-        placeUfoOnSign();
+        placeUfoOnOverlayCorner();
 
         window.addEventListener('resize', () => {
-          placeUfoOnSign();
+          placeUfoOnOverlayCorner();
         });
       }
 
