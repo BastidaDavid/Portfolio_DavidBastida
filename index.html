@@ -552,11 +552,17 @@
     }
 
     @media (max-width: 520px){
-      .carousel-wrap{ grid-template-columns: 36px 1fr 36px; }
-      .car-btn{ width:36px; height:36px; border-radius:12px; }
-      .slide{
-        min-width: 92vw;
-      }
+      /* Mobile: show one wide slide at a time + use swipe (hide arrow buttons) */
+      .carousel-wrap{ grid-template-columns: 1fr; }
+      .car-btn{ display:none; }
+
+      /* Make carousel slides big enough to be 1-per-view */
+      .slide{ min-width: 94vw; }
+      .aside-carousel .slide{ min-width: 94vw; }
+
+      /* Mobile: widescreen videos like the realtime reel */
+      .slide video,
+      .slide iframe{ aspect-ratio: 16 / 9; }
     }
 
     /* 3D Models */
