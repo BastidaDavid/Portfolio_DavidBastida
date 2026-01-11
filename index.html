@@ -877,6 +877,7 @@
     }
 
     .game-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+    .game-actions #gameTilt{ display:none; }
 
     .game-tip{
       flex-basis:100%;
@@ -1026,7 +1027,7 @@
       }
 
       .game-pad{
-        display:block;
+        display:none;
       }
 
       .game-tip{ display:none; }
@@ -2099,6 +2100,11 @@
       };
 
       const startRun = () => {
+        // Reset any previous input state
+        activeDirs.clear();
+        try { disableTilt(); } catch {}
+        vx = 0;
+        vy = 0;
         setMsg('');
         setScore(0);
         clearObstacles();
@@ -2109,6 +2115,11 @@
         slowUntil = 0;
         lastT = 0;
         gameOn = true;
+
+        // Phones/tablets: auto-enable Tilt (permission prompt happens on this click)
+        if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+          try { enableTilt(); } catch {}
+        }
       };
 
       if (startGameBtn) startGameBtn.addEventListener('click', openGame);
@@ -2250,6 +2261,8 @@
       // Keyboard controls (WASD / Arrows)
       window.addEventListener('keydown', (e) => {
         if (!document.body.classList.contains('game-on')) return;
+        // Stop arrow keys from scrolling the page while playing
+        if (e.key && e.key.startsWith('Arrow')) e.preventDefault();
         if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') vx = -1;
         if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') vx = 1;
         if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') vy = -1;
@@ -2258,6 +2271,7 @@
 
       window.addEventListener('keyup', (e) => {
         if (!document.body.classList.contains('game-on')) return;
+        if (e.key && e.key.startsWith('Arrow')) e.preventDefault();
         const k = e.key.toLowerCase();
         if (e.key === 'ArrowLeft' || k === 'a') vx = 0;
         if (e.key === 'ArrowRight' || k === 'd') vx = 0;
