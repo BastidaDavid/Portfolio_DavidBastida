@@ -568,6 +568,7 @@
         grid-column: 1 / -1;
         grid-row: 1;
         padding: 6px 10px;
+        justify-content:flex-start;
       }
 
       /* Place the arrows under the carousel so people notice there are more */
@@ -591,13 +592,19 @@
 
       /* Make carousel slides big enough to be 1-per-view */
       .slide{ min-width: 86vw; scroll-snap-align:center; }
-      .aside-carousel .slide{ min-width: 86vw; scroll-snap-align:center; }
+      .aside-carousel .slide{ min-width: 48vw; max-width: 48vw; scroll-snap-align:center; }
 
       /* Mobile: widescreen videos like the realtime reel */
       .slide video,
       .slide iframe{ aspect-ratio: 16 / 9; }
 
       .slide iframe.spot-video{ height: auto; }
+
+      /* Cinematics carousel: center smaller cards on mobile */
+      .carousel.aside-carousel{
+        padding-left: 26vw;
+        padding-right: 26vw;
+      }
     }
 
     /* 3D Models */
@@ -1024,6 +1031,7 @@
 
       <nav class="nav" aria-label="Portfolio Navigation">
         <a href="#about">About</a>
+        <a href="#cinematics">Cinematics</a>
         <a href="#models">3D Models</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
@@ -1064,7 +1072,7 @@
           </div>
 
 
-          <div class="model-preview">
+          <div class="model-preview" id="cinematics">
             <div class="kicker">Featured Cinematic</div>
             <h3>Unreal Cinematics</h3>
             <p class="hint">Real‑time cinematic projects · Unreal Engine 5</p>
