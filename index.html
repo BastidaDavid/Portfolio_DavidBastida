@@ -1,0 +1,2187 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — David Bastida</title>
+  <meta name="description" content="Portfolio landing with background image and hero sign." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+
+  <style>
+    :root{
+      --neon:#6cf3ff;
+      --neon-pink:#ff4fd8;
+      --ink:#ffffff;
+      --panel: rgba(8,10,18,.66);
+      --panel-2: rgba(10,14,26,.52);
+      --stroke: rgba(108,243,255,.22);
+      --stroke-2: rgba(255,79,216,.16);
+      --shadow: 0 40px 120px rgba(0,0,0,.72);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family:"Inter", system-ui, sans-serif;
+      color:var(--ink);
+      background-color: #05060a;
+      background-image: url("Portfoliobg.PNG");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow-x:hidden;
+    }
+
+    /* cinematic overlays */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(1200px 600px at 70% 15%, rgba(108,243,255,.10), transparent 60%),
+        radial-gradient(900px 520px at 20% 80%, rgba(255,79,216,.08), transparent 62%),
+        linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.10) 35%, rgba(0,0,0,.55));
+      mix-blend-mode: normal;
+      z-index:0;
+    }
+
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.08;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.9),
+        rgba(255,255,255,.9) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      z-index:0;
+    }
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      width:min(1200px, 92vw);
+      margin:0 auto;
+      padding:110px 0 80px;
+    }
+
+    /* Top bar */
+    .topbar{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px 0;
+      backdrop-filter: blur(8px);
+      background: rgba(6,8,14,.52);
+      border-bottom: 1px solid rgba(108,243,255,.12);
+    }
+
+    .topbar-inner{
+      width:min(1200px, 92vw);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+
+    .badge{
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      border-radius:12px;
+      background: linear-gradient(135deg, rgba(108,243,255,.18), rgba(255,79,216,.12));
+      border:1px solid rgba(108,243,255,.22);
+      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+    }
+
+    /* Profile image inside the topbar badge */
+    .badge img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position: 50% 20%;
+      border-radius:12px;
+      display:block;
+    }
+
+    /* Right column profile header */
+    .profile-head{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin:12px 0 14px;
+      padding:12px 12px;
+      border-radius:18px;
+      background: rgba(10,14,26,.35);
+      border: 1px solid rgba(108,243,255,.12);
+      box-shadow: 0 18px 70px rgba(0,0,0,.40);
+    }
+
+    .profile-avatar{
+      width:64px;
+      height:64px;
+      border-radius:999px;
+      padding:2px;
+      background: linear-gradient(135deg, rgba(108,243,255,.9), rgba(255,79,216,.7));
+      box-shadow: 0 18px 70px rgba(108,243,255,.14);
+      flex: 0 0 auto;
+    }
+
+    .profile-avatar img{
+      width:100%;
+      height:100%;
+      border-radius:999px;
+      object-fit:cover;
+      object-position: 50% 18%;
+      display:block;
+      border: 2px solid rgba(4,6,10,.65);
+      background: rgba(0,0,0,.2);
+    }
+
+    .profile-meta{
+      min-width:0;
+    }
+
+    .profile-meta .name{
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-weight:700;
+      margin:0;
+      line-height:1.15;
+    }
+
+    .profile-meta .tag{
+      margin-top:6px;
+      opacity:.82;
+      letter-spacing:.06em;
+      font-size:.92rem;
+    }
+
+    .brand small{
+      display:block;
+      font-family:"Inter", system-ui, sans-serif;
+      letter-spacing:.06em;
+      opacity:.75;
+      font-weight:500;
+      margin-top:6px;
+      text-transform:none;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+
+    .nav a{
+      color:rgba(255,255,255,.88);
+      text-decoration:none;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:.9rem;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid transparent;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .nav a:hover{
+      transform: translateY(-1px);
+      background: rgba(108,243,255,.06);
+      border-color: rgba(108,243,255,.16);
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:999px;
+      border:1px solid rgba(108,243,255,.20);
+      background: rgba(8,10,18,.42);
+      color: rgba(255,255,255,.92);
+      text-decoration:none;
+      font-family:"Oswald", sans-serif;
+      font-weight:600;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      cursor:pointer;
+      box-shadow: 0 14px 50px rgba(0,0,0,.45);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      white-space:nowrap;
+    }
+
+    .btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,79,216,.25);
+      box-shadow: 0 18px 70px rgba(0,0,0,.55);
+    }
+
+    .btn.primary{
+      border:none;
+      color:#04060a;
+      background: linear-gradient(90deg, var(--neon), var(--neon-pink));
+      box-shadow: 0 16px 60px rgba(108,243,255,.28);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:22px;
+      align-items:start;
+    }
+
+    .panel{
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius:22px;
+      box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.04);
+      backdrop-filter: blur(8px);
+    }
+
+    .panel.pad{ padding:22px; }
+
+    .kicker{
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color: var(--neon);
+      opacity:.95;
+      font-size:.9rem;
+    }
+
+    h2{
+      margin:10px 0 10px;
+      font-family:"Oswald", sans-serif;
+      text-transform:uppercase;
+      letter-spacing:.10em;
+      font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+    }
+
+    p{ margin:0; line-height:1.6; color: rgba(255,255,255,.88); }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .chip{
+      padding:10px 12px;
+      border-radius:999px;
+      background: rgba(108,243,255,.06);
+      border:1px solid rgba(108,243,255,.16);
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      font-size:.8rem;
+      color: rgba(255,255,255,.9);
+    }
+
+    .cta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    /* Right panel: Spotlight UI */
+    .spotlight{
+      margin-top:6px;
+      padding:14px;
+      border-radius:18px;
+      background: rgba(10,14,26,.45);
+      border: 1px solid rgba(108,243,255,.14);
+      box-shadow: 0 20px 80px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+
+    .spot-tabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .tab-btn{
+      appearance:none;
+      border:1px solid rgba(108,243,255,.18);
+      background: rgba(8,10,18,.40);
+      color: rgba(255,255,255,.92);
+      border-radius:999px;
+      padding:10px 12px;
+      font-family:"Oswald", sans-serif;
+      font-weight:700;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .tab-btn:hover{ transform: translateY(-1px); border-color: rgba(255,79,216,.22); }
+
+    .tab-btn.active{
+      border:none;
+      color:#04060a;
+      background: linear-gradient(90deg, var(--neon), var(--neon-pink));
+      box-shadow: 0 14px 50px rgba(108,243,255,.22);
+    }
+
+    .spot-panels{ margin-top:12px; }
+    .spot-panel{ display:none; }
+    .spot-panel.active{ display:block; }
+
+    .spotline{
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      opacity:.95;
+      font-size:.95rem;
+    }
+
+    .tiny{
+      margin-top:8px;
+      opacity:.78;
+      font-size:.92rem;
+      letter-spacing:.04em;
+    }
+
+    .spot-video-wrap{
+      width:100%;
+      margin-top:12px;
+      border-radius:14px;
+      aspect-ratio: 16 / 9;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(108,243,255,.12);
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+
+    .spot-video{
+      width:100%;
+      height:100%;
+      display:block;
+      border:0;
+      background: transparent;
+    }
+
+    .spot-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    /* Left panel: 3D preview section (nice card) */
+    .model-preview{
+      margin-top:18px;
+      padding:16px;
+      border-radius:18px;
+      background: rgba(10,14,26,.45);
+      border: 1px solid rgba(108,243,255,.14);
+      box-shadow: 0 20px 80px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+
+    .model-preview h3{
+      margin:8px 0 6px;
+      font-family:"Oswald", sans-serif;
+      text-transform:uppercase;
+      letter-spacing:.10em;
+      font-size: 1.2rem;
+    }
+
+    .model-preview .hint{
+      margin:0;
+      opacity:.78;
+      font-size:.92rem;
+      line-height:1.5;
+    }
+
+    /* Tighter hero slot so it feels premium */
+    .model-preview .model-slot{
+      height: 320px;
+      margin-top:12px;
+      border-radius:16px;
+      border: 1px solid rgba(108,243,255,.12);
+      background: rgba(0,0,0,.14);
+    }
+
+    @media (max-width: 980px){
+      .model-preview .model-slot{ height: 300px; }
+    }
+
+    @media (max-width: 520px){
+      .model-preview .model-slot{ height: 260px; }
+    }
+
+    /* Video Carousel */
+    .carousel-block{ margin-top:18px; }
+    /* Featured videos when placed in the right column */
+    .aside-carousel .slide{ min-width: min(360px, 78vw); }
+    .aside-carousel .carousel-wrap{ grid-template-columns: 36px 1fr 36px; }
+    .aside-carousel .car-btn{ width:36px; height:36px; border-radius:12px; }
+
+    .carousel-wrap{
+      display:grid;
+      grid-template-columns: 44px 1fr 44px;
+      gap:10px;
+      align-items:center;
+      margin-top:12px;
+    }
+
+    .car-btn{
+      height:44px;
+      width:44px;
+      border-radius:14px;
+      border:1px solid rgba(108,243,255,.22);
+      background: rgba(8,10,18,.55);
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+      font-family:"Oswald", sans-serif;
+      font-weight:700;
+      font-size:1.2rem;
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
+      transition: transform .2s ease, border-color .2s ease;
+    }
+
+    .car-btn:hover{ transform: translateY(-2px); border-color: rgba(255,79,216,.25); }
+    .car-btn:active{ transform: translateY(0); }
+
+    .carousel{
+      display:flex;
+      gap:14px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      padding:6px 4px;
+    }
+
+    .carousel::-webkit-scrollbar{ height:8px; }
+    .carousel::-webkit-scrollbar-thumb{
+      background: rgba(108,243,255,.18);
+      border-radius:999px;
+    }
+
+    .slide{
+      scroll-snap-align:start;
+      min-width: min(680px, 88vw);
+      background: rgba(10,14,26,.55);
+      border: 1px solid rgba(108,243,255,.16);
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow: 0 28px 110px rgba(0,0,0,.58);
+    }
+
+    .slide video,
+    .slide iframe{
+      width:100%;
+      display:block;
+      aspect-ratio: 16 / 10;
+      background: rgba(0,0,0,.35);
+    }
+
+    .slide{
+      padding-bottom: 6px;
+    }
+
+    .slide-caption{
+      padding:12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .slide-caption strong{
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      font-size:.95rem;
+    }
+
+    .slide-caption span{
+      opacity:.78;
+      font-size:.85rem;
+      letter-spacing:.06em;
+    }
+
+    @media (max-width: 520px){
+      .carousel-wrap{ grid-template-columns: 36px 1fr 36px; }
+      .car-btn{ width:36px; height:36px; border-radius:12px; }
+      .slide{
+        min-width: 92vw;
+      }
+    }
+
+    /* 3D Models */
+    .model-grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:14px;
+    }
+
+    .model-card{
+      background: var(--panel-2);
+      border: 1px solid rgba(108,243,255,.14);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow: 0 20px 80px rgba(0,0,0,.45);
+    }
+
+    .model-slot{
+      width:100%;
+      height: 420px;
+      background: rgba(0,0,0,.18);
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 20px 80px rgba(0,0,0,.45);
+      border: 1px solid rgba(108,243,255,.14);
+      margin-top:10px;
+      margin-bottom:0;
+      min-height:180px;
+      overflow:hidden;
+    }
+
+    /* Make the hero (right-side) model viewer fill the slot */
+    #myModelSlot model-viewer{
+      height:100%;
+    }
+
+    #myModelSlot{ position:relative; }
+
+    /* On-screen status (shows load/error so you know what's happening) */
+    #tvStatus{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      text-align:center;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      background: rgba(0,0,0,.30);
+      border-radius:18px;
+      border: 1px dashed rgba(108,243,255,.22);
+      color: rgba(255,255,255,.9);
+      pointer-events:none;
+    }
+
+    model-viewer{
+      width:100%;
+      height:320px;
+      background: rgba(0,0,0,.12);
+    }
+
+    .model-pad{ padding:14px; }
+
+    .model-title{
+      margin:0;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:1.05rem;
+    }
+
+    .model-desc{ margin-top:8px; }
+
+    @media (max-width: 980px){
+      .model-grid{ grid-template-columns: 1fr; }
+      model-viewer{ height:280px; }
+      .model-slot{ height: 360px; }
+    }
+
+    /* Work cards */
+    .cards{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+
+    .card{
+      background: var(--panel-2);
+      border: 1px solid rgba(108,243,255,.14);
+      border-radius:18px;
+      padding:16px 16px;
+      display:grid;
+      gap:10px;
+      box-shadow: 0 20px 80px rgba(0,0,0,.45);
+    }
+
+    .card h3{
+      margin:0;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:1.05rem;
+    }
+
+    .card .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      opacity:.9;
+    }
+
+    .mini{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,79,216,.18);
+      background: rgba(255,79,216,.06);
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:.75rem;
+    }
+
+    .card .row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:2px;
+    }
+
+    .card .row a{
+      text-decoration:none;
+    }
+
+    /* Section spacing */
+    .section{ margin-top:22px; }
+
+    /* Portfolio reveal */
+    .portfolio{
+      opacity:0;
+      transform: translateY(8px);
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    body.entered .portfolio{
+      opacity:1;
+      transform:none;
+    }
+
+    /* Overlay (ENTER screen) */
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:grid;
+      place-items:center;
+      z-index:50;
+      opacity:1;
+      transition: opacity .35s ease;
+    }
+
+    body.entered .overlay{
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .scrim{
+      position:fixed;
+      inset:0;
+      background:linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.20) 40%, rgba(0,0,0,.55));
+      pointer-events:none;
+      opacity:1;
+      transition: opacity .35s ease;
+    }
+
+    .hero-card{
+      position:relative;
+      z-index:51;
+      text-align:center;
+      padding:42px 48px;
+      border-radius:22px;
+      background:rgba(8,10,18,.65);
+      backdrop-filter:blur(6px);
+      border:1px solid rgba(108,243,255,.25);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.05) inset,
+        0 40px 120px rgba(0,0,0,.75);
+      width:min(720px, 92vw);
+      opacity:1;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    /* UFO ship — draggable + floating (front of the sign) */
+    .ufo-wrap{
+      position:fixed;
+      width:180px;
+      height:130px;
+      pointer-events:auto;
+      filter: drop-shadow(0 18px 40px rgba(108,243,255,.22)) drop-shadow(0 10px 26px rgba(255,79,216,.14));
+      will-change: left, top, transform;
+      cursor: grab;
+      user-select:none;
+      -webkit-user-select:none;
+      z-index:80; /* above overlay/sign */
+      background: transparent;
+      left: 18px;
+      top: 18px;
+      overflow: visible;
+    }
+
+    .ufo-wrap.dragging{ cursor: grabbing; }
+
+    .ufo-inner{
+      width:100%;
+      height:100%;
+      animation: ufo-float 1.25s ease-in-out infinite;
+      transform-origin: 50% 60%;
+      will-change: transform;
+      overflow: visible;
+    }
+
+    .ufo-status{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px;
+      text-align:center;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:.8rem;
+      color: rgba(255,255,255,.88);
+      background: rgba(0,0,0,.20);
+      border-radius: 16px;
+      border: 1px dashed rgba(108,243,255,.22);
+      pointer-events:none;
+    }
+
+    /* No background/border for the ship */
+    .ufo-wrap model-viewer{
+      width:100%;
+      height:100%;
+      display:block;
+      background: transparent !important;
+      --poster-color: transparent;
+      outline: none;
+      border: none;
+      border-radius: 0;
+      backdrop-filter: none;
+      pointer-events: none;
+    }
+
+    @keyframes ufo-float{
+      0%   { transform: translate3d(0, 0, 0) rotate(-2deg); }
+      50%  { transform: translate3d(0, 8px, 0) rotate(2deg); }
+      100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
+    }
+
+    /* Hide the ship once you enter the site (unless the mini-game is open) */
+    body.entered .ufo-wrap{ display:none; }
+    body.game-on .ufo-wrap{ display:block; }
+    body.game-on .ufo-inner{ animation:none; } /* steady ship during game */
+
+    /* Mini game overlay */
+    .game{
+      position:fixed;
+      inset:0;
+      z-index:90;
+      display:none;
+    }
+
+    body.game-on .game{ display:block; }
+
+    .game-scrim{
+      position:absolute;
+      inset:0;
+      background: radial-gradient(900px 520px at 60% 20%, rgba(108,243,255,.10), transparent 60%),
+                  radial-gradient(900px 520px at 20% 80%, rgba(255,79,216,.08), transparent 62%),
+                  linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.25) 40%, rgba(0,0,0,.60));
+    }
+
+    .game-hud{
+      position:relative;
+      z-index:91;
+      width:min(860px, 92vw);
+      margin: 18px auto 0;
+      padding:14px 14px;
+      border-radius:18px;
+      background: rgba(8,10,18,.55);
+      border: 1px solid rgba(108,243,255,.18);
+      box-shadow: 0 24px 90px rgba(0,0,0,.55);
+      backdrop-filter: blur(8px);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .game-title{
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+
+    .game-score{
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      opacity:.92;
+    }
+
+    .game-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+    .game-tip{
+      flex-basis:100%;
+      opacity:.8;
+      font-size:.9rem;
+      letter-spacing:.06em;
+    }
+
+    .game-msg{
+      flex-basis:100%;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(255,79,216,.10);
+      border: 1px solid rgba(255,79,216,.22);
+    }
+
+    .game-arena{
+      position:absolute;
+      inset:0;
+      z-index:90;
+      overflow:hidden;
+    }
+
+
+    .obstacle{
+      position:fixed;
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      background: rgba(10,14,26,.42);
+      border: 1px solid rgba(108,243,255,.22);
+      box-shadow: 0 20px 80px rgba(0,0,0,.55);
+      backdrop-filter: blur(4px);
+    }
+
+    .obstacle::after{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:12px;
+      border: 1px dashed rgba(255,79,216,.22);
+      opacity:.9;
+    }
+
+    /* Bonus pickups (3 types) */
+    .bonus{
+      position:fixed;
+      width:36px;
+      height:36px;
+      border-radius:14px;
+      background: rgba(108,243,255,.14);
+      border: 1px solid rgba(108,243,255,.32);
+      box-shadow: 0 18px 70px rgba(0,0,0,.55);
+      backdrop-filter: blur(6px);
+    }
+
+    .bonus::after{
+      content:"";
+      position:absolute;
+      inset:9px;
+      border-radius:12px;
+      border: 1px dashed rgba(255,255,255,.24);
+      opacity:.95;
+    }
+
+    .bonus--shield{
+      background: rgba(108,243,255,.16);
+      border-color: rgba(108,243,255,.40);
+    }
+
+    .bonus--slow{
+      background: rgba(255,79,216,.12);
+      border-color: rgba(255,79,216,.34);
+    }
+
+    .bonus--points{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.30);
+    }
+
+    @media (max-width: 520px){
+      .ufo-wrap{ width:150px; height:110px; }
+      .game-hud{ margin-top:14px; }
+    }
+
+    .hero-title{
+      font-family:"Oswald", sans-serif;
+      font-size:clamp(2.2rem, 5vw, 3.2rem);
+      letter-spacing:.14em;
+      color:white;
+      text-transform:uppercase;
+      text-shadow:0 0 24px rgba(108,243,255,.35);
+      margin:0;
+    }
+
+    .hero-sub{
+      margin-top:8px;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.18em;
+      color:var(--neon);
+      text-transform:uppercase;
+    }
+
+    .hero-roles{
+      margin:18px 0 0;
+      font-size:.95rem;
+      letter-spacing:.12em;
+      opacity:.9;
+    }
+
+    .hero-btn{
+      display:inline-block;
+      margin-top:22px;
+      padding:12px 28px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--neon),var(--neon-pink));
+      color:#04060a;
+      font-family:"Oswald", sans-serif;
+      font-weight:700;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      text-decoration:none;
+      box-shadow:0 10px 40px rgba(108,243,255,.35);
+      transition:transform .2s ease, box-shadow .2s ease;
+      border:none;
+      cursor:pointer;
+      outline:none;
+    }
+
+    .hero-btn:hover{
+      transform:translateY(-2px) scale(1.03);
+      box-shadow:0 16px 60px rgba(255,79,216,.45);
+    }
+
+    .hero-btn:active{ transform:translateY(0) scale(.99); }
+
+    body.entered .hero-card{
+      opacity:0;
+      transform: translateY(8px) scale(.98);
+      pointer-events:none;
+    }
+
+    body.entered .scrim{ opacity:0; }
+
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+      .actions{ display:none; }
+      .wrap{ padding-top:96px; }
+    }
+
+    @media (max-width: 520px){
+      .wrap{ padding-top:92px; }
+      .panel.pad{ padding:16px; }
+      .nav a{ padding:8px 10px; font-size:.85rem; }
+      .model-slot{ height: 320px; }
+    }
+
+    /* Contact links neutral (no blue / no primary look) */
+    #contact a[href^="mailto"],
+    #contact a[href^="tel"]{
+      color: rgba(255,255,255,.92);
+      text-decoration: none;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      padding: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      letter-spacing: .04em;
+    }
+
+    #contact a[href^="mailto"]:hover,
+    #contact a[href^="tel"]:hover{
+      color: var(--neon);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="badge">
+          <img src="perfil.jpg" alt="David Bastida" onerror="this.remove(); this.parentElement.textContent='DB';" />
+        </div>
+        <div>
+          <div>David Bastida</div>
+          <small>Unreal · Real‑Time · Immersive</small>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Portfolio Navigation">
+        <a href="#about">About</a>
+        <a href="#models">3D Models</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="actions">
+        <a class="btn primary" href="#contact">Email</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- PORTFOLIO CONTENT (se revela cuando desaparece el overlay) -->
+  <div class="wrap">
+    <div class="portfolio">
+      <section class="grid" id="about">
+        <div class="panel pad">
+          <div class="kicker">Cinematic Portfolio</div>
+          <h2>Unreal Cinematic Artist & Interactive Designer</h2>
+          <p style="max-width: 720px;">
+            <strong>Unreal cinematics + interactive prototypes.</strong> AAA-quality visuals focused on science-fiction environments, real-time VFX, and Niagara-driven effects.
+
+          <p style="margin-top:10px; max-width: 720px;">
+            I have over <strong>5 years of experience in design and marketing</strong>, which helped me build a strong foundation in visual storytelling, composition, and communication. Over time, my focus naturally evolved toward what I truly love: <strong>cinematics, VFX, lighting, and high‑quality texturing for real‑time environments</strong>.
+          </p>
+
+          <p style="margin-top:10px; max-width: 720px;">
+            I studied design for <strong>four years</strong>, a journey that turned this field into more than just a profession for me. I see it as a <strong>craft for building worlds, atmospheres, and immersive experiences</strong>. My work is not only technical production, but the creation of spaces that convey emotion, scale, and visual magic.
+          </p>
+
+          <p style="margin-top:10px; max-width: 720px;">
+            My main goal is to <strong>connect with people who are passionate about film and video games</strong>, creating real‑time cinematic pieces that feel alive, immersive, and memorable—bridging the gap between interactive technology and cinematic storytelling.
+          </p>
+
+          <div class="chips" aria-label="Highlights">
+            <div class="chip">UE5</div>
+            <div class="chip">Lighting</div>
+            <div class="chip">Interactive</div>
+          </div>
+
+
+          <div class="model-preview">
+            <div class="kicker">Featured Cinematic</div>
+            <h3>Unreal Cinematics</h3>
+            <p class="hint">Real‑time cinematic projects · Unreal Engine 5</p>
+
+            <!-- Cinematics carousel INSIDE Featured -->
+            <div class="carousel-block" style="margin-top:10px;">
+              <div class="carousel-wrap">
+                <button class="car-btn" type="button" id="carPrevTop">‹</button>
+
+                <div class="carousel aside-carousel" id="videoCarouselTop">
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/XiZJGeGGw0U?rel=0"
+                      title="Urban Sphere Concept"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Urban Sphere</strong>
+                      <span>City‑Scale UE5</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/kf7VlwMG_es?rel=0"
+                      title="Nebula Remastered"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Nebula Remastered</strong>
+                      <span>Real‑Time UE5</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/vUENtyi--oc?rel=0"
+                      title="Sphere Study"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Sphere Study</strong>
+                      <span>Lighting Study</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/WJrMHcr9IcM?rel=0"
+                      title="Stratosphere | Unreal Engine 5 Cinematic"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Stratosphere</strong>
+                      <span>UE5 Cinematic</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/rY88MFnzNOw?rel=0"
+                      title="Proyecto Nebula | Unreal Engine 5 Cinematic"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Proyecto Nebula</strong>
+                      <span>UE5 Cinematic</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/IR8AVaGo17A?rel=0"
+                      title="Unreal Engine 3D Cinematic"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>3D Cinematic</strong>
+                      <span>Unreal Engine</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/e0UuZlQwPLY?rel=0"
+                      title="Eventus | Unreal Engine 5"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Eventus</strong>
+                      <span>UE5 Cinematic</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/3Zq-hA4e-Hc?rel=0"
+                      title="3D Stylized Lantern with Fire Simulation"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Stylized Lantern</strong>
+                      <span>Fire Simulation · Breakdown</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/AqndOPh2c_8?rel=0"
+                      title="David Bastida | Unreal Cinematic Artist Reel"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Portfolio Reel</strong>
+                      <span>Unreal Cinematic Artist</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <button class="car-btn" type="button" id="carNextTop">›</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <aside class="panel pad">
+          <!-- Spotlight (interactivo y con poco texto) -->
+          <div class="spotlight" id="spotlight">
+            <div class="spot-tabs" role="tablist" aria-label="Spotlight Tabs">
+              <button class="tab-btn active" type="button" data-tab="reel" aria-selected="true">Reel</button>
+              <button class="tab-btn" type="button" data-tab="projects" aria-selected="false">Work</button>
+              <button class="tab-btn" type="button" data-tab="contact" aria-selected="false">Links</button>
+            </div>
+
+            <div class="spot-panels">
+              <div class="spot-panel active" data-panel="reel">
+                <div class="spotline">Realtime • Cinematic • UE5</div>
+
+                <div class="spot-video-wrap" aria-label="YouTube Reel">
+                  <iframe
+                    id="reelPlayer"
+                    class="spot-video"
+                    src="https://www.youtube.com/embed/AqndOPh2c_8?enablejsapi=1&autoplay=1&mute=1&playsinline=1&loop=1&playlist=AqndOPh2c_8&controls=0&modestbranding=1&rel=0&vq=hd1080"
+                    title="Reel"
+                    frameborder="0"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowfullscreen
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+
+                <div class="spot-actions">
+                  <button class="btn" type="button" id="reelBack">⟵ 10s</button>
+                  <button class="btn" type="button" id="reelRestart">Restart</button>
+                  <button class="btn" type="button" id="reelSound">Sound: Off</button>
+                  <a class="btn primary" href="https://www.youtube.com/watch?v=AqndOPh2c_8" target="_blank" rel="noopener">Open on YouTube</a>
+                </div>
+              </div>
+
+              <div class="spot-panel" data-panel="projects">
+                <div class="spotline">Quick access</div>
+                <p class="tiny">Jump to sections.</p>
+                <div class="spot-actions">
+                  <button class="btn primary" type="button" id="spotOpenFirst">Models</button>
+                  <button class="btn" type="button" id="spotToSkills">Skills</button>
+                  <button class="btn" type="button" id="spotToContact">Contact</button>
+                </div>
+              </div>
+
+              <div class="spot-panel" data-panel="contact">
+                <div class="spotline">Contact</div>
+                <p class="tiny">Email & socials.</p>
+                <div class="spot-actions">
+                  <button class="btn primary" type="button" id="spotToContact">Email</button>
+                  <button class="btn" type="button" id="spotCopyEmail">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" style="margin-top:18px;">
+            <div class="kicker">Quick Info</div>
+            <h2 style="margin-bottom:12px">Profile</h2>
+
+            <div class="profile-head" aria-label="Profile photo and headline">
+              <div class="profile-avatar">
+                <img src="perfil.jpg" alt="David Bastida" />
+              </div>
+              <div class="profile-meta">
+                <p class="name">David Bastida</p>
+                <p class="tag">Unreal · Cinematics · Interactive</p>
+              </div>
+            </div>
+
+            <div class="cards">
+              <div class="card">
+                <h3>Contact</h3>
+                <p>
+                  📧 davidrramirez61@gmail.com<br>
+                  📞 +1 702 516 1194
+                </p>
+              </div>
+              <div class="card">
+                <h3>Location</h3>
+                <p>Las Vegas, NV (On‑site & Remote)</p>
+              </div>
+              <div class="card">
+                <h3>Focus</h3>
+                <div class="meta">
+                  <span class="mini">Cinematics</span>
+                  <span class="mini">Immersive</span>
+                  <span class="mini">Realtime</span>
+                </div>
+                <p>Short scenes • interactive showcases.</p>
+              </div>
+              <div class="card">
+                <h3>Tools</h3>
+                <p>Unreal · Blender · Substance · AE</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+
+
+      <section class="section" id="models">
+        <div class="panel pad">
+          <div class="kicker">Assets</div>
+          <h2>3D Props</h2>
+          <p>Props and assets used for cinematics and interactive experiences in Unreal Engine.</p>
+
+          <div class="model-grid">
+            <div class="model-card">
+              <model-viewer
+                src="models/espada_mejorado.glb"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                exposure="1.1"
+                ar>
+              </model-viewer>
+
+              <div class="model-pad">
+                <h3 class="model-title">Espada Sci‑Fi</h3>
+                <div class="meta" style="margin-top:10px;">
+                  <span class="mini">GLB</span>
+                  <span class="mini">PBR</span>
+                  <span class="mini">Game Ready</span>
+                </div>
+                <p class="model-desc">Prop created for visual tests and cinematic work in Unreal Engine.</p>
+                <div class="row" style="margin-top:12px;">
+                  <a class="btn primary"
+                     href="https://sketchfab.com/3d-models/espada-mejorado-66339c51b6f04c57bd0ea9fe0f18d0ea"
+                     target="_blank"
+                     rel="noopener">
+                     Download
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="model-card">
+              <div style="width:100%; aspect-ratio:16/9; background:rgba(0,0,0,.35); border-bottom:1px solid rgba(108,243,255,.14);">
+                <iframe
+                  src="https://www.youtube.com/embed/Dnavh98jurQ?rel=0"
+                  title="Sci‑Fi Sword Usage Demo"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  style="width:100%; height:100%; display:block;">
+                </iframe>
+              </div>
+
+              <div class="model-pad">
+                <h3 class="model-title">Sword Usage Demo</h3>
+                <div class="meta" style="margin-top:10px;">
+                  <span class="mini">Realtime</span>
+                  <span class="mini">Unreal Engine</span>
+                  <span class="mini">Cinematic</span>
+                </div>
+                <p class="model-desc">
+                  Real‑time demonstration showcasing the sword in action, including animation,
+                  lighting response, and cinematic usage inside Unreal Engine.
+                </p>
+              </div>
+            </div>
+
+            <div class="model-card">
+              <model-viewer src="models/model-01.glb" camera-controls auto-rotate shadow-intensity="1" exposure="1.1" ar>
+              </model-viewer>
+              <div class="model-pad">
+                <h3 class="model-title">New model coming soon</h3>
+                <div class="meta" style="margin-top:10px;">
+                  <span class="mini">GLB</span>
+                  <span class="mini">PBR</span>
+                  <span class="mini">Game Ready</span>
+                </div>
+                <p class="model-desc">Short description of the model (props, environment, etc.).</p>
+                <div class="row" style="margin-top:12px;">
+                  <a class="btn" href="#">Details (add)</a>
+                  <a class="btn" href="#">Download (add)</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="model-card">
+              <model-viewer src="models/model-02.glb" camera-controls auto-rotate shadow-intensity="1" exposure="1.1" ar>
+              </model-viewer>
+              <div class="model-pad">
+                <h3 class="model-title">New model coming soon</h3>
+                <div class="meta" style="margin-top:10px;">
+                  <span class="mini">GLB</span>
+                  <span class="mini">Hard Surface</span>
+                  <span class="mini">UVs</span>
+                </div>
+                <p class="model-desc">Another description (e.g. sci‑fi weapon, vehicle, set dressing).</p>
+                <div class="row" style="margin-top:12px;">
+                  <a class="btn" href="#">Details (add)</a>
+                  <a class="btn" href="#">Download (add)</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="skills">
+        <div class="panel pad">
+          <div class="kicker">Capabilities</div>
+          <h2>Skills</h2>
+          <div class="chips">
+            <div class="chip">Environment + Kitbashing</div>
+            <div class="chip">LOD / Optimization</div>
+            <div class="chip">PBR Materials</div>
+            <div class="chip">Sequencer + Cameras</div>
+            <div class="chip">Sound + VO sync</div>
+            <div class="chip">UI Motion</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="panel pad">
+          <div class="kicker">Contact</div>
+          <h2>Let’s build something</h2>
+          <p>Get in touch for collaborations, freelance, or full-time opportunities.</p>
+
+          <div class="cards">
+
+            <div class="card">
+              <h3>Email</h3>
+              <p>
+                <a href="mailto:davidrramirez61@gmail.com">davidrramirez61@gmail.com</a>
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>Phone</h3>
+              <p>
+                <a href="tel:+17025161194">+1 702 516 1194</a>
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>Social</h3>
+              <div class="row">
+
+                <a class="btn" href="https://www.instagram.com/dbastida_pxl/" target="_blank" rel="noopener" aria-label="Instagram">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="17" cy="7" r="1.2" fill="currentColor"/>
+                  </svg>
+                  Instagram
+                </a>
+
+                <a class="btn" href="https://www.tiktok.com/@bastida_design?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener" aria-label="TikTok">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M14 3v11.2a3.8 3.8 0 1 1-3-3.7" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M14 3c1.2 2.4 3.2 3.8 6 4v3c-2.4-.1-4.4-1-6-2.4" stroke="currentColor" stroke-width="2" fill="none"/>
+                  </svg>
+                  TikTok
+                </a>
+
+                <a class="btn" href="https://www.linkedin.com/in/david-ramirez-bastida-ab5464361/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="9" width="4" height="12" fill="currentColor"/>
+                    <circle cx="5" cy="5" r="2" fill="currentColor"/>
+                    <path d="M10 9h4v2c.8-1.4 2.2-2.4 4.2-2.4 3 0 4.8 2 4.8 6V21h-4v-5.6c0-2-.8-3.2-2.4-3.2-1.4 0-2.2.9-2.6 1.8-.1.3-.2.8-.2 1.3V21h-4V9z" fill="currentColor"/>
+                  </svg>
+                  LinkedIn
+                </a>
+
+                <a class="btn" href="https://sketchfab.com/davidrramirez61" target="_blank" rel="noopener" aria-label="Sketchfab">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2 3 6v12l9 4 9-4V6l-9-4Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M12 2v20" stroke="currentColor" stroke-width="2"/>
+                    <path d="M3 6l9 4 9-4" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Sketchfab
+                </a>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- DRAGGABLE UFO (ship) -->
+  <div class="ufo-wrap" id="ufoWrap" aria-label="UFO ship">
+    <div class="ufo-inner">
+      <div class="ufo-status" id="ufoStatus">Loading UFO…</div>
+      <model-viewer
+        id="ufoViewer"
+        src="models/ufo.glb"
+        camera-controls
+        disable-zoom
+        disable-pan
+        auto-rotate
+        rotation-per-second="14deg"
+        interaction-prompt="none"
+        exposure="1.25"
+        shadow-intensity="0">
+      </model-viewer>
+    </div>
+  </div>
+
+  <!-- MINI GAME OVERLAY -->
+  <div class="game" id="game" aria-label="Mini game" aria-hidden="true">
+    <div class="game-scrim"></div>
+    <div class="game-hud">
+      <div class="game-title">UFO DODGE</div>
+      <div class="game-score">Score: <span id="gameScore">0</span></div>
+      <div class="game-actions">
+        <button class="btn primary" type="button" id="gameStart">Start</button>
+        <button class="btn" type="button" id="gameExit">Exit</button>
+      </div>
+      <div class="game-tip">Move: Drag the ship / Arrow keys / WASD</div>
+      <div class="game-msg" id="gameMsg" hidden></div>
+    </div>
+    <div class="game-arena" id="gameArena" aria-hidden="true"></div>
+  </div>
+
+  <!-- OVERLAY ENTER -->
+  <div class="overlay" id="overlay">
+    <div class="scrim" aria-hidden="true"></div>
+
+    <main class="hero-card" aria-label="Portfolio Sign">
+
+      <h1 class="hero-title">David Bastida</h1>
+      <div class="hero-sub">Unreal Cinematic Artist</div>
+      <p class="hero-roles">Cinematics · Lighting · Animation · Interactive Experiences</p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:22px;">
+        <button type="button" class="hero-btn" id="enterPortfolio">ENTER PORTFOLIO</button>
+        <button type="button" class="btn" id="startGame" style="margin-top:0;">PLAY MINI GAME</button>
+      </div>
+    </main>
+  </div>
+
+
+  <script>
+    (function(){
+      const btn = document.getElementById('enterPortfolio');
+      const overlay = document.getElementById('overlay');
+      const carousel = document.getElementById('videoCarousel');
+      const prev = document.getElementById('carPrev');
+      const next = document.getElementById('carNext');
+
+      function enter(){
+        document.body.classList.add('entered');
+        if (overlay) overlay.setAttribute('aria-hidden', 'true');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      if (btn) {
+        btn.addEventListener('click', enter);
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') enter();
+        });
+      }
+
+
+      if (carousel && prev && next) {
+        const step = () => Math.max(320, Math.floor(carousel.clientWidth * 0.9));
+
+        prev.addEventListener('click', () => {
+          carousel.scrollBy({ left: -step(), behavior: 'smooth' });
+        });
+
+        next.addEventListener('click', () => {
+          carousel.scrollBy({ left: step(), behavior: 'smooth' });
+        });
+      }
+
+      // Carousel for Unreal Cinematics (top)
+      const carouselTop = document.getElementById('videoCarouselTop');
+      const prevTop = document.getElementById('carPrevTop');
+      const nextTop = document.getElementById('carNextTop');
+
+      if (carouselTop && prevTop && nextTop) {
+        const stepTop = () => Math.max(280, Math.floor(carouselTop.clientWidth * 0.9));
+
+        prevTop.addEventListener('click', () => {
+          carouselTop.scrollBy({ left: -stepTop(), behavior: 'smooth' });
+        });
+
+        nextTop.addEventListener('click', () => {
+          carouselTop.scrollBy({ left: stepTop(), behavior: 'smooth' });
+        });
+      }
+
+      // --- UFO ship: place in front of the sign + draggable + mini-game ---
+      const ufoWrap = document.getElementById('ufoWrap');
+      const startGameBtn = document.getElementById('startGame');
+      const gameEl = document.getElementById('game');
+      const gameArena = document.getElementById('gameArena');
+      const gameStart = document.getElementById('gameStart');
+      const gameExit = document.getElementById('gameExit');
+      const gameScoreEl = document.getElementById('gameScore');
+      const gameMsg = document.getElementById('gameMsg');
+
+      let gameOn = false;
+      let score = 0;
+      let obstacles = [];
+      let bonuses = [];
+      let bonusesSpawned = 0; // we will spawn up to 3 bonuses per run
+      let lastSpawn = 0;
+      let lastBonusSpawn = 0;
+      let lastT = 0;
+      let vx = 0;
+      let vy = 0;
+      let shieldUntil = 0;
+      let slowUntil = 0;
+
+      const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+      const placeUfoOnSign = () => {
+        if (!ufoWrap) return;
+        const hero = document.querySelector('.hero-card');
+        const overlayEl = document.getElementById('overlay');
+        const w = ufoWrap.offsetWidth || 180;
+        const h = ufoWrap.offsetHeight || 130;
+
+        if (overlayEl && hero) {
+          const r = hero.getBoundingClientRect();
+          const left = clamp(r.left + r.width - w - 18, 10, window.innerWidth - w - 10);
+          const top = clamp(r.top + 14, 10, window.innerHeight - h - 10);
+          ufoWrap.style.left = `${left}px`;
+          ufoWrap.style.top = `${top}px`;
+        }
+      };
+
+      // Make sure it appears in front of the sign when the page loads
+      if (ufoWrap) {
+        ufoWrap.style.left = ufoWrap.style.left || '18px';
+        ufoWrap.style.top = ufoWrap.style.top || '18px';
+        placeUfoOnSign();
+        window.addEventListener('resize', () => {
+          if (!gameOn) placeUfoOnSign();
+        });
+      }
+
+      // Drag to move (works on overlay and in the mini-game)
+      if (ufoWrap) {
+        let dragging = false;
+        let startX = 0, startY = 0;
+        let startLeft = 0, startTop = 0;
+
+        const onDown = (e) => {
+          dragging = true;
+          ufoWrap.classList.add('dragging');
+          const pe = e.touches ? e.touches[0] : e;
+          startX = pe.clientX;
+          startY = pe.clientY;
+          startLeft = parseFloat(ufoWrap.style.left || '0');
+          startTop = parseFloat(ufoWrap.style.top || '0');
+          e.preventDefault();
+        };
+
+        const onMove = (e) => {
+          if (!dragging) return;
+          const pe = e.touches ? e.touches[0] : e;
+          const dx = pe.clientX - startX;
+          const dy = pe.clientY - startY;
+
+          const w = ufoWrap.offsetWidth;
+          const h = ufoWrap.offsetHeight;
+          const nextLeft = clamp(startLeft + dx, 10, window.innerWidth - w - 10);
+          const nextTop = clamp(startTop + dy, 10, window.innerHeight - h - 10);
+
+          ufoWrap.style.left = `${nextLeft}px`;
+          ufoWrap.style.top = `${nextTop}px`;
+          e.preventDefault();
+        };
+
+        const onUp = () => {
+          if (!dragging) return;
+          dragging = false;
+          ufoWrap.classList.remove('dragging');
+        };
+
+        ufoWrap.addEventListener('mousedown', onDown, { passive: false });
+        window.addEventListener('mousemove', onMove, { passive: false });
+        window.addEventListener('mouseup', onUp);
+
+        ufoWrap.addEventListener('touchstart', onDown, { passive: false });
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('touchend', onUp);
+      }
+
+      const clearObstacles = () => {
+        obstacles.forEach(o => o.el.remove());
+        obstacles = [];
+        bonuses.forEach(b => b.el.remove());
+        bonuses = [];
+      };
+
+      const setMsg = (text, isError=false) => {
+        if (!gameMsg) return;
+        gameMsg.hidden = !text;
+        gameMsg.textContent = text || '';
+        gameMsg.style.background = isError ? 'rgba(255,79,216,.12)' : 'rgba(108,243,255,.10)';
+        gameMsg.style.borderColor = isError ? 'rgba(255,79,216,.25)' : 'rgba(108,243,255,.22)';
+      };
+
+      const setScore = (v) => {
+        score = v;
+        if (gameScoreEl) gameScoreEl.textContent = String(score);
+      };
+
+      const rectsOverlap = (a, b) => {
+        return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+      };
+
+      const spawnObstacle = (speedBoost = 1) => {
+        if (!gameOn) return;
+        const size = Math.floor(26 + Math.random() * 44);
+        const el = document.createElement('div');
+        el.className = 'obstacle';
+        el.style.width = `${size}px`;
+        el.style.height = `${size}px`;
+
+        const x = Math.floor(10 + Math.random() * (window.innerWidth - size - 20));
+        const y = -size - 10;
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+
+        gameArena.appendChild(el);
+
+        obstacles.push({
+          el,
+          x,
+          y,
+          size,
+          // Base speed scaled by score tier (every 50 points)
+          spd: (170 + Math.random() * 220) * speedBoost
+        });
+      };
+
+      const applyBonus = (type, now) => {
+        if (type === 'shield') {
+          shieldUntil = Math.max(shieldUntil, now) + 5000; // 5s shield
+          setMsg('Bonus: SHIELD (5s)');
+        } else if (type === 'slow') {
+          slowUntil = Math.max(slowUntil, now) + 4500; // 4.5s slow motion
+          setMsg('Bonus: SLOW (4.5s)');
+        } else if (type === 'points') {
+          setScore(score + 10);
+          setMsg('Bonus: +10');
+        }
+      };
+
+      const spawnBonus = (speedBoost = 1) => {
+        if (!gameOn) return;
+        if (bonusesSpawned >= 3) return;
+
+        const types = ['shield', 'slow', 'points'];
+        const type = types[Math.floor(Math.random() * types.length)];
+
+        const el = document.createElement('div');
+        el.className = `bonus bonus--${type}`;
+        el.dataset.type = type;
+
+        const size = 36;
+        const x = Math.floor(10 + Math.random() * (window.innerWidth - size - 20));
+        const y = -size - 10;
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+
+        gameArena.appendChild(el);
+
+        bonuses.push({
+          el,
+          x,
+          y,
+          size,
+          // bonus falls slower than obstacles, also scales a bit
+          spd: (150 + Math.random() * 90) * Math.min(1.4, speedBoost)
+        });
+
+        bonusesSpawned += 1;
+      };
+
+      const gameOver = () => {
+        setMsg('Game Over — press Start to try again', true);
+        gameOn = false;
+      };
+
+      const loop = (t) => {
+        requestAnimationFrame(loop);
+        if (!gameOn) return;
+
+        const dt = lastT ? (t - lastT) / 1000 : 0;
+        lastT = t;
+
+        // keyboard movement
+        if (ufoWrap) {
+          const w = ufoWrap.offsetWidth;
+          const h = ufoWrap.offsetHeight;
+          const curLeft = parseFloat(ufoWrap.style.left || '0');
+          const curTop = parseFloat(ufoWrap.style.top || '0');
+          const speed = 520;
+
+          const nextLeft = clamp(curLeft + vx * speed * dt, 10, window.innerWidth - w - 10);
+          const nextTop = clamp(curTop + vy * speed * dt, 10, window.innerHeight - h - 10);
+
+          ufoWrap.style.left = `${nextLeft}px`;
+          ufoWrap.style.top = `${nextTop}px`;
+        }
+
+        // Level / difficulty: every 20 score, harder
+        const tier = Math.floor(score / 20);
+        // scaled so overall ramp feels similar to the old “every 50” curve
+        const speedBoost = 1 + tier * 0.10;
+        const spawnInterval = Math.max(260, 520 - tier * 24);
+
+        // spawn obstacles faster as tier goes up
+        if (t - lastSpawn > spawnInterval) {
+          spawnObstacle(speedBoost);
+          lastSpawn = t;
+        }
+
+        // spawn up to 3 bonuses per run
+        if (bonusesSpawned < 3 && (t - lastBonusSpawn) > 1400) {
+          // spawn a bonus roughly every ~1.4s until we reach 3
+          spawnBonus(speedBoost);
+          lastBonusSpawn = t;
+        }
+
+        // move obstacles + bonuses + collision
+        const shipRect = (() => {
+          if (!ufoWrap) return null;
+          const r = ufoWrap.getBoundingClientRect();
+          // Make hitbox smaller (more "pegado" al objeto)
+          const shrinkX = r.width * 0.28;
+          const shrinkY = r.height * 0.32;
+          return {
+            left: r.left + shrinkX,
+            right: r.right - shrinkX,
+            top: r.top + shrinkY,
+            bottom: r.bottom - shrinkY,
+          };
+        })();
+
+        const shieldOn = t < shieldUntil;
+        const slowMult = t < slowUntil ? 0.65 : 1;
+
+        obstacles = obstacles.filter((o) => {
+          o.y += o.spd * slowMult * dt;
+          o.el.style.top = `${o.y}px`;
+
+          if (shipRect) {
+            const r = o.el.getBoundingClientRect();
+            if (rectsOverlap(shipRect, r)) {
+              if (shieldOn) {
+                // shield eats the obstacle
+                o.el.remove();
+                setScore(score + 1);
+                return false;
+              }
+              gameOver();
+            }
+          }
+
+          // passed bottom
+          if (o.y > window.innerHeight + 80) {
+            o.el.remove();
+            setScore(score + 1);
+            return false;
+          }
+
+          return true;
+        });
+
+        // bonuses: fall + pickup
+        bonuses = bonuses.filter((b) => {
+          b.y += b.spd * slowMult * dt;
+          b.el.style.top = `${b.y}px`;
+
+          if (shipRect) {
+            const r = b.el.getBoundingClientRect();
+            if (rectsOverlap(shipRect, r)) {
+              const type = b.el.dataset.type || 'points';
+              b.el.remove();
+              applyBonus(type, t);
+              return false;
+            }
+          }
+
+          if (b.y > window.innerHeight + 80) {
+            b.el.remove();
+            return false;
+          }
+
+          return true;
+        });
+      };
+
+      requestAnimationFrame(loop);
+
+      const openGame = () => {
+        document.body.classList.add('game-on');
+        if (gameEl) gameEl.setAttribute('aria-hidden', 'false');
+        setMsg('');
+        setScore(0);
+        clearObstacles();
+        lastSpawn = 0;
+        lastBonusSpawn = 0;
+        bonusesSpawned = 0;
+        shieldUntil = 0;
+        slowUntil = 0;
+        lastT = 0;
+        vx = 0;
+        vy = 0;
+
+        // Put ship near bottom center
+        if (ufoWrap) {
+          const w = ufoWrap.offsetWidth || 180;
+          const h = ufoWrap.offsetHeight || 130;
+          ufoWrap.style.left = `${Math.floor(window.innerWidth/2 - w/2)}px`;
+          ufoWrap.style.top = `${Math.floor(window.innerHeight - h - 80)}px`;
+        }
+      };
+
+      const closeGame = () => {
+        document.body.classList.remove('game-on');
+        if (gameEl) gameEl.setAttribute('aria-hidden', 'true');
+        gameOn = false;
+        clearObstacles();
+        setMsg('');
+        // Return ship to sign if overlay still exists
+        placeUfoOnSign();
+      };
+
+      const startRun = () => {
+        setMsg('');
+        setScore(0);
+        clearObstacles();
+        lastSpawn = 0;
+        lastBonusSpawn = 0;
+        bonusesSpawned = 0;
+        shieldUntil = 0;
+        slowUntil = 0;
+        lastT = 0;
+        gameOn = true;
+      };
+
+      if (startGameBtn) startGameBtn.addEventListener('click', openGame);
+      if (gameStart) gameStart.addEventListener('click', startRun);
+      if (gameExit) gameExit.addEventListener('click', closeGame);
+
+      // Keyboard controls (WASD / Arrows)
+      window.addEventListener('keydown', (e) => {
+        if (!document.body.classList.contains('game-on')) return;
+        if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') vx = -1;
+        if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') vx = 1;
+        if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') vy = -1;
+        if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') vy = 1;
+      });
+
+      window.addEventListener('keyup', (e) => {
+        if (!document.body.classList.contains('game-on')) return;
+        const k = e.key.toLowerCase();
+        if (e.key === 'ArrowLeft' || k === 'a') vx = 0;
+        if (e.key === 'ArrowRight' || k === 'd') vx = 0;
+        if (e.key === 'ArrowUp' || k === 'w') vy = 0;
+        if (e.key === 'ArrowDown' || k === 's') vy = 0;
+      });
+
+      // If user hits ESC, exit the game
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('game-on')) closeGame();
+      });
+
+      // --- Spotlight tabs + actions ---
+      const spotlight = document.getElementById('spotlight');
+      if (spotlight) {
+        const tabs = Array.from(spotlight.querySelectorAll('.tab-btn'));
+        const panels = Array.from(spotlight.querySelectorAll('.spot-panel'));
+
+        tabs.forEach((t) => {
+          t.addEventListener('click', () => {
+            const target = t.getAttribute('data-tab');
+            tabs.forEach((b) => {
+              b.classList.toggle('active', b === t);
+              b.setAttribute('aria-selected', b === t ? 'true' : 'false');
+            });
+            panels.forEach((p) => p.classList.toggle('active', p.getAttribute('data-panel') === target));
+          });
+        });
+      }
+
+      // --- YouTube Reel sound control (autoplay must start muted) ---
+      let reelPlayer = null;
+      const reelSoundBtn = document.getElementById('reelSound');
+      const reelBackBtn = document.getElementById('reelBack');
+      const reelRestartBtn = document.getElementById('reelRestart');
+
+      const updateReelSoundLabel = () => {
+        if (!reelSoundBtn || !reelPlayer || typeof reelPlayer.isMuted !== 'function') return;
+        reelSoundBtn.textContent = reelPlayer.isMuted() ? 'Sound: Off' : 'Sound: On';
+      };
+
+      // Load YouTube IFrame API
+      const ytApiId = 'yt-iframe-api';
+      if (!document.getElementById(ytApiId)) {
+        const tag = document.createElement('script');
+        tag.id = ytApiId;
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+      }
+
+      // YouTube calls this globally when ready
+      window.onYouTubeIframeAPIReady = () => {
+        const iframe = document.getElementById('reelPlayer');
+        if (!iframe || !window.YT || !YT.Player) return;
+
+        reelPlayer = new YT.Player('reelPlayer', {
+          events: {
+            onReady: (e) => {
+              // Keep muted so autoplay works; user can enable sound via button
+              try {
+                e.target.mute();
+                e.target.playVideo();
+              } catch {}
+              updateReelSoundLabel();
+            }
+          }
+        });
+      };
+
+      if (reelSoundBtn) {
+        reelSoundBtn.addEventListener('click', () => {
+          if (!reelPlayer) return;
+          try {
+            if (reelPlayer.isMuted()) {
+              reelPlayer.unMute();
+              reelPlayer.setVolume(80);
+            } else {
+              reelPlayer.mute();
+            }
+          } catch {}
+          updateReelSoundLabel();
+        });
+      }
+
+      // Rewind video 10 seconds
+      if (reelBackBtn) {
+        reelBackBtn.addEventListener('click', () => {
+          if (!reelPlayer) return;
+          try {
+            const t = typeof reelPlayer.getCurrentTime === 'function' ? reelPlayer.getCurrentTime() : 0;
+            reelPlayer.seekTo(Math.max(0, t - 10), true);
+            reelPlayer.playVideo();
+          } catch {}
+        });
+      }
+
+      // Restart video from the beginning
+      if (reelRestartBtn) {
+        reelRestartBtn.addEventListener('click', () => {
+          if (!reelPlayer) return;
+          try {
+            reelPlayer.seekTo(0, true);
+            reelPlayer.playVideo();
+          } catch {}
+        });
+      }
+
+      // Pause reel when leaving the Reel tab, resume when returning
+      if (spotlight) {
+        const tabs2 = Array.from(spotlight.querySelectorAll('.tab-btn'));
+        tabs2.forEach((t) => {
+          t.addEventListener('click', () => {
+            const target = t.getAttribute('data-tab');
+            if (!reelPlayer) return;
+            try {
+              if (target === 'reel') reelPlayer.playVideo();
+              else reelPlayer.pauseVideo();
+            } catch {}
+          });
+        });
+      }
+
+
+      const go = (id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        if (id === 'skills') {
+          const rect = el.getBoundingClientRect();
+          const offset = rect.top + window.pageYOffset - (window.innerHeight / 2) + (rect.height / 2);
+          window.scrollTo({ top: offset, behavior: 'smooth' });
+        } else {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      };
+
+      // --- Intercept header "Skills" link to center section ---
+      const navSkills = document.querySelector('.nav a[href="#skills"]');
+      if (navSkills) {
+        navSkills.addEventListener('click', (e) => {
+          e.preventDefault();
+          go('skills');
+        });
+      }
+
+      const spotToWork = document.getElementById('spotToWork');
+      if (spotToWork) spotToWork.addEventListener('click', () => go('work'));
+
+      const spotToModels = document.getElementById('spotToModels');
+      if (spotToModels) spotToModels.addEventListener('click', () => go('models'));
+      const spotToSkills = document.getElementById('spotToSkills');
+      if (spotToSkills) spotToSkills.addEventListener('click', () => go('skills'));
+
+      const spotToContact = document.getElementById('spotToContact');
+      if (spotToContact) spotToContact.addEventListener('click', () => go('contact'));
+
+      const spotOpenFirst = document.getElementById('spotOpenFirst');
+      if (spotOpenFirst) spotOpenFirst.addEventListener('click', () => go('models'));
+
+      const spotCopyEmail = document.getElementById('spotCopyEmail');
+      if (spotCopyEmail) {
+        spotCopyEmail.addEventListener('click', async () => {
+          const email = 'ADD-YOUR-EMAIL@HERE.com';
+          try {
+            await navigator.clipboard.writeText(email);
+            spotCopyEmail.textContent = 'Copied!';
+            setTimeout(() => (spotCopyEmail.textContent = 'Copy Email'), 1200);
+          } catch {
+            alert('Please add your real email address in the script (spotCopyEmail) or in the Contact section.');
+          }
+        });
+      }
+
+      // --- UFO model-viewer debug (so we know if ufo.glb loads) ---
+      const ufoViewer = document.getElementById('ufoViewer');
+      const ufoStatus = document.getElementById('ufoStatus');
+
+      if (ufoViewer && ufoStatus) {
+        ufoViewer.addEventListener('load', () => {
+          ufoStatus.style.display = 'none';
+        });
+
+        ufoViewer.addEventListener('error', (e) => {
+          ufoStatus.style.display = 'flex';
+          ufoStatus.textContent = 'ERROR: Failed to load models/ufo.glb';
+          console.error('UFO model-viewer error:', e);
+        });
+      }
+
+      // (3D model debug for heroTv removed)
+    })();
+  </script>
+</body>
+</html>
+
