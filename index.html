@@ -903,6 +903,47 @@
       overflow:hidden;
     }
 
+    /* Mobile touch controls (only shown on small screens) */
+    .game-pad{
+      display:none;
+      gap:10px;
+      margin-left:auto;
+    }
+
+    .pad-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 44px);
+      grid-template-rows: repeat(3, 44px);
+      gap:10px;
+      place-items:center;
+    }
+
+    .pad-spacer{ width:44px; height:44px; }
+
+    .pad-btn{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      border:1px solid rgba(108,243,255,.22);
+      background: rgba(8,10,18,.55);
+      color: rgba(255,255,255,.92);
+      font-family:"Oswald", sans-serif;
+      font-weight:700;
+      font-size:1.05rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
+      cursor:pointer;
+      touch-action: manipulation;
+      user-select:none;
+      -webkit-user-select:none;
+    }
+
+    .pad-btn:active{
+      transform: translateY(1px);
+      border-color: rgba(255,79,216,.28);
+    }
+
 
     .obstacle{
       position:fixed;
@@ -962,7 +1003,33 @@
 
     @media (max-width: 520px){
       .ufo-wrap{ width:150px; height:110px; }
-      .game-hud{ margin-top:14px; }
+
+      /* Keep HUD reachable on phones */
+      .game-hud{
+        position: fixed;
+        left: 10px;
+        right: 10px;
+        bottom: calc(10px + env(safe-area-inset-bottom));
+        top: auto;
+        margin: 0;
+        width: auto;
+      }
+
+      .game-actions{
+        width:100%;
+      }
+
+      .game-actions .btn{
+        flex: 1 1 auto;
+        min-height: 44px;
+        justify-content:center;
+      }
+
+      .game-pad{
+        display:block;
+      }
+
+      .game-tip{ display:none; }
     }
 
     .hero-title{
@@ -1597,6 +1664,21 @@
         <button class="btn primary" type="button" id="gameStart">Start</button>
         <button class="btn" type="button" id="gameExit">Exit</button>
       </div>
+      <div class="game-pad" aria-label="Touch controls">
+        <div class="pad-grid">
+          <span class="pad-spacer" aria-hidden="true"></span>
+          <button class="pad-btn" type="button" data-dir="up" aria-label="Up">▲</button>
+          <span class="pad-spacer" aria-hidden="true"></span>
+
+          <button class="pad-btn" type="button" data-dir="left" aria-label="Left">◀</button>
+          <span class="pad-spacer" aria-hidden="true"></span>
+          <button class="pad-btn" type="button" data-dir="right" aria-label="Right">▶</button>
+
+          <span class="pad-spacer" aria-hidden="true"></span>
+          <button class="pad-btn" type="button" data-dir="down" aria-label="Down">▼</button>
+          <span class="pad-spacer" aria-hidden="true"></span>
+        </div>
+      </div>
       <div class="game-tip">Move: Drag the ship / Arrow keys / WASD</div>
       <div class="game-msg" id="gameMsg" hidden></div>
     </div>
@@ -2030,6 +2112,48 @@
       if (startGameBtn) startGameBtn.addEventListener('click', openGame);
       if (gameStart) gameStart.addEventListener('click', startRun);
       if (gameExit) gameExit.addEventListener('click', closeGame);
+
+      // --- Mobile touch D-pad controls ---
+      const activeDirs = new Set();
+      const updatePadVelocity = () => {
+        vx = (activeDirs.has('left') ? -1 : 0) + (activeDirs.has('right') ? 1 : 0);
+        vy = (activeDirs.has('up') ? -1 : 0) + (activeDirs.has('down') ? 1 : 0);
+        vx = clamp(vx, -1, 1);
+        vy = clamp(vy, -1, 1);
+      };
+
+      const padButtons = Array.from(document.querySelectorAll('.pad-btn'));
+      padButtons.forEach((btn) => {
+        const dir = btn.getAttribute('data-dir');
+        if (!dir) return;
+
+        const down = (e) => {
+          if (!document.body.classList.contains('game-on')) return;
+          activeDirs.add(dir);
+          updatePadVelocity();
+          try { e.preventDefault(); } catch {}
+        };
+
+        const up = (e) => {
+          activeDirs.delete(dir);
+          updatePadVelocity();
+          try { e.preventDefault(); } catch {}
+        };
+
+        btn.addEventListener('pointerdown', down, { passive: false });
+        btn.addEventListener('pointerup', up, { passive: false });
+        btn.addEventListener('pointercancel', up, { passive: false });
+        btn.addEventListener('pointerleave', up, { passive: false });
+      });
+
+      // When closing game, reset pad state
+      const _closeGame = closeGame;
+      closeGame = () => {
+        activeDirs.clear();
+        vx = 0;
+        vy = 0;
+        _closeGame();
+      };
 
       // Keyboard controls (WASD / Arrows)
       window.addEventListener('keydown', (e) => {
