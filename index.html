@@ -584,6 +584,11 @@
         font-size:1rem;
       }
 
+      /* Mobile: Cinematics carousel (inside #cinematics) has NO prev/next buttons */
+      #cinematics .carousel-wrap > .car-btn{ display:none !important; }
+      #cinematics .carousel-wrap{ grid-template-columns: 1fr; grid-template-rows: auto; }
+      #cinematics .carousel{ grid-column: 1; grid-row: 1; }
+
       .carousel-wrap > .car-btn:first-of-type{ grid-column: 1; }
       .carousel-wrap > .car-btn:last-of-type{ grid-column: 2; }
 
@@ -1030,7 +1035,6 @@
       </div>
 
       <nav class="nav" aria-label="Portfolio Navigation">
-        <a href="#about">About</a>
         <a href="#cinematics">Cinematics</a>
         <a href="#models">3D Models</a>
         <a href="#skills">Skills</a>
