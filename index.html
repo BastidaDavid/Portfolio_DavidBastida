@@ -1027,9 +1027,12 @@
 
       .wrap{ padding-top:170px; }
 
-      /* Mobile: show the Spotlight (reel video) first */
-      .grid{ display:flex; flex-direction:column; }
-      .grid > aside{ order:-1; }
+      /* Mobile: Spotlight moved to top (keep it tight) */
+      .panel.pad > .spotlight{
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+
       .panel.pad{ padding:16px; }
 
       .badge{ width:34px; height:34px; border-radius:10px; }
@@ -1610,6 +1613,39 @@
       const overlay = document.getElementById('overlay');
       const menuBtn = document.getElementById('menuBtn');
       const primaryNav = document.getElementById('primaryNav');
+
+      // Mobile-only: move Spotlight (#spotlight) to the top (without moving Profile)
+      const aboutSection = document.getElementById('about');
+      const aboutPanel = aboutSection ? aboutSection.querySelector('.panel.pad') : null;
+      const spotlightEl = document.getElementById('spotlight');
+      let spotlightPlaceholder = null;
+
+      const placeSpotlightForViewport = () => {
+        if (!spotlightEl || !aboutPanel) return;
+
+        const isMobile = window.matchMedia('(max-width: 520px)').matches;
+
+        // Create placeholder once at the original location (inside the aside)
+        if (!spotlightPlaceholder) {
+          spotlightPlaceholder = document.createComment('spotlight-placeholder');
+          spotlightEl.parentNode.insertBefore(spotlightPlaceholder, spotlightEl);
+        }
+
+        if (isMobile) {
+          // Move spotlight to the very top of the About panel
+          if (spotlightEl.parentNode !== aboutPanel) {
+            aboutPanel.insertBefore(spotlightEl, aboutPanel.firstChild);
+          }
+        } else {
+          // Restore spotlight back to where it was
+          if (spotlightPlaceholder && spotlightPlaceholder.parentNode) {
+            spotlightPlaceholder.parentNode.insertBefore(spotlightEl, spotlightPlaceholder.nextSibling);
+          }
+        }
+      };
+
+      placeSpotlightForViewport();
+      window.addEventListener('resize', placeSpotlightForViewport);
 
       const setMenuOpen = (open) => {
         document.body.classList.toggle('menu-open', !!open);
