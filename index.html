@@ -765,7 +765,7 @@
       user-select:none;
       -webkit-user-select:none;
       touch-action:none;
-      z-index:80; /* above overlay/sign */
+      z-index:92; /* above overlay/sign + above game arena */
       background: transparent;
       left: 18px;
       top: 18px;
@@ -847,7 +847,7 @@
 
     .game-hud{
       position:relative;
-      z-index:91;
+      z-index:95;
       width:min(860px, 92vw);
       margin: 18px auto 0;
       padding:14px 14px;
@@ -1663,6 +1663,7 @@
       <div class="game-actions">
         <button class="btn primary" type="button" id="gameStart">Start</button>
         <button class="btn" type="button" id="gameExit">Exit</button>
+        <button class="btn" type="button" id="gameTilt" aria-label="Toggle tilt controls">Tilt: Off</button>
       </div>
       <div class="game-pad" aria-label="Touch controls">
         <div class="pad-grid">
@@ -1760,6 +1761,7 @@
       const gameArena = document.getElementById('gameArena');
       const gameStart = document.getElementById('gameStart');
       const gameExit = document.getElementById('gameExit');
+      const gameTilt = document.getElementById('gameTilt');
       const gameScoreEl = document.getElementById('gameScore');
       const gameMsg = document.getElementById('gameMsg');
 
@@ -2144,12 +2146,102 @@
         btn.addEventListener('pointerup', up, { passive: false });
         btn.addEventListener('pointercancel', up, { passive: false });
         btn.addEventListener('pointerleave', up, { passive: false });
+
+        // iOS Safari fallback
+        btn.addEventListener('touchstart', down, { passive: false });
+        btn.addEventListener('touchend', up, { passive: false });
+        btn.addEventListener('touchcancel', up, { passive: false });
       });
 
-      // When closing game, reset pad state
+      // --- Tilt (device sensor) controls (iPhone + Android) ---
+      let tiltEnabled = false;
+      let tiltListenerOn = false;
+      let tiltVX = 0;
+      let tiltVY = 0;
+
+      const applyDeadzone = (v, dz = 0.16) => (Math.abs(v) < dz ? 0 : v);
+
+      const onDeviceTilt = (ev) => {
+        if (!tiltEnabled) return;
+        if (!document.body.classList.contains('game-on')) return;
+
+        // gamma: left/right (-90..90), beta: forward/back (-180..180)
+        const g = typeof ev.gamma === 'number' ? ev.gamma : 0;
+        const b = typeof ev.beta === 'number' ? ev.beta : 0;
+
+        // map to [-1..1] with comfortable sensitivity
+        tiltVX = applyDeadzone(clamp(g / 18, -1, 1));
+        tiltVY = applyDeadzone(clamp(b / 28, -1, 1));
+
+        // Only drive movement from tilt when the D-pad isn't being used
+        if (activeDirs.size === 0) {
+          vx = tiltVX;
+          vy = tiltVY;
+        }
+      };
+
+      const setTiltButtonLabel = () => {
+        if (!gameTilt) return;
+        gameTilt.textContent = tiltEnabled ? 'Tilt: On' : 'Tilt: Off';
+      };
+
+      const enableTilt = async () => {
+        try {
+          // iOS 13+ requires permission via user gesture
+          if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+            const res = await DeviceOrientationEvent.requestPermission();
+            if (res !== 'granted') {
+              tiltEnabled = false;
+              setTiltButtonLabel();
+              setMsg('Tilt permission not granted', true);
+              return;
+            }
+          }
+
+          if (!tiltListenerOn) {
+            window.addEventListener('deviceorientation', onDeviceTilt, true);
+            tiltListenerOn = true;
+          }
+
+          tiltEnabled = true;
+          setTiltButtonLabel();
+          setMsg('Tilt enabled — tilt your phone');
+        } catch (err) {
+          tiltEnabled = false;
+          setTiltButtonLabel();
+          setMsg('Tilt not available on this device', true);
+          console.warn('Tilt enable failed:', err);
+        }
+      };
+
+      const disableTilt = () => {
+        tiltEnabled = false;
+        tiltVX = 0;
+        tiltVY = 0;
+        if (activeDirs.size === 0) {
+          vx = 0;
+          vy = 0;
+        }
+        setTiltButtonLabel();
+      };
+
+      const toggleTilt = async () => {
+        if (!document.body.classList.contains('game-on')) return;
+        if (tiltEnabled) {
+          disableTilt();
+          setMsg('Tilt disabled');
+        } else {
+          await enableTilt();
+        }
+      };
+
+      if (gameTilt) gameTilt.addEventListener('click', toggleTilt);
+
+      // When closing game, reset pad + tilt state
       const _closeGame = closeGame;
       closeGame = () => {
         activeDirs.clear();
+        disableTilt();
         vx = 0;
         vy = 0;
         _closeGame();
