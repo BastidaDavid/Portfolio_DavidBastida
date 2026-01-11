@@ -526,6 +526,11 @@
       background: rgba(0,0,0,.35);
     }
 
+    /* Carousel iframes use aspect-ratio; override global .spot-video height:100% */
+    .slide iframe.spot-video{
+      height: auto;
+    }
+
     .slide{
       padding-bottom: 6px;
     }
@@ -591,6 +596,8 @@
       /* Mobile: widescreen videos like the realtime reel */
       .slide video,
       .slide iframe{ aspect-ratio: 16 / 9; }
+
+      .slide iframe.spot-video{ height: auto; }
     }
 
     /* 3D Models */
