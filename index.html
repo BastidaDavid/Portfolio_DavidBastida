@@ -552,13 +552,41 @@
     }
 
     @media (max-width: 520px){
-      /* Mobile: show one wide slide at a time + use swipe (hide arrow buttons) */
-      .carousel-wrap{ grid-template-columns: 1fr; }
-      .car-btn{ display:none; }
+      /* Mobile: 1 slide per view, swipe enabled, and nav buttons BELOW */
+      .carousel-wrap{
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap:10px;
+      }
+
+      .carousel{
+        grid-column: 1 / -1;
+        grid-row: 1;
+        padding: 6px 0;
+      }
+
+      /* Place the arrows under the carousel so people notice there are more */
+      .carousel-wrap > .car-btn{
+        display:inline-flex;
+        grid-row: 2;
+        height:40px;
+        width:100%;
+        border-radius:14px;
+        justify-content:center;
+        align-items:center;
+        gap:8px;
+        font-size:1rem;
+      }
+
+      .carousel-wrap > .car-btn:first-of-type{ grid-column: 1; }
+      .carousel-wrap > .car-btn:last-of-type{ grid-column: 2; }
+
+      .carousel-wrap > .car-btn:first-of-type::after{ content:"  Anterior"; font-size:.85rem; letter-spacing:.10em; opacity:.85; }
+      .carousel-wrap > .car-btn:last-of-type::after{ content:"  Siguiente"; font-size:.85rem; letter-spacing:.10em; opacity:.85; }
 
       /* Make carousel slides big enough to be 1-per-view */
-      .slide{ min-width: 94vw; }
-      .aside-carousel .slide{ min-width: 94vw; }
+      .slide{ min-width: 94vw; scroll-snap-align:center; }
+      .aside-carousel .slide{ min-width: 94vw; scroll-snap-align:center; }
 
       /* Mobile: widescreen videos like the realtime reel */
       .slide video,
