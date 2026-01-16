@@ -1619,6 +1619,40 @@
       placeSpotlightForViewport();
       window.addEventListener('resize', placeSpotlightForViewport);
 
+      // Mobile-only: place Marketing section right below Unreal Cinematics (About)
+      const marketingSection = document.getElementById('marketing');
+      let marketingPlaceholder = null;
+
+      const placeMarketingForViewport = () => {
+        if (!marketingSection || !aboutSection) return;
+
+        const isMobile = window.matchMedia('(max-width: 520px)').matches;
+
+        // Create placeholder once at the original location (where Marketing lived)
+        if (!marketingPlaceholder) {
+          marketingPlaceholder = document.createComment('marketing-placeholder');
+          marketingSection.parentNode.insertBefore(marketingPlaceholder, marketingSection);
+        }
+
+        if (isMobile) {
+          // Put Marketing immediately after the About grid (which contains Unreal Cinematics)
+          const parent = aboutSection.parentNode;
+          if (parent && marketingSection.parentNode === parent) {
+            if (aboutSection.nextSibling !== marketingSection) {
+              parent.insertBefore(marketingSection, aboutSection.nextSibling);
+            }
+          }
+        } else {
+          // Restore Marketing back to its original position
+          if (marketingPlaceholder && marketingPlaceholder.parentNode) {
+            marketingPlaceholder.parentNode.insertBefore(marketingSection, marketingPlaceholder.nextSibling);
+          }
+        }
+      };
+
+      placeMarketingForViewport();
+      window.addEventListener('resize', placeMarketingForViewport);
+
       const setMenuOpen = (open) => {
         document.body.classList.toggle('menu-open', !!open);
         if (menuBtn) menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
