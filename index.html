@@ -1619,7 +1619,7 @@
       placeSpotlightForViewport();
       window.addEventListener('resize', placeSpotlightForViewport);
 
-      // Mobile-only: place Marketing section right below Unreal Cinematics (About)
+      // Mobile-only: place Marketing BETWEEN Cinematics and Quick Info (inside the right panel)
       const marketingSection = document.getElementById('marketing');
       let marketingPlaceholder = null;
 
@@ -1635,11 +1635,21 @@
         }
 
         if (isMobile) {
-          // Put Marketing immediately after the About grid (which contains Unreal Cinematics)
-          const parent = aboutSection.parentNode;
-          if (parent && marketingSection.parentNode === parent) {
-            if (aboutSection.nextSibling !== marketingSection) {
-              parent.insertBefore(marketingSection, aboutSection.nextSibling);
+          const asidePanel = aboutSection.querySelector('aside.panel.pad');
+          if (!asidePanel) return;
+
+          // Quick Info block is the first `.section` inside the aside
+          const quickInfoBlock = asidePanel.querySelector('.section');
+
+          // Insert Marketing right before Quick Info
+          if (quickInfoBlock) {
+            if (marketingSection.parentNode !== asidePanel || marketingSection.nextSibling !== quickInfoBlock) {
+              asidePanel.insertBefore(marketingSection, quickInfoBlock);
+            }
+          } else {
+            // Fallback: append at the end of the aside
+            if (marketingSection.parentNode !== asidePanel) {
+              asidePanel.appendChild(marketingSection);
             }
           }
         } else {
