@@ -9,8 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 
   <style>
     :root{
@@ -718,189 +716,6 @@
       }
     }
 
-    /* 3D Models */
-    .model-grid{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap:14px;
-    }
-
-    .model-card{
-      position: relative;
-      background: var(--panel-2);
-      border: 1px solid rgba(108,243,255,.14);
-      border-radius:18px;
-      overflow:hidden;
-      box-shadow: 0 20px 80px rgba(0,0,0,.45);
-    }
-
-    .model-slot{
-      width:100%;
-      height: 420px;
-      background: rgba(0,0,0,.18);
-      border-radius:18px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 20px 80px rgba(0,0,0,.45);
-      border: 1px solid rgba(108,243,255,.14);
-      margin-top:10px;
-      margin-bottom:0;
-      min-height:180px;
-      overflow:hidden;
-    }
-
-    /* Make the hero (right-side) model viewer fill the slot */
-    #myModelSlot model-viewer{
-      height:100%;
-    }
-
-    #myModelSlot{ position:relative; }
-
-    /* On-screen status (shows load/error so you know what's happening) */
-    #tvStatus{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-      text-align:center;
-      font-family:"Oswald", sans-serif;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      background: rgba(0,0,0,.30);
-      border-radius:18px;
-      border: 1px dashed rgba(108,243,255,.22);
-      color: rgba(255,255,255,.9);
-      pointer-events:none;
-    }
-
-    model-viewer{
-      width:100%;
-      height:320px;
-      background: rgba(0,0,0,.12);
-    }
-
-    /* Small AR indicator (desktop only). Mobile already shows the native AR button. */
-    .ar-mini{
-      position:absolute;
-      right:14px;
-      top:14px;
-      width:44px;
-      height:44px;
-      border-radius:999px;
-      display:grid;
-      place-items:center;
-      background: rgba(255,255,255,.92);
-      border: 1px solid rgba(255,255,255,.35);
-      box-shadow: 0 18px 70px rgba(0,0,0,.45);
-      z-index:3;
-      pointer-events:auto;
-      cursor:pointer;
-      border:none;
-    }
-
-    .ar-mini svg{
-      width:22px;
-      height:22px;
-      display:block;
-      color:#0b0f18;
-    }
-
-    /* Hide this indicator on mobile/tablet */
-    @media (max-width: 980px){
-      .ar-mini{ display:none; }
-    }
-
-    /* QR popup (desktop): scan with phone to open the same model (then tap AR on mobile) */
-    .qr-modal{
-      position:fixed;
-      inset:0;
-      z-index:140;
-      display:none;
-    }
-
-    .qr-modal.open{ display:block; }
-
-    .qr-backdrop{
-      position:absolute;
-      inset:0;
-      background: rgba(0,0,0,.62);
-      backdrop-filter: blur(6px);
-    }
-
-    .qr-card{
-      position:absolute;
-      left:50%;
-      top:50%;
-      transform: translate(-50%, -50%);
-      width: min(420px, 92vw);
-      border-radius:22px;
-      background: rgba(8,10,18,.92);
-      border: 1px solid rgba(108,243,255,.18);
-      box-shadow: 0 40px 140px rgba(0,0,0,.75);
-      padding:16px;
-    }
-
-    .qr-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:10px;
-    }
-
-    .qr-title{
-      font-family:"Oswald", sans-serif;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-weight:700;
-      font-size:1rem;
-      margin:0;
-    }
-
-    .qr-x{
-      width:44px;
-      height:44px;
-      border-radius:14px;
-      border:1px solid rgba(108,243,255,.18);
-      background: rgba(8,10,18,.40);
-      color: rgba(255,255,255,.92);
-      cursor:pointer;
-      box-shadow: 0 14px 50px rgba(0,0,0,.45);
-    }
-
-    .qr-sub{
-      margin: 0 0 12px;
-      opacity:.86;
-      font-size:.92rem;
-      line-height:1.45;
-    }
-
-    .qr-img{
-      width: 220px;
-      height: 220px;
-      display:block;
-      margin: 10px auto 14px;
-      background: rgba(255,255,255,.92);
-      border-radius:16px;
-      padding:10px;
-      object-fit: contain;
-    }
-
-    .qr-actions{
-      display:flex;
-      gap:10px;
-      justify-content:center;
-      flex-wrap:wrap;
-    }
-
-    /* Keep the popup desktop-only */
-    @media (max-width: 980px){
-      .qr-modal.open{ display:none; }
-    }
 
     .model-pad{ padding:14px; }
 
@@ -1032,78 +847,6 @@
       transition: opacity .35s ease, transform .35s ease;
     }
 
-    /* UFO ship — draggable + floating (front of the sign) */
-    .ufo-wrap{
-      position:fixed;
-      width:180px;
-      height:130px;
-      pointer-events:auto;
-      filter: drop-shadow(0 18px 40px rgba(108,243,255,.22)) drop-shadow(0 10px 26px rgba(255,79,216,.14));
-      will-change: left, top, transform;
-      cursor: grab;
-      user-select:none;
-      -webkit-user-select:none;
-      touch-action:none;
-      z-index:92; /* above overlay/sign + above game arena */
-      background: transparent;
-      left: 18px;
-      top: 18px;
-      overflow: visible;
-    }
-
-    .ufo-wrap.dragging{ cursor: grabbing; }
-
-    .ufo-inner{
-      width:100%;
-      height:100%;
-      animation: ufo-float 1.25s ease-in-out infinite;
-      transform-origin: 50% 60%;
-      will-change: transform;
-      overflow: visible;
-    }
-
-    .ufo-status{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px;
-      text-align:center;
-      font-family:"Oswald", sans-serif;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:.8rem;
-      color: rgba(255,255,255,.88);
-      text-shadow: 0 10px 30px rgba(0,0,0,.75);
-      background: transparent;
-      border-radius: 16px;
-      border: none;
-      pointer-events:none;
-    }
-
-    /* No background/border for the ship */
-    .ufo-wrap model-viewer{
-      width:100%;
-      height:100%;
-      display:block;
-      background: transparent !important;
-      --poster-color: transparent;
-      outline: none;
-      border: none;
-      border-radius: 0;
-      backdrop-filter: none;
-      pointer-events: none;
-    }
-
-    @keyframes ufo-float{
-      0%   { transform: translate3d(0, 0, 0) rotate(-2deg); }
-      50%  { transform: translate3d(0, 8px, 0) rotate(2deg); }
-      100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
-    }
-
-    /* Keep the ship visible after entering the site */
-    body.entered .ufo-wrap{ display:none; }
 
     .hero-title{
       font-family:"Oswald", sans-serif;
@@ -1302,7 +1045,7 @@
       <nav class="nav" id="primaryNav" aria-label="Portfolio Navigation">
         <a href="#about">About</a>
         <a href="#cinematics">Cinematics</a>
-        <a href="#models">3D Models</a>
+        <a href="#marketing">Marketing · Motion · UI/UX</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -1589,7 +1332,7 @@
                 <div class="spotline">Quick access</div>
                 <p class="tiny">Jump to sections.</p>
                 <div class="spot-actions">
-                  <button class="btn primary" type="button" id="spotOpenFirst">Models</button>
+                  <button class="btn primary" type="button" id="spotOpenFirst">Cinematics</button>
                   <button class="btn" type="button" id="spotToSkills">Skills</button>
                   <button class="btn" type="button" id="spotToContact">Contact</button>
                 </div>
@@ -1651,118 +1394,6 @@
       </section>
 
 
-
-      <section class="section" id="models">
-        <div class="panel pad">
-          <div class="kicker">Assets</div>
-          <h2>3D Props</h2>
-          <p>Props and assets used for cinematics and interactive experiences in Unreal Engine.</p>
-
-          <div class="model-grid">
-            <div class="model-card">
-              <model-viewer
-                id="mv-espada"
-                src="models/espada_mejorado.glb"
-                camera-controls
-                auto-rotate
-                shadow-intensity="1"
-                exposure="1.1"
-                ar>
-              </model-viewer>
-
-              <div class="model-pad">
-                <h3 class="model-title">Espada Sci‑Fi</h3>
-                <div class="meta" style="margin-top:10px;">
-                  <span class="mini">GLB</span>
-                  <span class="mini">PBR</span>
-                  <span class="mini">Game Ready</span>
-                </div>
-                <p class="model-desc">Prop created for visual tests and cinematic work in Unreal Engine.</p>
-                <div class="row" style="margin-top:12px;">
-                  <a class="btn primary"
-                     href="https://sketchfab.com/3d-models/espada-mejorado-66339c51b6f04c57bd0ea9fe0f18d0ea"
-                     target="_blank"
-                     rel="noopener">
-                     Download
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="model-card">
-              <div style="width:100%; aspect-ratio:16/9; background:rgba(0,0,0,.35); border-bottom:1px solid rgba(108,243,255,.14);">
-                <iframe
-                  src="https://www.youtube.com/embed/Dnavh98jurQ?rel=0"
-                  title="Sci‑Fi Sword Usage Demo"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                  style="width:100%; height:100%; display:block;">
-                </iframe>
-              </div>
-
-              <div class="model-pad">
-                <h3 class="model-title">Sword Usage Demo</h3>
-                <div class="meta" style="margin-top:10px;">
-                  <span class="mini">Realtime</span>
-                  <span class="mini">Unreal Engine</span>
-                  <span class="mini">Cinematic</span>
-                </div>
-                <p class="model-desc">
-                  Real‑time demonstration showcasing the sword in action, including animation,
-                  lighting response, and cinematic usage inside Unreal Engine.
-                </p>
-                <details class="tech-details">
-                  <summary>Technical notes</summary>
-                  <ul>
-                    <li>Realtime demo focused on animation readability + cinematic motion.</li>
-                    <li>Lighting pass to showcase material response (metal/roughness).</li>
-                    <li>Camera moves + framing to sell scale and impact.</li>
-                    <li>Render/recording tuned for stable playback and clean details.</li>
-                  </ul>
-                </details>
-              </div>
-            </div>
-
-            <div class="model-card">
-              <model-viewer src="models/model-01.glb" camera-controls auto-rotate shadow-intensity="1" exposure="1.1" ar>
-              </model-viewer>
-              <div class="model-pad">
-                <h3 class="model-title">New model coming soon</h3>
-                <div class="meta" style="margin-top:10px;">
-                  <span class="mini">GLB</span>
-                  <span class="mini">PBR</span>
-                  <span class="mini">Game Ready</span>
-                </div>
-                <p class="model-desc">Short description of the model (props, environment, etc.).</p>
-                <div class="row" style="margin-top:12px;">
-                  <a class="btn" href="#">Details (add)</a>
-                  <a class="btn" href="#">Download (add)</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="model-card">
-              <model-viewer src="models/model-02.glb" camera-controls auto-rotate shadow-intensity="1" exposure="1.1" ar>
-              </model-viewer>
-              <div class="model-pad">
-                <h3 class="model-title">New model coming soon</h3>
-                <div class="meta" style="margin-top:10px;">
-                  <span class="mini">GLB</span>
-                  <span class="mini">Hard Surface</span>
-                  <span class="mini">UVs</span>
-                </div>
-                <p class="model-desc">Another description (e.g. sci‑fi weapon, vehicle, set dressing).</p>
-                <div class="row" style="margin-top:12px;">
-                  <a class="btn" href="#">Details (add)</a>
-                  <a class="btn" href="#">Download (add)</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section class="section" id="skills">
         <div class="panel pad">
           <div class="kicker">Capabilities</div>
@@ -1774,6 +1405,87 @@
             <div class="chip">Sequencer + Cameras</div>
             <div class="chip">Sound + VO sync</div>
             <div class="chip">UI Motion</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="marketing">
+        <div class="panel pad">
+          <div class="kicker">Marketing · Motion · UI/UX</div>
+          <h2>Interfaces & Campaign Visuals</h2>
+          <p>Motion graphics, marketing design, and UI/UX interface explorations.</p>
+
+          <div class="carousel-block">
+            <div class="carousel-wrap">
+              <button class="car-btn" type="button" id="carPrevMkt">‹</button>
+
+              <div class="carousel" id="videoCarouselMkt">
+
+                <!-- 1st: user requested to place the 3rd link first -->
+                <div class="slide">
+                  <iframe class="spot-video"
+                    src="https://www.youtube.com/embed/TSsdgmXNYKc?rel=0"
+                    title="Marketing / Motion / UI — Video 1"
+                    frameborder="0" allowfullscreen></iframe>
+                  <div class="slide-caption">
+                    <strong>Marketing / UI / Motion Graphics</strong>
+                    <span>AE · AI · Motion · Interfaces</span>
+                  </div>
+                  <details class="tech-details">
+                    <summary>Technical notes</summary>
+                    <ul>
+                      <li>UI/UX interface design in Figma (layout, spacing, hierarchy).</li>
+                      <li>Motion graphics + transitions in After Effects (clean timing & readability).</li>
+                      <li>Video editing + typography styling for marketing clarity.</li>
+                      <li>Export optimized for web delivery (lightweight + sharp).</li>
+                    </ul>
+                  </details>
+                </div>
+
+                <div class="slide">
+                  <iframe class="spot-video"
+                    src="https://www.youtube.com/embed/496xMlmHVrg?rel=0"
+                    title="Marketing / Motion / UI — Video 4"
+                    frameborder="0" allowfullscreen></iframe>
+                  <div class="slide-caption">
+                    <strong>Geopolitical Motion Graphic</strong>
+                    <span> AE · AI · Documentary‑Style · FIGMA</span>
+                  </div>
+                  <details class="tech-details">
+                    <summary>Technical notes</summary>
+                    <ul>
+                      <li>Geopolitical concept built around a rotating 3D world map.</li>
+                      <li>Area-by-area info placement (labels/data synced to each region).</li>
+                      <li>Motion timing + camera moves to keep the data readable.</li>
+                      <li>Clean UI overlays + typography hierarchy for clarity.</li>
+                    </ul>
+                  </details>
+                </div>
+
+                <div class="slide">
+                  <iframe class="spot-video"
+                    src="https://www.youtube.com/embed/uaMw_UBLJ6s?rel=0"
+                    title="Marketing / Motion / UI — Video 2"
+                    frameborder="0" allowfullscreen></iframe>
+                  <div class="slide-caption">
+                    <strong>UI/UX App Prototype</strong>
+                    <span>AE · AI · Adobe XD · Savings & Finance</span>
+                  </div>
+                  <details class="tech-details">
+                    <summary>Technical notes</summary>
+                    <ul>
+                      <li>UI/UX prototype designed in Adobe XD for a savings/finance app.</li>
+                      <li>Typography + color research to support trust and readability.</li>
+                      <li>Layout + components focused on clarity, hierarchy, and usability.</li>
+                      <li>Motion/editing used to present the flow and key screens.</li>
+                    </ul>
+                  </details>
+                </div>
+
+              </div>
+
+              <button class="car-btn" type="button" id="carNextMkt">›</button>
+            </div>
           </div>
         </div>
       </section>
@@ -1848,24 +1560,6 @@
     </div>
   </div>
 
-  <!-- DRAGGABLE UFO (ship) -->
-  <div class="ufo-wrap" id="ufoWrap" aria-label="UFO ship">
-    <div class="ufo-inner">
-      <div class="ufo-status" id="ufoStatus">Loading UFO…</div>
-      <model-viewer
-        id="ufoViewer"
-        src="models/ufo.glb"
-        camera-controls
-        disable-zoom
-        disable-pan
-        auto-rotate
-        rotation-per-second="14deg"
-        interaction-prompt="none"
-        exposure="1.25"
-        shadow-intensity="0">
-      </model-viewer>
-    </div>
-  </div>
 
 
   <!-- OVERLAY ENTER -->
@@ -1884,22 +1578,6 @@
   </div>
 
 
-  <!-- Desktop popup: Scan with phone to open the same model (then tap AR on mobile) -->
-  <div class="qr-modal" id="qrModal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="qr-backdrop" data-qr-close aria-hidden="true"></div>
-    <div class="qr-card" role="document" aria-label="Open on phone">
-      <div class="qr-head">
-        <div class="qr-title">Open on your phone (AR)</div>
-        <button class="qr-x" type="button" data-qr-close aria-label="Close">✕</button>
-      </div>
-      <p class="qr-sub">Scan this QR with your phone to open this exact model. Then tap the AR button.</p>
-      <img class="qr-img" id="qrImg" alt="QR code to open this model on mobile" />
-      <div class="qr-actions">
-        <a class="btn primary" id="qrOpenLink" href="#" target="_blank" rel="noopener">Open link</a>
-        <button class="btn" type="button" id="qrCopyLink">Copy link</button>
-      </div>
-    </div>
-  </div>
 
   <script>
     (function(){
@@ -1907,7 +1585,6 @@
       const overlay = document.getElementById('overlay');
       const menuBtn = document.getElementById('menuBtn');
       const primaryNav = document.getElementById('primaryNav');
-      const focusTargetIdFromQr = new URLSearchParams(window.location.search).get('focus');
 
       // Mobile-only: move Spotlight (#spotlight) to the top (without moving Profile)
       const aboutSection = document.getElementById('about');
@@ -1946,9 +1623,6 @@
         document.body.classList.toggle('menu-open', !!open);
         if (menuBtn) menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
       };
-      const carousel = document.getElementById('videoCarousel');
-      const prev = document.getElementById('carPrev');
-      const next = document.getElementById('carNext');
 
       function enter(opts = {}){
         setMenuOpen(false);
@@ -1994,17 +1668,6 @@
       }
 
 
-      if (carousel && prev && next) {
-        const step = () => Math.max(320, Math.floor(carousel.clientWidth * 0.9));
-
-        prev.addEventListener('click', () => {
-          carousel.scrollBy({ left: -step(), behavior: 'smooth' });
-        });
-
-        next.addEventListener('click', () => {
-          carousel.scrollBy({ left: step(), behavior: 'smooth' });
-        });
-      }
 
       // Carousel for Unreal Cinematics (top)
       const carouselTop = document.getElementById('videoCarouselTop');
@@ -2023,211 +1686,25 @@
         });
       }
 
-      // --- Desktop AR indicator + popup QR: scan to open the SAME model on mobile (then tap AR) ---
-      const buildFocusUrl = (targetId) => {
-        // IMPORTANT: If you're previewing locally (127.0.0.1 / localhost), the QR must still point to the live domain.
-        const host = window.location.hostname;
-        const isLocal = host === '127.0.0.1' || host === 'localhost';
 
-        // Change this if your live domain changes
-        const LIVE_BASE = 'https://davidbastida.com/';
+      // Carousel for Marketing / Motion / UI
+      const carouselMkt = document.getElementById('videoCarouselMkt');
+      const prevMkt = document.getElementById('carPrevMkt');
+      const nextMkt = document.getElementById('carNextMkt');
 
-        const baseUrl = isLocal
-          ? LIVE_BASE
-          : `${window.location.origin}${window.location.pathname}`;
+      if (carouselMkt && prevMkt && nextMkt) {
+        const stepMkt = () => Math.max(280, Math.floor(carouselMkt.clientWidth * 0.9));
 
-        const u = new URL(baseUrl);
-        u.searchParams.set('focus', targetId);
-        u.hash = 'models';
-        return u.toString();
-      };
-
-      const qrModal = document.getElementById('qrModal');
-      const qrImg = document.getElementById('qrImg');
-      const qrOpenLink = document.getElementById('qrOpenLink');
-      const qrCopyLink = document.getElementById('qrCopyLink');
-      let currentQrUrl = '';
-
-      const openQrModal = (url) => {
-        if (!qrModal || !qrImg || !qrOpenLink) return;
-        currentQrUrl = url;
-        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(currentQrUrl)}`;
-        qrOpenLink.href = currentQrUrl;
-        qrModal.classList.add('open');
-        qrModal.setAttribute('aria-hidden', 'false');
-      };
-
-      const closeQrModal = () => {
-        if (!qrModal) return;
-        qrModal.classList.remove('open');
-        qrModal.setAttribute('aria-hidden', 'true');
-      };
-
-      if (qrModal) {
-        qrModal.querySelectorAll('[data-qr-close]').forEach((el) => {
-          el.addEventListener('click', closeQrModal);
+        prevMkt.addEventListener('click', () => {
+          carouselMkt.scrollBy({ left: -stepMkt(), behavior: 'smooth' });
         });
 
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') closeQrModal();
+        nextMkt.addEventListener('click', () => {
+          carouselMkt.scrollBy({ left: stepMkt(), behavior: 'smooth' });
         });
       }
 
-      if (qrCopyLink) {
-        qrCopyLink.addEventListener('click', async () => {
-          if (!currentQrUrl) return;
-          try {
-            await navigator.clipboard.writeText(currentQrUrl);
-            const prev = qrCopyLink.textContent;
-            qrCopyLink.textContent = 'Copied!';
-            setTimeout(() => (qrCopyLink.textContent = prev), 1200);
-          } catch {
-            window.prompt('Copy this link:', currentQrUrl);
-          }
-        });
-      }
 
-      const addDesktopArIndicators = () => {
-        const cards = Array.from(document.querySelectorAll('.model-card'));
-        let autoId = 0;
-
-        cards.forEach((card) => {
-          const mv = card.querySelector('model-viewer[ar]');
-          if (!mv) return; // only if this card has AR enabled
-          if (card.querySelector('.ar-mini')) return; // don't duplicate
-
-          // Ensure the model has an id (used for deep-linking from the QR)
-          if (!mv.id) {
-            autoId += 1;
-            mv.id = `mv-auto-${autoId}`;
-          }
-
-          const badge = document.createElement('button');
-          badge.className = 'ar-mini';
-          badge.type = 'button';
-          badge.setAttribute('aria-label', 'Open on phone (AR)');
-          badge.setAttribute('title', 'Scan with phone to open this model');
-
-          // Simple cube icon (similar vibe to the native AR button)
-          badge.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2 3 6v12l9 4 9-4V6l-9-4Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M12 2v20" stroke="currentColor" stroke-width="2"/>
-              <path d="M3 6l9 4 9-4" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          `;
-
-          badge.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            // Only show popup on desktop
-            const isDesktop = !window.matchMedia('(max-width: 980px)').matches;
-            if (!isDesktop) return;
-
-            const url = buildFocusUrl(mv.id);
-            openQrModal(url);
-          });
-
-          card.appendChild(badge);
-        });
-      };
-
-      addDesktopArIndicators();
-
-      // Deep-link from QR: auto-enter the portfolio + scroll to the exact model (mobile shows native 3D/AR button)
-      if (focusTargetIdFromQr) {
-        // Bypass the ENTER overlay so the model is immediately visible on mobile
-        enter({ keepScroll: true });
-
-        setTimeout(() => {
-          const targetEl = document.getElementById(focusTargetIdFromQr);
-          if (!targetEl) return;
-          try {
-            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          } catch {}
-        }, 320);
-      }
-
-      // --- UFO ship: place in front of the sign + draggable ---
-      const ufoWrap = document.getElementById('ufoWrap');
-
-      const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-
-      const placeUfoOnOverlayCorner = () => {
-        if (!ufoWrap) return;
-        const overlayEl = document.getElementById('overlay');
-        if (!overlayEl || document.body.classList.contains('entered')) return;
-
-        const w = ufoWrap.offsetWidth || 180;
-        const h = ufoWrap.offsetHeight || 130;
-
-        // Bottom-right corner, away from the sign content
-        const left = clamp(window.innerWidth - w - 18, 10, window.innerWidth - w - 10);
-        const top  = clamp(window.innerHeight - h - 18, 10, window.innerHeight - h - 10);
-
-        ufoWrap.style.left = `${left}px`;
-        ufoWrap.style.top = `${top}px`;
-        ufoWrap.style.right = 'auto';
-        ufoWrap.style.bottom = 'auto';
-      };
-
-      // Place UFO away from the sign during the overlay
-      if (ufoWrap) {
-        placeUfoOnOverlayCorner();
-
-        window.addEventListener('resize', () => {
-          placeUfoOnOverlayCorner();
-        });
-      }
-
-      // Drag to move (works on overlay and main site)
-      if (ufoWrap) {
-        let dragging = false;
-        let startX = 0, startY = 0;
-        let startLeft = 0, startTop = 0;
-
-        const onDown = (e) => {
-          dragging = true;
-          ufoWrap.classList.add('dragging');
-          const pe = e.touches ? e.touches[0] : e;
-          startX = pe.clientX;
-          startY = pe.clientY;
-          startLeft = parseFloat(ufoWrap.style.left || '0');
-          startTop = parseFloat(ufoWrap.style.top || '0');
-          try { e.preventDefault(); } catch {}
-        };
-
-        const onMove = (e) => {
-          if (!dragging) return;
-          const pe = e.touches ? e.touches[0] : e;
-          const dx = pe.clientX - startX;
-          const dy = pe.clientY - startY;
-
-          const w = ufoWrap.offsetWidth;
-          const h = ufoWrap.offsetHeight;
-          const nextLeft = clamp(startLeft + dx, 10, window.innerWidth - w - 10);
-          const nextTop = clamp(startTop + dy, 10, window.innerHeight - h - 10);
-
-          ufoWrap.style.left = `${nextLeft}px`;
-          ufoWrap.style.top = `${nextTop}px`;
-          try { e.preventDefault(); } catch {}
-        };
-
-        const onUp = () => {
-          if (!dragging) return;
-          dragging = false;
-          ufoWrap.classList.remove('dragging');
-        };
-
-        ufoWrap.addEventListener('mousedown', onDown, { passive: false });
-        window.addEventListener('mousemove', onMove, { passive: false });
-        window.addEventListener('mouseup', onUp);
-
-        ufoWrap.addEventListener('touchstart', onDown, { passive: false });
-        window.addEventListener('touchmove', onMove, { passive: false });
-        window.addEventListener('touchend', onUp);
-      }
 
       // --- Spotlight tabs + actions ---
       const spotlight = document.getElementById('spotlight');
@@ -2365,8 +1842,6 @@
       const spotToWork = document.getElementById('spotToWork');
       if (spotToWork) spotToWork.addEventListener('click', () => go('work'));
 
-      const spotToModels = document.getElementById('spotToModels');
-      if (spotToModels) spotToModels.addEventListener('click', () => go('models'));
       const spotToSkills = document.getElementById('spotToSkills');
       if (spotToSkills) spotToSkills.addEventListener('click', () => go('skills'));
 
@@ -2374,39 +1849,24 @@
       if (spotToContact) spotToContact.addEventListener('click', () => go('contact'));
 
       const spotOpenFirst = document.getElementById('spotOpenFirst');
-      if (spotOpenFirst) spotOpenFirst.addEventListener('click', () => go('models'));
+      if (spotOpenFirst) spotOpenFirst.addEventListener('click', () => go('cinematics'));
 
       const spotCopyEmail = document.getElementById('spotCopyEmail');
       if (spotCopyEmail) {
         spotCopyEmail.addEventListener('click', async () => {
-          const email = 'ADD-YOUR-EMAIL@HERE.com';
+          // Keep this synced with the Contact section
+          const email = 'davidrramirez61@gmail.com';
           try {
             await navigator.clipboard.writeText(email);
+            const prev = spotCopyEmail.textContent;
             spotCopyEmail.textContent = 'Copied!';
-            setTimeout(() => (spotCopyEmail.textContent = 'Copy Email'), 1200);
+            setTimeout(() => (spotCopyEmail.textContent = prev), 1200);
           } catch {
-            alert('Please add your real email address in the script (spotCopyEmail) or in the Contact section.');
+            window.prompt('Copy this email:', email);
           }
         });
       }
 
-      // --- UFO model-viewer debug (so we know if ufo.glb loads) ---
-      const ufoViewer = document.getElementById('ufoViewer');
-      const ufoStatus = document.getElementById('ufoStatus');
-
-      if (ufoViewer && ufoStatus) {
-        ufoViewer.addEventListener('load', () => {
-          ufoStatus.style.display = 'none';
-        });
-
-        ufoViewer.addEventListener('error', (e) => {
-          ufoStatus.style.display = 'flex';
-          ufoStatus.textContent = 'ERROR: Failed to load models/ufo.glb';
-          console.error('UFO model-viewer error:', e);
-        });
-      }
-
-      // (3D model debug for heroTv removed)
     })();
   </script>
 </body>
