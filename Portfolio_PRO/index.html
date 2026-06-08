@@ -1,0 +1,3436 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — David Bastida</title>
+  <meta name="description" content="Cinematics | PBR Material | Unreal Engine | Lighting | VFX." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --neon:#6cf3ff;
+      --neon-pink:#ff4fd8;
+      --ink:#ffffff;
+      --panel: rgba(8,10,18,.66);
+      --panel-2: rgba(10,14,26,.52);
+      --stroke: rgba(108,243,255,.22);
+      --stroke-2: rgba(255,79,216,.16);
+      --shadow: 0 40px 120px rgba(0,0,0,.72);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    html{ scroll-padding-top:110px; }
+
+    body{
+      margin:0;
+      font-family:"Inter", system-ui, sans-serif;
+      color:var(--ink);
+      background-color: #05060a;
+      background-image: url("Portfoliobg.PNG");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow-x:hidden;
+    }
+
+    @media (max-width: 980px){
+      body{ background-attachment: scroll; }
+    }
+
+    /* cinematic overlays */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(1200px 600px at 70% 15%, rgba(108,243,255,.10), transparent 60%),
+        radial-gradient(900px 520px at 20% 80%, rgba(255,79,216,.08), transparent 62%),
+        linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.10) 35%, rgba(0,0,0,.55));
+      mix-blend-mode: normal;
+      z-index:0;
+    }
+
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.08;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.9),
+        rgba(255,255,255,.9) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      z-index:0;
+    }
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      width:min(1200px, 92vw);
+      margin:0 auto;
+      padding:110px 0 80px;
+    }
+
+    /* Top bar */
+    .topbar{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: calc(14px + env(safe-area-inset-top)) 0 14px;
+      backdrop-filter: blur(8px);
+      background: rgba(6,8,14,.52);
+      border-bottom: 1px solid rgba(108,243,255,.12);
+    }
+
+    .topbar-inner{
+      width:min(1200px, 92vw);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      position:relative;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+
+    .badge{
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      border-radius:12px;
+      background: linear-gradient(135deg, rgba(108,243,255,.18), rgba(255,79,216,.12));
+      border:1px solid rgba(108,243,255,.22);
+      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+    }
+
+    /* Profile image inside the topbar badge */
+    .badge img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position: 50% 20%;
+      border-radius:12px;
+      display:block;
+    }
+
+    /* Right column profile header */
+    .profile-head{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin:12px 0 14px;
+      padding:12px 12px;
+      border-radius:18px;
+      background: rgba(10,14,26,.35);
+      border: 1px solid rgba(108,243,255,.12);
+      box-shadow: 0 18px 70px rgba(0,0,0,.40);
+    }
+
+    .profile-avatar{
+      width:64px;
+      height:64px;
+      border-radius:999px;
+      padding:2px;
+      background: linear-gradient(135deg, rgba(108,243,255,.9), rgba(255,79,216,.7));
+      box-shadow: 0 18px 70px rgba(108,243,255,.14);
+      flex: 0 0 auto;
+    }
+
+    .profile-avatar img{
+      width:100%;
+      height:100%;
+      border-radius:999px;
+      object-fit:cover;
+      object-position: 50% 18%;
+      display:block;
+      border: 2px solid rgba(4,6,10,.65);
+      background: rgba(0,0,0,.2);
+    }
+
+    .profile-meta{
+      min-width:0;
+    }
+
+    .profile-meta .name{
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-weight:700;
+      margin:0;
+      line-height:1.15;
+    }
+
+    .profile-meta .tag{
+      margin-top:6px;
+      opacity:.82;
+      letter-spacing:.06em;
+      font-size:.92rem;
+    }
+
+    .brand small{
+      display:block;
+      font-family:"Inter", system-ui, sans-serif;
+      letter-spacing:.06em;
+      opacity:.75;
+      font-weight:500;
+      margin-top:6px;
+      text-transform:none;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+
+    .nav a{
+      color:rgba(255,255,255,.88);
+      text-decoration:none;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:.9rem;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid transparent;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .nav a:hover{
+      transform: translateY(-1px);
+      background: rgba(108,243,255,.06);
+      border-color: rgba(108,243,255,.16);
+    }
+
+
+    /* Mobile hamburger button (hidden on desktop) */
+    .menu-btn{
+      display:none;
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      border:1px solid rgba(108,243,255,.20);
+      background: rgba(8,10,18,.42);
+      box-shadow: 0 14px 50px rgba(0,0,0,.45);
+      cursor:pointer;
+      align-items:center;
+      justify-content:center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .menu-btn:hover{ border-color: rgba(255,79,216,.25); }
+
+    .menu-icon{
+      width:18px;
+      height:2px;
+      background: rgba(255,255,255,.92);
+      border-radius:999px;
+      position:relative;
+      display:block;
+    }
+
+    .menu-icon::before,
+    .menu-icon::after{
+      content:"";
+      position:absolute;
+      left:0;
+      width:18px;
+      height:2px;
+      background: rgba(255,255,255,.92);
+      border-radius:999px;
+    }
+
+    .menu-icon::before{ top:-6px; }
+    .menu-icon::after{ top:6px; }
+
+    /* Animate icon when open */
+    body.menu-open .menu-icon{ background: transparent; }
+    body.menu-open .menu-icon::before{ transform: translateY(6px) rotate(45deg); }
+    body.menu-open .menu-icon::after{ transform: translateY(-6px) rotate(-45deg); }
+    .menu-icon::before,
+    .menu-icon::after{ transition: transform .2s ease; }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .lang-toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px;
+      border-radius:999px;
+      border:1px solid rgba(108,243,255,.18);
+      background: rgba(8,10,18,.36);
+      box-shadow: 0 14px 50px rgba(0,0,0,.35);
+    }
+
+    .lang-btn{
+      border:0;
+      border-radius:999px;
+      padding:8px 10px;
+      color: rgba(255,255,255,.86);
+      background: transparent;
+      font-family:"Oswald", sans-serif;
+      font-weight:700;
+      letter-spacing:.12em;
+      cursor:pointer;
+    }
+
+    .lang-btn.active{
+      color:#04060a;
+      background: linear-gradient(90deg, var(--neon), var(--neon-pink));
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:999px;
+      border:1px solid rgba(108,243,255,.20);
+      background: rgba(8,10,18,.42);
+      color: rgba(255,255,255,.92);
+      text-decoration:none;
+      font-family:"Oswald", sans-serif;
+      font-weight:600;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      cursor:pointer;
+      box-shadow: 0 14px 50px rgba(0,0,0,.45);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      white-space:nowrap;
+    }
+
+    .btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,79,216,.25);
+      box-shadow: 0 18px 70px rgba(0,0,0,.55);
+    }
+
+    .btn.primary{
+      border:none;
+      color:#04060a;
+      background: linear-gradient(90deg, var(--neon), var(--neon-pink));
+      box-shadow: 0 16px 60px rgba(108,243,255,.28);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:22px;
+      align-items:start;
+    }
+
+    .panel{
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius:22px;
+      box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.04);
+      backdrop-filter: blur(8px);
+    }
+
+    .panel.pad{ padding:22px; }
+
+    .kicker{
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color: var(--neon);
+      opacity:.95;
+      font-size:.9rem;
+    }
+
+    h2{
+      margin:10px 0 10px;
+      font-family:"Oswald", sans-serif;
+      text-transform:uppercase;
+      letter-spacing:.10em;
+      font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+    }
+
+    p{ margin:0; line-height:1.6; color: rgba(255,255,255,.88); }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .chip{
+      padding:10px 12px;
+      border-radius:999px;
+      background: rgba(108,243,255,.06);
+      border:1px solid rgba(108,243,255,.16);
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      font-size:.8rem;
+      color: rgba(255,255,255,.9);
+    }
+
+    .cta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    /* Right panel: Spotlight UI */
+    .spotlight{
+      margin-top:6px;
+      padding:14px;
+      border-radius:18px;
+      background: rgba(10,14,26,.45);
+      border: 1px solid rgba(108,243,255,.14);
+      box-shadow: 0 20px 80px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+
+    .spot-tabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .tab-btn{
+      appearance:none;
+      border:1px solid rgba(108,243,255,.18);
+      background: rgba(8,10,18,.40);
+      color: rgba(255,255,255,.92);
+      border-radius:999px;
+      padding:10px 12px;
+      font-family:"Oswald", sans-serif;
+      font-weight:700;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .tab-btn:hover{ transform: translateY(-1px); border-color: rgba(255,79,216,.22); }
+
+    .tab-btn.active{
+      border:none;
+      color:#04060a;
+      background: linear-gradient(90deg, var(--neon), var(--neon-pink));
+      box-shadow: 0 14px 50px rgba(108,243,255,.22);
+    }
+
+    .spot-panels{ margin-top:12px; }
+    .spot-panel{ display:none; }
+    .spot-panel.active{ display:block; }
+
+    .spotline{
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      opacity:.95;
+      font-size:.95rem;
+    }
+
+    .tiny{
+      margin-top:8px;
+      opacity:.78;
+      font-size:.92rem;
+      letter-spacing:.04em;
+    }
+
+    .spot-video-wrap{
+      width:100%;
+      margin-top:12px;
+      border-radius:14px;
+      aspect-ratio: 16 / 9;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(108,243,255,.12);
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+
+    .spot-video{
+      width:100%;
+      height:100%;
+      display:block;
+      border:0;
+      background: transparent;
+    }
+
+    .spot-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    /* Left panel: 3D preview section (nice card) */
+    .model-preview{
+      margin-top:18px;
+      padding:16px;
+      border-radius:18px;
+      background: rgba(10,14,26,.45);
+      border: 1px solid rgba(108,243,255,.14);
+      box-shadow: 0 20px 80px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+
+    .model-preview h3{
+      margin:8px 0 6px;
+      font-family:"Oswald", sans-serif;
+      text-transform:uppercase;
+      letter-spacing:.10em;
+      font-size: 1.2rem;
+    }
+
+    .model-preview .hint{
+      margin:0;
+      opacity:.78;
+      font-size:.92rem;
+      line-height:1.5;
+    }
+
+    /* Tighter hero slot so it feels premium */
+    .model-preview .model-slot{
+      height: 320px;
+      margin-top:12px;
+      border-radius:16px;
+      border: 1px solid rgba(108,243,255,.12);
+      background: rgba(0,0,0,.14);
+    }
+
+    @media (max-width: 980px){
+      .model-preview .model-slot{ height: 300px; }
+    }
+
+    @media (max-width: 520px){
+      .model-preview .model-slot{ height: 260px; }
+    }
+
+    /* Video Carousel */
+    .carousel-block{ margin-top:18px; }
+    /* Featured videos when placed in the right column */
+    .aside-carousel .slide{ min-width: min(360px, 78vw); }
+    .aside-carousel .carousel-wrap{ grid-template-columns: 36px 1fr 36px; }
+    .aside-carousel .car-btn{ width:36px; height:36px; border-radius:12px; }
+
+    .carousel-wrap{
+      display:grid;
+      grid-template-columns: 44px 1fr 44px;
+      gap:10px;
+      align-items:center;
+      margin-top:12px;
+    }
+
+    .car-btn{
+      height:44px;
+      width:44px;
+      border-radius:14px;
+      border:1px solid rgba(108,243,255,.22);
+      background: rgba(8,10,18,.55);
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+      font-family:"Oswald", sans-serif;
+      font-weight:700;
+      font-size:1.2rem;
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
+      transition: transform .2s ease, border-color .2s ease;
+    }
+
+    .car-btn:hover{ transform: translateY(-2px); border-color: rgba(255,79,216,.25); }
+    .car-btn:active{ transform: translateY(0); }
+
+    .carousel{
+      display:flex;
+      gap:14px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      padding:6px 4px;
+    }
+
+    .carousel::-webkit-scrollbar{ height:8px; }
+    .carousel::-webkit-scrollbar-thumb{
+      background: rgba(108,243,255,.18);
+      border-radius:999px;
+    }
+
+    .slide{
+      scroll-snap-align:start;
+      min-width: min(680px, 88vw);
+      background: rgba(10,14,26,.55);
+      border: 1px solid rgba(108,243,255,.16);
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow: 0 28px 110px rgba(0,0,0,.58);
+    }
+
+    .slide video,
+    .slide iframe{
+      width:100%;
+      display:block;
+      aspect-ratio: 16 / 10;
+      background: rgba(0,0,0,.35);
+    }
+
+    /* Carousel iframes use aspect-ratio; override global .spot-video height:100% */
+    .slide iframe.spot-video{
+      height: auto;
+    }
+
+    .slide{
+      padding-bottom: 6px;
+    }
+
+    .slide-caption{
+      padding:12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .slide-caption strong{
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      font-size:.95rem;
+    }
+
+    .slide-caption span{
+      opacity:.78;
+      font-size:.85rem;
+      letter-spacing:.06em;
+    }
+
+    /* Tech notes (collapsible) under each YouTube card */
+    .tech-details{
+      padding: 10px 14px 14px;
+      border-top: 1px solid rgba(108,243,255,.12);
+      background: rgba(0,0,0,.10);
+    }
+
+    .tech-details summary{
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+      font-family: "Oswald", sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: .9rem;
+      opacity: .92;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Hide default marker, replace with + / − */
+    .tech-details summary::-webkit-details-marker{ display:none; }
+    .tech-details summary::before{
+      content: "+";
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      border: 1px solid rgba(108,243,255,.18);
+      background: rgba(8,10,18,.35);
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    }
+
+    .tech-details[open] summary{ color: var(--neon); }
+    .tech-details[open] summary::before{ content: "−"; }
+
+    .tech-details ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+
+    .tech-details li{
+      margin: 6px 0;
+      opacity: .86;
+      font-size: .92rem;
+      line-height: 1.5;
+      letter-spacing: .02em;
+    }
+
+    @media (max-width: 520px){
+      .tech-details{ padding: 10px 12px 12px; }
+      .tech-details li{ font-size: .9rem; }
+    }
+
+    @media (max-width: 520px){
+      /* Mobile: 1 slide per view, swipe enabled, and nav buttons BELOW */
+      .carousel-wrap{
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap:10px;
+      }
+
+      .carousel{
+        grid-column: 1 / -1;
+        grid-row: 1;
+        padding: 6px 10px;
+        justify-content:flex-start;
+      }
+
+      /* Place the arrows under the carousel so people notice there are more */
+      .carousel-wrap > .car-btn{
+        display:inline-flex;
+        grid-row: 2;
+        height:40px;
+        width:100%;
+        border-radius:14px;
+        justify-content:center;
+        align-items:center;
+        gap:8px;
+        font-size:1rem;
+      }
+
+      /* Mobile: Cinematics carousel (inside #cinematics) has NO prev/next buttons */
+      #cinematics .carousel-wrap > .car-btn{ display:none !important; }
+      #cinematics .carousel-wrap{ grid-template-columns: 1fr; grid-template-rows: auto; }
+      #cinematics .carousel{ grid-column: 1; grid-row: 1; }
+
+      .carousel-wrap > .car-btn:first-of-type{ grid-column: 1; }
+      .carousel-wrap > .car-btn:last-of-type{ grid-column: 2; }
+
+      .carousel-wrap > .car-btn:first-of-type::after{ content:"  Anterior"; font-size:.85rem; letter-spacing:.10em; opacity:.85; }
+      .carousel-wrap > .car-btn:last-of-type::after{ content:"  Siguiente"; font-size:.85rem; letter-spacing:.10em; opacity:.85; }
+
+      /* Make carousel slides big enough to be 1-per-view */
+      .slide{ min-width: 86vw; scroll-snap-align:center; }
+      .aside-carousel .slide{ min-width: 48vw; max-width: 48vw; scroll-snap-align:center; }
+
+      /* Mobile: widescreen videos like the realtime reel */
+      .slide video,
+      .slide iframe{ aspect-ratio: 16 / 9; }
+
+      .slide iframe.spot-video{ height: auto; }
+
+      /* Cinematics carousel: center smaller cards on mobile */
+      .carousel.aside-carousel{
+        padding-left: 26vw;
+        padding-right: 26vw;
+      }
+    }
+
+
+    .model-pad{ padding:14px; }
+
+    .model-title{
+      margin:0;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:1.05rem;
+    }
+
+    .model-desc{ margin-top:8px; }
+
+    @media (max-width: 980px){
+      .model-grid{ grid-template-columns: 1fr; }
+      .model-slot{ height: 360px; }
+    }
+
+    /* Work cards */
+    .cards{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+
+    .card{
+      background: var(--panel-2);
+      border: 1px solid rgba(108,243,255,.14);
+      border-radius:18px;
+      padding:16px 16px;
+      display:grid;
+      gap:10px;
+      box-shadow: 0 20px 80px rgba(0,0,0,.45);
+    }
+
+    .card h3{
+      margin:0;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:1.05rem;
+    }
+
+    .card .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      opacity:.9;
+    }
+
+    .mini{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,79,216,.18);
+      background: rgba(255,79,216,.06);
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:.75rem;
+    }
+
+    .card .row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:2px;
+    }
+
+    .card .row a{
+      text-decoration:none;
+    }
+
+    /* Section spacing */
+    .section{ margin-top:22px; }
+
+    /* Portfolio reveal */
+    .portfolio{
+      opacity:0;
+      transform: translateY(8px);
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    body.entered .portfolio{
+      opacity:1;
+      transform:none;
+    }
+
+    /* Overlay (ENTER screen) */
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:grid;
+      place-items:center;
+      z-index:50;
+      opacity:1;
+      transition: opacity .35s ease;
+    }
+
+    body.entered .overlay{
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .scrim{
+      position:fixed;
+      inset:0;
+      background:linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.20) 40%, rgba(0,0,0,.55));
+      pointer-events:none;
+      opacity:1;
+      transition: opacity .35s ease;
+    }
+
+    .hero-card{
+      position:relative;
+      z-index:51;
+      text-align:center;
+      padding:42px 48px;
+      border-radius:22px;
+      background:rgba(8,10,18,.65);
+      backdrop-filter:blur(6px);
+      border:1px solid rgba(108,243,255,.25);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.05) inset,
+        0 40px 120px rgba(0,0,0,.75);
+      width:min(720px, 92vw);
+      opacity:1;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+
+    .hero-title{
+      font-family:"Oswald", sans-serif;
+      font-size:clamp(2.2rem, 5vw, 3.2rem);
+      letter-spacing:.14em;
+      color:white;
+      text-transform:uppercase;
+      text-shadow:0 0 24px rgba(108,243,255,.35);
+      margin:0;
+    }
+
+    .hero-sub{
+      margin-top:8px;
+      font-family:"Oswald", sans-serif;
+      letter-spacing:.18em;
+      color:var(--neon);
+      text-transform:uppercase;
+    }
+
+    .hero-roles{
+      margin:18px 0 0;
+      font-size:.95rem;
+      letter-spacing:.12em;
+      opacity:.9;
+    }
+
+    .hero-btn{
+      display:inline-block;
+      margin-top:22px;
+      padding:12px 28px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--neon),var(--neon-pink));
+      color:#04060a;
+      font-family:"Oswald", sans-serif;
+      font-weight:700;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      text-decoration:none;
+      box-shadow:0 10px 40px rgba(108,243,255,.35);
+      transition:transform .2s ease, box-shadow .2s ease;
+      border:none;
+      cursor:pointer;
+      outline:none;
+    }
+
+    .hero-btn:hover{
+      transform:translateY(-2px) scale(1.03);
+      box-shadow:0 16px 60px rgba(255,79,216,.45);
+    }
+
+    .hero-btn:active{ transform:translateY(0) scale(.99); }
+
+    body.entered .hero-card{
+      opacity:0;
+      transform: translateY(8px) scale(.98);
+      pointer-events:none;
+    }
+
+    body.entered .scrim{ opacity:0; }
+
+
+    /* Responsive */
+    @media (max-width: 980px){
+      html{ scroll-padding-top:160px; }
+
+      .grid{ grid-template-columns: 1fr; }
+      .actions{ display:none; }
+      .lang-toggle{ margin-left:auto; }
+
+      /* Topbar stacks nicely on mobile/tablet */
+      .topbar-inner{
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:10px;
+      }
+
+      .brand{
+        width:100%;
+        justify-content:center;
+        text-align:center;
+      }
+
+      .nav{
+        width:100%;
+        justify-content:flex-start;
+        overflow-x:auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom:4px;
+      }
+
+      .nav a{ flex:0 0 auto; }
+
+      /* Extra top padding because the fixed header becomes taller */
+      .wrap{ padding-top:150px; }
+    }
+
+    @media (max-width: 520px){
+      html{ scroll-padding-top:175px; }
+
+      .wrap{ padding-top:170px; }
+
+      /* Mobile: Spotlight moved to top (keep it tight) */
+      .panel.pad > .spotlight{
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+
+      .panel.pad{ padding:16px; }
+
+      .badge{ width:34px; height:34px; border-radius:10px; }
+      .brand{ letter-spacing:.14em; }
+      .brand small{ margin-top:4px; font-size:.85rem; }
+
+      .nav a{ padding:8px 10px; font-size:.82rem; }
+
+      /* Overlay card + buttons fit nicely */
+      .hero-card{ padding:28px 18px; }
+      .hero-btn{ width:100%; }
+      #startGame.btn{ width:100%; justify-content:center; }
+
+      /* Slightly smaller media blocks */
+      .model-slot{ height:320px; }
+
+      /* Profile header */
+      .profile-head{ gap:10px; padding:10px 10px; }
+      .profile-avatar{ width:56px; height:56px; }
+      /* Mobile: hamburger menu */
+      .menu-btn{ display:inline-flex; }
+      .lang-toggle{ order:2; margin-left:0; }
+      .menu-btn{ order:3; }
+
+      /* Hide the inline nav by default on mobile */
+      .topbar .nav{
+        display:none;
+        position:absolute;
+        right:0;
+        top:100%;
+        margin-top:10px;
+        width:min(360px, 92vw);
+        padding:10px;
+        border-radius:18px;
+        background: rgba(6,8,14,.92);
+        border:1px solid rgba(108,243,255,.16);
+        box-shadow: 0 30px 110px rgba(0,0,0,.65);
+        flex-direction:column;
+        align-items:stretch;
+        gap:6px;
+        overflow:hidden;
+      }
+
+      .topbar .nav a{
+        width:100%;
+        justify-content:flex-start;
+        border-radius:14px;
+      }
+
+      body.menu-open .topbar .nav{ display:flex; }
+    }
+
+    /* Contact links neutral (no blue / no primary look) */
+    #contact a[href^="mailto"],
+    #contact a[href^="tel"]{
+      color: rgba(255,255,255,.92);
+      text-decoration: none;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      padding: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      letter-spacing: .04em;
+    }
+
+    #contact a[href^="mailto"]:hover,
+    #contact a[href^="tel"]:hover{
+      color: var(--neon);
+      text-decoration: underline;
+    }
+
+    /* Minimal editorial pass */
+    :root{
+      --neon:#111111;
+      --neon-pink:#111111;
+      --ink:#111111;
+      --muted:#6b6b6b;
+      --paper:#ffffff;
+      --line:#d9d9d9;
+      --panel: transparent;
+      --panel-2: transparent;
+      --stroke: rgba(0,0,0,.14);
+      --stroke-2: rgba(0,0,0,.10);
+      --shadow: none;
+    }
+
+    body{
+      color:var(--ink);
+      background:#ffffff;
+      background-image:none;
+      letter-spacing:0;
+    }
+
+    body::before,
+    body::after{ display:none; }
+
+    .wrap{
+      width:min(1120px, 88vw);
+      padding:120px 0 72px;
+    }
+
+    .topbar{
+      background: rgba(255,255,255,.86);
+      border-bottom:1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+
+    .topbar-inner{ width:min(1120px, 88vw); }
+
+    .brand{
+      color:#111;
+      letter-spacing:.08em;
+    }
+
+    .badge{
+      border-radius:0;
+      border:1px solid #111;
+      background:#fff;
+      box-shadow:none;
+    }
+
+    .badge img{ border-radius:0; filter:none; }
+
+    .brand small{
+      opacity:.58;
+      letter-spacing:.02em;
+      font-size:.78rem;
+    }
+
+    .nav{ gap:22px; }
+
+    .nav a{
+      color:#111;
+      padding:6px 0;
+      border-radius:0;
+      border:0;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:.78rem;
+      font-weight:600;
+      letter-spacing:.08em;
+    }
+
+    .nav a:hover{
+      transform:none;
+      background:transparent;
+      border-color:transparent;
+      text-decoration:underline;
+      text-underline-offset:5px;
+    }
+
+    .lang-toggle{
+      border:0;
+      border-left:1px solid var(--line);
+      border-radius:0;
+      background:transparent;
+      box-shadow:none;
+      padding-left:18px;
+    }
+
+    .lang-btn{
+      color:#777;
+      border-radius:0;
+      padding:4px 2px;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:.78rem;
+      letter-spacing:.08em;
+    }
+
+    .lang-btn.active{
+      color:#111;
+      background:transparent;
+      text-decoration:underline;
+      text-underline-offset:5px;
+    }
+
+    .btn,
+    .hero-btn,
+    .tab-btn,
+    .car-btn{
+      border-radius:0;
+      border:1px solid #111;
+      background:#fff;
+      color:#111;
+      box-shadow:none;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:.78rem;
+      font-weight:600;
+      letter-spacing:.08em;
+    }
+
+    .btn:hover,
+    .hero-btn:hover,
+    .tab-btn:hover,
+    .car-btn:hover{
+      transform:none;
+      border-color:#111;
+      box-shadow:none;
+      background:#111;
+      color:#fff;
+    }
+
+    .btn.primary,
+    .tab-btn.active{
+      border:1px solid #111;
+      background:#111;
+      color:#fff;
+      box-shadow:none;
+    }
+
+    .grid{
+      grid-template-columns:1fr;
+      gap:72px;
+      align-items:start;
+    }
+
+    .panel,
+    .panel.pad{
+      background:transparent;
+      border:0;
+      border-radius:0;
+      box-shadow:none;
+      backdrop-filter:none;
+    }
+
+    .panel.pad{ padding:0; }
+
+    .kicker{
+      color:#111;
+      opacity:1;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:.8rem;
+      font-weight:600;
+      letter-spacing:.24em;
+    }
+
+    #about > .panel.pad > .kicker{ display:none; }
+
+    #spotlight{ display:none; }
+
+    h2{
+      margin:0 0 18px;
+      color:#111;
+      font-family:"Oswald", sans-serif;
+      font-size:clamp(3.8rem, 9vw, 7rem);
+      line-height:.95;
+      letter-spacing:.01em;
+      text-transform:none;
+      max-width:820px;
+    }
+
+    #skills h2,
+    #marketing h2,
+    #contact h2,
+    aside h2{
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:1.05rem;
+      line-height:1.2;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin:12px 0 16px;
+    }
+
+    p{
+      color:#3d3d3d;
+      line-height:1.55;
+      font-size:1rem;
+    }
+
+    #about > .panel.pad > p{
+      max-width:560px !important;
+      color:#333;
+    }
+
+    #about > .panel.pad > p:first-of-type{
+      font-size:1.08rem;
+      margin-top:20px;
+    }
+
+    #about > .panel.pad > p:nth-of-type(2),
+    #about > .panel.pad > .chips{
+      display:none;
+    }
+
+    .chips{
+      gap:0;
+      margin-top:26px;
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+
+    .chip{
+      border:0;
+      border-right:1px solid var(--line);
+      border-radius:0;
+      background:transparent;
+      color:#111;
+      padding:14px 18px 14px 0;
+      margin-right:18px;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:.78rem;
+      letter-spacing:.10em;
+    }
+
+    .model-preview{
+      margin-top:78px;
+      padding:0;
+      border:0;
+      border-radius:0;
+      background:transparent;
+      box-shadow:none;
+    }
+
+    .model-preview h3{
+      margin:12px 0 2px;
+      color:#111;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:1.05rem;
+      letter-spacing:.16em;
+    }
+
+    .model-preview .hint{
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .carousel-wrap{
+      grid-template-columns: 28px 1fr 28px;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .carousel{ gap:0; padding:0; }
+
+    .slide{
+      background:transparent;
+      border:0;
+      border-radius:0;
+      box-shadow:none;
+      padding-bottom:0;
+      min-width:min(640px, 82vw);
+      border-right:1px solid #fff;
+    }
+
+    .aside-carousel .slide{
+      min-width:100%;
+      max-width:100%;
+      border-right:0;
+    }
+
+    .slide iframe,
+    .slide video{
+      aspect-ratio:16 / 9;
+      filter:grayscale(.12);
+    }
+
+    .slide-caption{
+      padding:12px 0 0;
+      border-bottom:1px solid var(--line);
+      padding-bottom:12px;
+    }
+
+    .slide-caption strong{
+      color:#111;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:.78rem;
+      letter-spacing:.10em;
+    }
+
+    .slide-caption span{
+      color:var(--muted);
+      font-size:.78rem;
+    }
+
+    .car-btn{
+      width:28px;
+      height:48px;
+      border:0;
+      border-radius:0;
+      background:transparent;
+      font-size:1.35rem;
+    }
+
+    .spotlight{
+      margin-top:0;
+      padding:0 0 28px;
+      border-radius:0;
+      background:transparent;
+      border:0;
+      border-bottom:1px solid var(--line);
+      box-shadow:none;
+    }
+
+    .spot-tabs{
+      gap:0;
+      border:1px solid var(--line);
+      border-left:0;
+      border-right:0;
+      padding:0;
+    }
+
+    .tab-btn{
+      border:0;
+      border-right:1px solid var(--line);
+      padding:12px 16px 12px 0;
+      margin-right:16px;
+      background:transparent;
+    }
+
+    .tab-btn.active{
+      background:transparent;
+      color:#111;
+      text-decoration:underline;
+      text-underline-offset:5px;
+    }
+
+    .spotline{
+      color:#111;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:.78rem;
+      letter-spacing:.14em;
+    }
+
+    .tiny{ color:var(--muted); }
+
+    .spot-video-wrap{
+      border:0;
+      border-radius:0;
+      box-shadow:none;
+      background:#f2f2f2;
+    }
+
+    .spot-actions{ gap:8px; }
+
+    .profile-head{
+      margin:26px 0 22px;
+      padding:0;
+      border:0;
+      border-radius:0;
+      background:transparent;
+      box-shadow:none;
+    }
+
+    .profile-avatar{
+      width:84px;
+      height:84px;
+      padding:0;
+      border-radius:0;
+      background:transparent;
+      box-shadow:none;
+    }
+
+    .profile-avatar img{
+      border:0;
+      border-radius:0;
+      filter:none;
+    }
+
+    .profile-meta .name{
+      color:#111;
+      font-family:"Inter", system-ui, sans-serif;
+      letter-spacing:.08em;
+    }
+
+    .profile-meta .tag{ color:var(--muted); }
+
+    .cards{
+      gap:0;
+      margin-top:10px;
+      border-top:1px solid var(--line);
+    }
+
+    .card{
+      display:block;
+      padding:16px 0;
+      border:0;
+      border-bottom:1px solid var(--line);
+      border-radius:0;
+      background:transparent;
+      box-shadow:none;
+    }
+
+    .card h3{
+      color:#111;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:.78rem;
+      letter-spacing:.14em;
+      margin-bottom:8px;
+    }
+
+    .mini{
+      border:0;
+      border-radius:0;
+      background:transparent;
+      color:#111;
+      padding:0;
+      margin-right:12px;
+      font-family:"Inter", system-ui, sans-serif;
+    }
+
+    .section{
+      margin-top:72px;
+      padding-top:30px;
+      border-top:1px solid var(--line);
+    }
+
+    #about > aside.panel.pad{
+      padding-top:34px;
+      border-top:1px solid var(--line);
+    }
+
+    #about > aside.panel.pad > .section{
+      margin-top:0;
+      padding-top:0;
+      border-top:0;
+      display:grid;
+      grid-template-columns:260px 1fr;
+      gap:56px;
+      align-items:start;
+    }
+
+    #about > aside .profile-head{
+      margin-top:18px;
+    }
+
+    #about > aside .cards{
+      margin-top:0;
+    }
+
+    #marketing .panel.pad{
+      display:grid;
+      grid-template-columns:280px 1fr;
+      gap:48px;
+      align-items:start;
+    }
+
+    #marketing .carousel-block{ margin-top:0; }
+
+    #contact .cards{
+      grid-template-columns: repeat(3, 1fr);
+      display:grid;
+      column-gap:42px;
+    }
+
+    #contact a[href^="mailto"],
+    #contact a[href^="tel"]{
+      color:#111;
+    }
+
+    #contact a[href^="mailto"]:hover,
+    #contact a[href^="tel"]:hover{
+      color:#111;
+    }
+
+    .overlay{
+      display:none;
+      background:#fff;
+    }
+
+    .portfolio{
+      opacity:1;
+      transform:none;
+    }
+
+    .scrim{ display:none; }
+
+    .hero-card{
+      width:min(860px, 88vw);
+      padding:0;
+      border:0;
+      border-radius:0;
+      background:transparent;
+      box-shadow:none;
+      backdrop-filter:none;
+      text-align:left;
+    }
+
+    .hero-title{
+      color:#111;
+      font-size:clamp(4rem, 11vw, 8rem);
+      line-height:.9;
+      letter-spacing:.01em;
+      text-shadow:none;
+      text-transform:none;
+    }
+
+    .hero-sub{
+      margin-top:24px;
+      color:#111;
+      font-family:"Inter", system-ui, sans-serif;
+      letter-spacing:.24em;
+    }
+
+    .hero-roles{
+      color:var(--muted);
+      letter-spacing:.04em;
+    }
+
+    @media (max-width: 980px){
+      .wrap{ width:min(92vw, 760px); padding-top:150px; }
+      .grid{ grid-template-columns:1fr; gap:38px; }
+      h2{ font-size:clamp(2.8rem, 12vw, 5rem); }
+      #marketing .panel.pad{ grid-template-columns:1fr; gap:22px; }
+      #contact .cards{ grid-template-columns:1fr; }
+      #about > aside.panel.pad > .section{ grid-template-columns:1fr; gap:20px; }
+      .actions{ display:none; }
+    }
+
+    @media (max-width: 520px){
+      .wrap{ padding-top:132px; }
+      .topbar-inner{ justify-content:space-between; }
+      .brand{ width:auto; justify-content:flex-start; text-align:left; }
+      .brand small{ display:none; }
+      .menu-btn{
+        border:0;
+        background:transparent;
+        box-shadow:none;
+      }
+      .menu-icon,
+      .menu-icon::before,
+      .menu-icon::after{ background:#111; }
+      .topbar .nav{
+        background:#fff;
+        border:1px solid var(--line);
+        border-radius:0;
+        box-shadow:none;
+      }
+      .topbar .nav a{ color:#111; }
+      .lang-toggle{ border-left:0; padding-left:0; }
+      .chip{ width:100%; border-right:0; margin-right:0; }
+      .carousel-wrap{ grid-template-columns:1fr 1fr; }
+      .slide{ min-width:86vw; }
+      .aside-carousel .slide{ min-width:86vw; max-width:none; }
+      .carousel.aside-carousel{ padding-left:0; padding-right:0; }
+      .hero-card{ text-align:left; }
+      .hero-btn{ width:auto; }
+    }
+
+    /* Proposal blend: video hero + white editorial sections + green actions */
+    :root{
+      --accent:#3ad29f;
+      --accent-soft:rgba(58,210,159,.18);
+      --topbar-space:88px;
+    }
+
+    .ambient-video{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:1;
+      filter:saturate(.82) contrast(1.05);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .ambient-wash{
+      display:none;
+    }
+
+    .topbar{
+      background:rgba(8,8,8,.32);
+      border-bottom:1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(20px);
+    }
+
+    .brand,
+    .nav a,
+    .lang-btn,
+    .lang-btn.active{
+      color:#fff;
+    }
+
+    .brand small{ color:rgba(255,255,255,.72); }
+    .lang-toggle{ border-left-color:rgba(255,255,255,.22); }
+    .badge{ border-color:rgba(255,255,255,.56); background:rgba(0,0,0,.16); }
+
+    #about > .panel.pad,
+    #about > aside.panel.pad,
+    #skills .panel.pad,
+    #marketing .panel.pad,
+    #contact .panel.pad{
+      background:rgba(255,255,255,.74);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border:1px solid rgba(255,255,255,.52);
+    }
+
+    #about > .panel.pad{
+      padding:34px;
+      margin-left:-34px;
+      max-width:980px;
+    }
+
+    #about > aside.panel.pad,
+    #skills .panel.pad,
+    #marketing .panel.pad,
+    #contact .panel.pad{
+      padding:30px;
+    }
+
+    .video-hero{
+      position:relative;
+      z-index:1;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:120px 24px 72px;
+      text-align:center;
+      color:#fff;
+      overflow:hidden;
+    }
+
+    .video-hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:-1;
+      background:
+        radial-gradient(900px 520px at 50% 50%, rgba(0,0,0,.18), rgba(0,0,0,.58)),
+        linear-gradient(to bottom, rgba(0,0,0,.28), rgba(0,0,0,.62));
+    }
+
+    .video-hero-inner{
+      width:min(1180px, 92vw);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+    }
+
+    .video-hero h1{
+      margin:0;
+      max-width:980px;
+      color:#fff;
+      font-family:"Oswald", "Inter", system-ui, sans-serif;
+      font-weight:700;
+      font-size:clamp(4.8rem, 10vw, 10rem);
+      line-height:.86;
+      letter-spacing:.035em;
+      text-transform:uppercase;
+      text-wrap:balance;
+      text-shadow:0 16px 60px rgba(0,0,0,.42);
+    }
+
+    .video-hero .accent-text{
+      color:#bff4df;
+    }
+
+    .video-hero p{
+      margin:0;
+      color:rgba(255,255,255,.9);
+      font-size:clamp(1.05rem, 1.8vw, 1.45rem);
+      font-weight:600;
+      letter-spacing:.16em;
+    }
+
+    .hero-kicker{
+      color:var(--accent) !important;
+      font-size:.9rem !important;
+      font-weight:800 !important;
+      letter-spacing:.34em !important;
+      text-transform:uppercase;
+    }
+
+    .hero-role{
+      max-width:820px;
+      color:#fff !important;
+      font-size:clamp(1.4rem, 3.1vw, 3.1rem) !important;
+      font-weight:800 !important;
+      letter-spacing:.04em !important;
+      text-transform:none;
+      text-shadow:0 16px 60px rgba(0,0,0,.35);
+    }
+
+    .hero-tags{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:8px;
+    }
+
+    .hero-tags span{
+      padding:8px 12px;
+      border:1px solid rgba(255,255,255,.24);
+      background:rgba(255,255,255,.08);
+      color:rgba(255,255,255,.9);
+      border-radius:999px;
+      font-size:.78rem;
+      font-weight:700;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      backdrop-filter:blur(10px);
+    }
+
+    .hero-actions{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:26px;
+    }
+
+    .hero-action{
+      min-width:190px;
+      padding:16px 24px;
+      border:0;
+      border-radius:999px;
+      background:var(--accent);
+      color:#07110d;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:1rem;
+      font-weight:800;
+      text-decoration:none;
+      box-shadow:0 18px 60px rgba(0,0,0,.18);
+      transition:transform .18s ease, background .18s ease, color .18s ease;
+    }
+
+    .hero-action.secondary{
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.28);
+      backdrop-filter:blur(12px);
+    }
+
+    .hero-action:hover{
+      transform:translateY(-2px);
+      background:#fff;
+      color:#111;
+      text-decoration:none;
+    }
+
+    .hero-scroll{
+      position:absolute;
+      left:50%;
+      bottom:34px;
+      transform:translateX(-50%);
+      color:rgba(255,255,255,.72);
+      font-size:.72rem;
+      font-weight:800;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+    }
+
+    .hero-scroll::after{
+      content:"";
+      display:block;
+      width:1px;
+      height:32px;
+      margin:10px auto 0;
+      background:linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .hero-scroll{
+      cursor:pointer;
+    }
+
+    .page-transition{
+      position:fixed;
+      inset:0;
+      z-index:80;
+      pointer-events:none;
+      opacity:0;
+      background:
+        radial-gradient(700px 420px at 50% 46%, rgba(58,210,159,.18), transparent 62%),
+        rgba(5,5,5,.88);
+      backdrop-filter:blur(18px);
+      transition:opacity .38s ease;
+    }
+
+    body.is-transitioning .page-transition{
+      opacity:1;
+    }
+
+    body.is-transitioning .video-hero-inner{
+      opacity:0;
+      transform:translateY(-18px) scale(.985);
+      transition:opacity .26s ease, transform .26s ease;
+    }
+
+    .transition-focus{
+      animation: sectionReveal .55s ease both;
+    }
+
+    @keyframes sectionReveal{
+      from{
+        opacity:.25;
+        transform:translateY(22px);
+      }
+      to{
+        opacity:1;
+        transform:none;
+      }
+    }
+
+    .sound-toggle{
+      position:fixed;
+      right:28px;
+      bottom:24px;
+      z-index:20;
+      border:0;
+      border-radius:10px;
+      padding:13px 18px;
+      background:rgba(0,0,0,.72);
+      color:#fff;
+      font-family:"Inter", system-ui, sans-serif;
+      font-size:.96rem;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 18px 60px rgba(0,0,0,.28);
+      backdrop-filter:blur(12px);
+    }
+
+    .wrap{
+      padding-top:72px;
+      padding-bottom:96px;
+    }
+
+    .video-hero + .wrap #about > .panel.pad > h2,
+    .video-hero + .wrap #about > .panel.pad > p,
+    .video-hero + .wrap #about > .panel.pad > .chips{
+      display:none;
+    }
+
+    .btn.primary,
+    .hero-btn,
+    #contact .btn{
+      border-color:var(--accent);
+      background:var(--accent);
+      color:#07110d;
+    }
+
+    .btn.primary:hover,
+    .hero-btn:hover,
+    #contact .btn:hover{
+      background:#111;
+      border-color:#111;
+      color:#fff;
+    }
+
+    .lang-btn.active,
+    .nav a:hover{
+      text-decoration-color:var(--accent);
+    }
+
+    #about > .panel.pad > p:first-of-type strong,
+    .kicker,
+    .model-preview h3,
+    .card h3{
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 6px;
+    }
+
+    .chip,
+    .cards,
+    .card,
+    .section,
+    #about > aside.panel.pad,
+    .slide-caption,
+    .spotlight{
+      border-color:rgba(0,0,0,.16);
+    }
+
+    .carousel::-webkit-scrollbar-thumb{
+      background:var(--accent);
+    }
+
+    .slide iframe,
+    .slide video{
+      background:#111;
+    }
+
+    @media (max-width: 720px){
+      .ambient-video{ opacity:1; }
+      .video-hero h1{ font-size:clamp(2.6rem, 11vw, 4.4rem); }
+      .hero-action{ width:100%; min-width:0; }
+      .sound-toggle{ right:16px; bottom:16px; }
+      #about > .panel.pad{
+        margin-left:0;
+        padding:24px;
+      }
+    }
+
+    /* Vertical presentation experience */
+    html{
+      scroll-snap-type:y mandatory;
+      scroll-behavior:smooth;
+      overflow-x:hidden;
+    }
+
+    body{
+      overflow-x:hidden;
+      background:#050505;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:none;
+      padding:0;
+      margin:0;
+      position:relative;
+      z-index:1;
+    }
+
+    .portfolio{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .presentation-slide{
+      min-height:100vh;
+      min-height:100svh;
+      width:100%;
+      scroll-snap-align:start;
+      scroll-snap-stop:always;
+      position:relative;
+      z-index:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:112px clamp(22px, 6vw, 86px) 72px;
+      opacity:0;
+      transform:translateY(40px) scale(.98);
+      filter:blur(10px);
+      transition:
+        opacity .85s cubic-bezier(.2,.8,.2,1),
+        transform .85s cubic-bezier(.2,.8,.2,1),
+        filter .85s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .presentation-slide.is-active{
+      opacity:1;
+      transform:translateY(0) scale(1);
+      filter:blur(0);
+    }
+
+    .video-hero{
+      padding-top:120px;
+      order:1;
+    }
+
+    #video-showcase{ order:2; }
+    #cinematics{ order:3; }
+    #marketing{ order:4; }
+    #skills{ order:5; }
+    #profile{ order:6; }
+    #contact{ order:7; }
+
+    .video-showcase{
+      min-height:100vh;
+      min-height:100svh;
+      padding:0;
+      overflow:hidden;
+      background:transparent;
+      align-items:stretch;
+      justify-content:center;
+    }
+
+    .video-showcase::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.18), transparent 18%, rgba(0,0,0,.18));
+    }
+
+    #cinematics,
+    #marketing,
+    #skills,
+    #profile,
+    #contact{
+      background:
+        radial-gradient(900px 520px at 70% 20%, rgba(58,210,159,.12), transparent 58%),
+        linear-gradient(120deg, rgba(4,4,4,.94), rgba(13,13,13,.86));
+      color:#fff;
+    }
+
+    #cinematics::before,
+    #marketing::before,
+    #skills::before,
+    #profile::before,
+    #contact::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:-1;
+      background:
+        linear-gradient(to bottom, rgba(255,255,255,.05), transparent 22%, rgba(255,255,255,.035)),
+        linear-gradient(90deg, rgba(255,255,255,.04), transparent 26%, rgba(255,255,255,.03));
+      pointer-events:none;
+    }
+
+    #cinematics > .panel.pad,
+    #marketing > .panel.pad,
+    #skills > .panel.pad,
+    #profile > .panel.pad,
+    #contact > .panel.pad,
+    #profile aside.panel.pad{
+      width:min(1180px, 100%);
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      box-shadow:0 34px 120px rgba(0,0,0,.34);
+    }
+
+    #cinematics > .panel.pad,
+    #marketing > .panel.pad,
+    #skills > .panel.pad,
+    #contact > .panel.pad{
+      padding:clamp(24px, 4vw, 54px);
+      margin:0;
+      max-width:none;
+    }
+
+    #cinematics > .panel.pad > .kicker,
+    #cinematics > .panel.pad > h2,
+    #cinematics > .panel.pad > p,
+    #cinematics > .panel.pad > .chips{
+      display:none;
+    }
+
+    .model-preview{
+      width:100%;
+      margin:0;
+    }
+
+    .model-preview .kicker,
+    #marketing .kicker,
+    #skills .kicker,
+    #profile .kicker,
+    #contact .kicker{
+      color:var(--accent);
+      text-decoration:none;
+    }
+
+    .model-preview h3,
+    #marketing h2,
+    #skills h2,
+    #profile h2,
+    #contact h2{
+      color:#fff;
+      text-decoration:none;
+      font-size:clamp(2.2rem, 5vw, 5.2rem);
+      line-height:.95;
+      letter-spacing:.03em;
+      max-width:920px;
+    }
+
+    .model-preview .hint,
+    #marketing p,
+    #contact p,
+    .profile-meta .tag,
+    .card p{
+      color:rgba(255,255,255,.72);
+    }
+
+    .carousel-block{
+      margin-top:clamp(24px, 4vw, 44px);
+    }
+
+    .carousel-wrap{
+      grid-template-columns:48px minmax(0,1fr) 48px;
+      align-items:center;
+    }
+
+    .aside-carousel .slide,
+    .slide{
+      min-width:100%;
+      max-width:100%;
+      border-right:0;
+    }
+
+    .slide iframe,
+    .slide video{
+      aspect-ratio:16 / 8.7;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 26px 90px rgba(0,0,0,.44);
+    }
+
+    .slide-caption{
+      border-bottom:1px solid rgba(255,255,255,.16);
+      color:#fff;
+    }
+
+    .slide-caption strong{
+      color:#fff;
+    }
+
+    .slide-caption span{
+      color:rgba(255,255,255,.58);
+    }
+
+    .car-btn{
+      color:#fff;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:999px;
+      width:44px;
+      height:44px;
+    }
+
+    .car-btn:hover{
+      background:var(--accent);
+      color:#07110d;
+    }
+
+    #marketing .panel.pad{
+      display:block;
+    }
+
+    #skills .chips{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:14px;
+      border:0;
+      margin-top:34px;
+    }
+
+    #skills .chip{
+      min-height:118px;
+      display:flex;
+      align-items:flex-end;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:18px;
+      padding:20px;
+      margin:0;
+      background:rgba(255,255,255,.055);
+      color:#fff;
+    }
+
+    #profile aside.panel.pad{
+      padding:clamp(26px, 5vw, 64px);
+    }
+
+    #profile .section{
+      display:grid;
+      grid-template-columns:minmax(260px,.75fr) 1.25fr;
+      gap:clamp(26px, 6vw, 80px);
+      align-items:center;
+      margin:0;
+      padding:0;
+      border:0;
+    }
+
+    #profile .profile-avatar{
+      width:clamp(120px, 16vw, 220px);
+      height:clamp(120px, 16vw, 220px);
+    }
+
+    #profile .profile-meta .name{
+      color:#fff;
+      font-size:clamp(1.2rem, 2.2vw, 2rem);
+    }
+
+    #profile .cards{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:0 28px;
+      border-top:1px solid rgba(255,255,255,.14);
+    }
+
+    #profile .card,
+    #contact .card{
+      border-bottom:1px solid rgba(255,255,255,.14);
+    }
+
+    .card h3{
+      color:var(--accent);
+      text-decoration:none;
+    }
+
+    .mini{
+      color:#fff;
+    }
+
+    #contact .cards{
+      grid-template-columns:1fr;
+      gap:18px;
+      border:0;
+      margin-top:34px;
+    }
+
+    #contact .card{
+      padding:20px 0;
+    }
+
+    #contact .row{
+      gap:12px;
+    }
+
+    #contact .btn{
+      border-radius:999px;
+    }
+
+    #contact a[href^="mailto"],
+    #contact a[href^="tel"]{
+      color:#fff;
+    }
+
+    .slide-dots{
+      position:fixed;
+      right:24px;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:30;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .slide-dot{
+      width:8px;
+      height:8px;
+      border:1px solid rgba(255,255,255,.62);
+      border-radius:999px;
+      background:rgba(255,255,255,.18);
+      padding:0;
+      cursor:pointer;
+      transition:transform .24s ease, background .24s ease, border-color .24s ease;
+    }
+
+    .slide-dot.is-active{
+      transform:scale(1.8);
+      background:var(--accent);
+      border-color:var(--accent);
+    }
+
+    @media (max-width: 860px){
+      .presentation-slide{
+        padding:104px 18px 48px;
+      }
+
+      .slide-dots{
+        right:12px;
+        gap:9px;
+      }
+
+      .slide-dot{
+        width:6px;
+        height:6px;
+      }
+
+      #skills .chips,
+      #profile .cards,
+      #profile .section{
+        grid-template-columns:1fr;
+      }
+
+      .slide iframe,
+      .slide video{
+        aspect-ratio:16 / 10;
+      }
+
+      .carousel-wrap{
+        grid-template-columns:34px minmax(0,1fr) 34px;
+      }
+    }
+
+    @media (max-width: 560px){
+      .slide-dots{
+        display:none;
+      }
+
+      .presentation-slide{
+        min-height:100svh;
+        padding:92px 14px 38px;
+        overflow:hidden;
+      }
+
+      .video-showcase{
+        padding:0;
+      }
+
+      .video-hero{
+        padding-left:18px;
+        padding-right:18px;
+      }
+
+      .video-hero-inner{
+        width:100%;
+        max-width:320px;
+        gap:14px;
+      }
+
+      .video-hero h1{
+        max-width:100%;
+        font-size:clamp(3.05rem, 15vw, 4rem);
+        line-height:.9;
+        letter-spacing:.015em;
+        overflow-wrap:normal;
+      }
+
+      .video-hero p.hero-role{
+        max-width:300px;
+        font-size:clamp(1.08rem, 5vw, 1.42rem) !important;
+        line-height:1.16;
+      }
+
+      .hero-kicker{
+        font-size:.76rem !important;
+        letter-spacing:.28em !important;
+      }
+
+      .hero-tags{
+        width:100%;
+        gap:8px;
+      }
+
+      .hero-tags span{
+        max-width:100%;
+        padding:8px 10px;
+        font-size:.68rem;
+        letter-spacing:.08em;
+      }
+
+      .hero-actions{
+        width:100%;
+        margin-top:18px;
+        flex-direction:column;
+        align-items:center;
+      }
+
+      .hero-action{
+        width:100%;
+        min-width:0;
+        max-width:290px;
+        padding:15px 18px;
+      }
+
+      .model-preview h3,
+      #marketing h2,
+      #skills h2,
+      #profile h2,
+      #contact h2{
+        font-size:clamp(1.8rem, 11vw, 3.4rem);
+      }
+
+      #skills .chip{
+        min-height:82px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      html{
+        scroll-behavior:auto;
+        scroll-snap-type:none;
+      }
+
+      .presentation-slide,
+      .presentation-slide.is-active,
+      .slide-dot{
+        transition:none;
+        opacity:1;
+        transform:none;
+        filter:none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <video class="ambient-video" autoplay loop muted playsinline aria-hidden="true">
+    <source src="DAVEVISION.mp4" type="video/mp4">
+  </video>
+  <div class="ambient-wash" aria-hidden="true"></div>
+  <div class="page-transition" aria-hidden="true"></div>
+  <button class="sound-toggle" type="button" id="ambientSound">🔊 Activar sonido</button>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="badge">
+          <img src="../imgs/perfil.jpg" alt="David Bastida" onerror="this.remove(); this.parentElement.textContent='DB';" />
+        </div>
+        <div>
+          <div>David Bastida</div>
+          <small data-i18n="brandTag">Unreal · Real-Time · Immersive</small>
+        </div>
+      </div>
+
+      <div class="lang-toggle" aria-label="Language">
+        <button class="lang-btn active" type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button class="lang-btn" type="button" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+
+      <button class="menu-btn" type="button" id="menuBtn" aria-label="Menu" aria-controls="primaryNav" aria-expanded="false">
+        <span class="menu-icon" aria-hidden="true"></span>
+      </button>
+      <nav class="nav" id="primaryNav" aria-label="Portfolio Navigation">
+        <a href="#profile" data-i18n="navAbout">About</a>
+        <a href="#cinematics" data-i18n="navCinematics">Cinematics</a>
+        <a href="#marketing" data-i18n="navMarketing">Marketing · Motion · UI/UX</a>
+        <a href="#skills" data-i18n="navSkills">Skills</a>
+        <a href="#contact" data-i18n="navContact">Contact</a>
+      </nav>
+
+      <div class="actions">
+        <a class="btn primary" href="#contact" data-i18n="emailBtn">Email</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="slide-dots" aria-label="Slide navigation">
+    <button class="slide-dot is-active" type="button" data-target="home" aria-label="Hero"></button>
+    <button class="slide-dot" type="button" data-target="video-showcase" aria-label="Video"></button>
+    <button class="slide-dot" type="button" data-target="cinematics" aria-label="Cinematics"></button>
+    <button class="slide-dot" type="button" data-target="marketing" aria-label="Marketing"></button>
+    <button class="slide-dot" type="button" data-target="skills" aria-label="Skills"></button>
+    <button class="slide-dot" type="button" data-target="profile" aria-label="Profile"></button>
+    <button class="slide-dot" type="button" data-target="contact" aria-label="Contact"></button>
+  </nav>
+
+  <section class="video-hero presentation-slide is-active" id="home" aria-label="David Bastida Portfolio" data-slide-label="Hero">
+    <div class="video-hero-inner">
+      <p class="hero-kicker">Portfolio 2026</p>
+      <h1>David Bastida</h1>
+      <p class="hero-role"><span class="accent-text">Multimedia</span> Designer &amp; 3D Artist</p>
+      <div class="hero-tags" aria-label="Creative focus">
+        <span>Unreal Cinematics</span>
+        <span>Lighting</span>
+        <span>Motion Design</span>
+      </div>
+      <div class="hero-actions">
+        <a class="hero-action" href="#cinematics">View Projects</a>
+        <a class="hero-action secondary" href="#profile">About Me</a>
+      </div>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <section class="video-showcase presentation-slide" id="video-showcase" aria-label="Cinematic video showcase" data-slide-label="Video">
+  </section>
+
+  <!-- PORTFOLIO CONTENT (se revela cuando desaparece el overlay) -->
+  <div class="wrap">
+    <div class="portfolio">
+      <section class="grid presentation-slide" id="cinematics" data-slide-label="Cinematics">
+        <div class="panel pad">
+          <div class="kicker" data-i18n="aboutKicker">Cinematic Portfolio</div>
+          <h2 data-i18n="aboutTitle">David Bastida</h2>
+          <p style="max-width: 720px;">
+            <strong data-i18n="aboutLeadStrong">Unreal Cinematic Artist.</strong>
+            <span data-i18n="aboutLead">Cinematics, lighting, VFX, and interactive prototypes.</span>
+          </p>
+
+          <p style="margin-top:10px; max-width: 720px;" data-i18n-html="aboutP1">
+            <strong>5+ years in design and marketing</strong>, now focused on cinematic worlds, lighting, VFX, and real-time visual storytelling.
+          </p>
+
+          <div class="chips" aria-label="Highlights">
+            <div class="chip">UE5</div>
+            <div class="chip">Lighting</div>
+            <div class="chip">Interactive</div>
+          </div>
+
+
+          <div class="model-preview">
+            <div class="kicker" data-i18n="featuredKicker">Featured Cinematic</div>
+            <h3 data-i18n="featuredTitle">Unreal Cinematics</h3>
+            <p class="hint" data-i18n="featuredHint">Real-time cinematic projects · UE5</p>
+
+            <!-- Cinematics carousel INSIDE Featured -->
+            <div class="carousel-block" style="margin-top:10px;">
+              <div class="carousel-wrap">
+                <button class="car-btn" type="button" id="carPrevTop">‹</button>
+
+                <div class="carousel aside-carousel" id="videoCarouselTop">
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/XiZJGeGGw0U?rel=0"
+                      title="Urban Sphere Concept"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Urban Sphere</strong>
+                      <span>City‑Scale UE5</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/kf7VlwMG_es?rel=0"
+                      title="Nebula Remastered"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Nebula Remastered</strong>
+                      <span>Real‑Time UE5</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/vUENtyi--oc?rel=0"
+                      title="Sphere Study"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Sphere Study</strong>
+                      <span>Lighting Study</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/WJrMHcr9IcM?rel=0"
+                      title="Stratosphere | Unreal Engine 5 Cinematic"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Stratosphere</strong>
+                      <span>UE5 Cinematic</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/rY88MFnzNOw?rel=0"
+                      title="Proyecto Nebula | Unreal Engine 5 Cinematic"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Proyecto Nebula</strong>
+                      <span>UE5 Cinematic</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/IR8AVaGo17A?rel=0"
+                      title="Unreal Engine 3D Cinematic"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>3D Cinematic</strong>
+                      <span>Unreal Engine</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/e0UuZlQwPLY?rel=0"
+                      title="Eventus | Unreal Engine 5"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Eventus</strong>
+                      <span>UE5 Cinematic</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/3Zq-hA4e-Hc?rel=0"
+                      title="3D Stylized Lantern with Fire Simulation"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Stylized Lantern</strong>
+                      <span>Fire Simulation · Breakdown</span>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <iframe class="spot-video"
+                      src="https://www.youtube.com/embed/AqndOPh2c_8?rel=0"
+                      title="David Bastida | Unreal Cinematic Artist Reel"
+                      frameborder="0" allowfullscreen></iframe>
+                    <div class="slide-caption">
+                      <strong>Portfolio Reel</strong>
+                      <span>Unreal Cinematic Artist</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <button class="car-btn" type="button" id="carNextTop">›</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="presentation-slide profile-slide" id="profile" data-slide-label="Profile">
+        <aside class="panel pad">
+          <!-- Spotlight (interactivo y con poco texto) -->
+          <div class="spotlight" id="spotlight">
+            <div class="spot-tabs" role="tablist" aria-label="Spotlight Tabs">
+              <button class="tab-btn active" type="button" data-tab="reel" aria-selected="true">Reel</button>
+              <button class="tab-btn" type="button" data-tab="projects" aria-selected="false" data-i18n="tabWork">Work</button>
+              <button class="tab-btn" type="button" data-tab="contact" aria-selected="false" data-i18n="tabLinks">Links</button>
+            </div>
+
+            <div class="spot-panels">
+              <div class="spot-panel active" data-panel="reel">
+                <div class="spotline" data-i18n="spotReelLine">Realtime • Cinematic • UE5</div>
+
+                <div class="spot-video-wrap" aria-label="YouTube Reel">
+                  <iframe
+                    id="reelPlayer"
+                    class="spot-video"
+                    src="https://www.youtube.com/embed/AqndOPh2c_8?enablejsapi=1&autoplay=1&mute=1&playsinline=1&loop=1&playlist=AqndOPh2c_8&controls=0&modestbranding=1&rel=0&vq=hd1080"
+                    title="Reel"
+                    frameborder="0"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowfullscreen
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+
+                <div class="spot-actions">
+                  <button class="btn" type="button" id="reelBack" data-i18n="reelBack">10s Back</button>
+                  <button class="btn" type="button" id="reelRestart" data-i18n="reelRestart">Restart</button>
+                  <button class="btn" type="button" id="reelSound">Sound: Off</button>
+                  <a class="btn primary" href="https://www.youtube.com/watch?v=AqndOPh2c_8" target="_blank" rel="noopener" data-i18n="openYoutube">Open on YouTube</a>
+                </div>
+              </div>
+
+              <div class="spot-panel" data-panel="projects">
+                <div class="spotline" data-i18n="quickAccess">Quick access</div>
+                <p class="tiny" data-i18n="jumpSections">Jump to sections.</p>
+                <div class="spot-actions">
+                  <button class="btn primary" type="button" id="spotOpenFirst" data-i18n="navCinematics">Cinematics</button>
+                  <button class="btn" type="button" id="spotToSkills" data-i18n="navSkills">Skills</button>
+                  <button class="btn" type="button" id="spotToContact" data-i18n="navContact">Contact</button>
+                </div>
+              </div>
+
+              <div class="spot-panel" data-panel="contact">
+                <div class="spotline" data-i18n="navContact">Contact</div>
+                <p class="tiny" data-i18n="emailSocials">Email & socials.</p>
+                <div class="spot-actions">
+                  <button class="btn primary" type="button" id="spotToContactEmail" data-i18n="emailBtn">Email</button>
+                  <button class="btn" type="button" id="spotCopyEmail" data-i18n="copyBtn">Copy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" style="margin-top:18px;">
+            <div class="kicker" data-i18n="quickInfo">Quick Info</div>
+            <h2 style="margin-bottom:12px" data-i18n="profileTitle">Profile</h2>
+
+            <div class="profile-head" aria-label="Profile photo and headline">
+              <div class="profile-avatar">
+                <img src="../imgs/perfil.jpg" alt="David Bastida" />
+              </div>
+              <div class="profile-meta">
+                <p class="name">David Bastida</p>
+                <p class="tag" data-i18n="profileTag">Unreal · Cinematics · Interactive</p>
+              </div>
+            </div>
+
+            <div class="cards">
+              <div class="card">
+                <h3 data-i18n="navContact">Contact</h3>
+                <p>
+                  📧 davidrramirez61@gmail.com<br>
+                  📞 +1 702 516 1194
+                </p>
+              </div>
+              <div class="card">
+                <h3 data-i18n="locationTitle">Location</h3>
+                <p data-i18n="locationText">Las Vegas, NV (On-site & Remote)</p>
+              </div>
+              <div class="card">
+                <h3 data-i18n="focusTitle">Focus</h3>
+                <div class="meta">
+                  <span class="mini">Cinematics</span>
+                  <span class="mini">Immersive</span>
+                  <span class="mini">Realtime</span>
+                </div>
+                <p data-i18n="focusText">Short scenes • interactive showcases.</p>
+              </div>
+              <div class="card">
+                <h3 data-i18n="toolsTitle">Tools</h3>
+                <p>Unreal · Blender · Substance · AE</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+
+      <section class="section presentation-slide" id="skills" data-slide-label="Skills">
+        <div class="panel pad">
+          <div class="kicker" data-i18n="capabilities">Capabilities</div>
+          <h2 data-i18n="navSkills">Skills</h2>
+          <div class="chips">
+            <div class="chip">Environment + Kitbashing</div>
+            <div class="chip">LOD / Optimization</div>
+            <div class="chip">PBR Materials</div>
+            <div class="chip">Sequencer + Cameras</div>
+            <div class="chip">Sound + VO sync</div>
+            <div class="chip">UI Motion</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section presentation-slide" id="marketing" data-slide-label="Marketing">
+        <div class="panel pad">
+          <div class="kicker" data-i18n="navMarketing">Marketing · Motion · UI/UX</div>
+          <h2 data-i18n="marketingTitle">Interfaces & Campaign Visuals</h2>
+          <p data-i18n="marketingCopy">Motion graphics, marketing design, and UI/UX interface explorations.</p>
+
+          <div class="carousel-block">
+            <div class="carousel-wrap">
+              <button class="car-btn" type="button" id="carPrevMkt">‹</button>
+
+              <div class="carousel" id="videoCarouselMkt">
+
+                <!-- 1st: user requested to place the 3rd link first -->
+                <div class="slide">
+                  <iframe class="spot-video"
+                    src="https://www.youtube.com/embed/TSsdgmXNYKc?rel=0"
+                    title="Marketing / Motion / UI — Video 1"
+                    frameborder="0" allowfullscreen></iframe>
+                  <div class="slide-caption">
+                    <strong>Marketing / UI / Motion Graphics</strong>
+                    <span>AE · AI · Motion · Interfaces</span>
+                  </div>
+                </div>
+
+                <div class="slide">
+                  <iframe class="spot-video"
+                    src="https://www.youtube.com/embed/496xMlmHVrg?rel=0"
+                    title="Marketing / Motion / UI — Video 4"
+                    frameborder="0" allowfullscreen></iframe>
+                  <div class="slide-caption">
+                    <strong>Geopolitical Motion Graphic</strong>
+                    <span> AE · AI · Documentary‑Style · FIGMA</span>
+                  </div>
+                </div>
+
+                <div class="slide">
+                  <iframe class="spot-video"
+                    src="https://www.youtube.com/embed/uaMw_UBLJ6s?rel=0"
+                    title="Marketing / Motion / UI — Video 2"
+                    frameborder="0" allowfullscreen></iframe>
+                  <div class="slide-caption">
+                    <strong>UI/UX App Prototype</strong>
+                    <span>AE · AI · Adobe XD · Savings & Finance</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <button class="car-btn" type="button" id="carNextMkt">›</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section presentation-slide" id="contact" data-slide-label="Contact">
+        <div class="panel pad">
+          <div class="kicker" data-i18n="navContact">Contact</div>
+          <h2 data-i18n="contactTitle">Let's build something</h2>
+          <p data-i18n="contactCopy">Get in touch for collaborations, freelance, or full-time opportunities.</p>
+
+          <div class="cards">
+
+            <div class="card">
+              <h3 data-i18n="emailBtn">Email</h3>
+              <p>
+                <a href="mailto:davidrramirez61@gmail.com">davidrramirez61@gmail.com</a>
+              </p>
+            </div>
+
+            <div class="card">
+              <h3 data-i18n="phoneTitle">Phone</h3>
+              <p>
+                <a href="tel:+17025161194">+1 702 516 1194</a>
+              </p>
+            </div>
+
+            <div class="card">
+              <h3 data-i18n="socialTitle">Social</h3>
+              <div class="row">
+
+                <a class="btn" href="https://www.instagram.com/dbastida_pxl/" target="_blank" rel="noopener" aria-label="Instagram">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="17" cy="7" r="1.2" fill="currentColor"/>
+                  </svg>
+                  Instagram
+                </a>
+
+                <a class="btn" href="https://www.tiktok.com/@bastida_design?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener" aria-label="TikTok">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M14 3v11.2a3.8 3.8 0 1 1-3-3.7" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M14 3c1.2 2.4 3.2 3.8 6 4v3c-2.4-.1-4.4-1-6-2.4" stroke="currentColor" stroke-width="2" fill="none"/>
+                  </svg>
+                  TikTok
+                </a>
+
+                <a class="btn" href="https://www.linkedin.com/in/david-ramirez-bastida-ab5464361/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="9" width="4" height="12" fill="currentColor"/>
+                    <circle cx="5" cy="5" r="2" fill="currentColor"/>
+                    <path d="M10 9h4v2c.8-1.4 2.2-2.4 4.2-2.4 3 0 4.8 2 4.8 6V21h-4v-5.6c0-2-.8-3.2-2.4-3.2-1.4 0-2.2.9-2.6 1.8-.1.3-.2.8-.2 1.3V21h-4V9z" fill="currentColor"/>
+                  </svg>
+                  LinkedIn
+                </a>
+
+                <a class="btn" href="https://sketchfab.com/davidrramirez61" target="_blank" rel="noopener" aria-label="Sketchfab">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2 3 6v12l9 4 9-4V6l-9-4Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M12 2v20" stroke="currentColor" stroke-width="2"/>
+                    <path d="M3 6l9 4 9-4" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Sketchfab
+                </a>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+
+  <!-- OVERLAY ENTER -->
+  <div class="overlay" id="overlay">
+    <div class="scrim" aria-hidden="true"></div>
+
+    <main class="hero-card" aria-label="Portfolio Sign">
+
+      <h1 class="hero-title">David Bastida</h1>
+      <div class="hero-sub" data-i18n="heroSub">Unreal Cinematic Artist</div>
+      <p class="hero-roles" data-i18n="heroRoles">Cinematics · Lighting · Animation · Interactive Experiences</p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:22px;">
+        <button type="button" class="hero-btn" id="enterPortfolio" data-i18n="enterPortfolio">ENTER PORTFOLIO</button>
+      </div>
+    </main>
+  </div>
+
+
+
+  <script>
+    (function(){
+      const btn = document.getElementById('enterPortfolio');
+      const overlay = document.getElementById('overlay');
+      const menuBtn = document.getElementById('menuBtn');
+      const primaryNav = document.getElementById('primaryNav');
+      const langButtons = Array.from(document.querySelectorAll('.lang-btn'));
+      const ambientVideo = document.querySelector('.ambient-video');
+      const ambientSoundBtn = document.getElementById('ambientSound');
+
+      const translations = {
+        en: {
+          brandTag: 'Unreal · Real-Time · Immersive',
+          navAbout: 'About',
+          navCinematics: 'Cinematics',
+          navMarketing: 'Marketing · Motion · UI/UX',
+          navSkills: 'Skills',
+          navContact: 'Contact',
+          emailBtn: 'Email',
+          aboutKicker: 'Cinematic Portfolio',
+          aboutTitle: 'David Bastida',
+          aboutLeadStrong: 'Unreal Cinematic Artist.',
+          aboutLead: 'Cinematics, lighting, VFX, and interactive prototypes.',
+          aboutP1: '<strong>5+ years in design and marketing</strong>, now focused on cinematic worlds, lighting, VFX, and real-time visual storytelling.',
+          featuredKicker: 'Featured Cinematic',
+          featuredTitle: 'Unreal Cinematics',
+          featuredHint: 'Real-time cinematic projects · UE5',
+          tabWork: 'Work',
+          tabLinks: 'Links',
+          spotReelLine: 'Realtime • Cinematic • UE5',
+          reelBack: '10s Back',
+          reelRestart: 'Restart',
+          soundOff: 'Sound: Off',
+          soundOn: 'Sound: On',
+          openYoutube: 'Open on YouTube',
+          quickAccess: 'Quick access',
+          jumpSections: 'Jump fast.',
+          emailSocials: 'Email & socials.',
+          copyBtn: 'Copy',
+          copied: 'Copied!',
+          quickInfo: 'Quick Info',
+          profileTitle: 'Profile',
+          profileTag: 'Unreal · Cinematics · Interactive',
+          locationTitle: 'Location',
+          locationText: 'Las Vegas, NV (On-site & Remote)',
+          focusTitle: 'Focus',
+          focusText: 'Short scenes • interactive reels.',
+          toolsTitle: 'Tools',
+          capabilities: 'Capabilities',
+          marketingTitle: 'Interfaces & Campaign Visuals',
+          marketingCopy: 'Motion, marketing visuals, and UI/UX experiments.',
+          contactTitle: "Let's build something",
+          contactCopy: 'Collaborations, freelance, or full-time opportunities.',
+          phoneTitle: 'Phone',
+          socialTitle: 'Social',
+          heroSub: 'Unreal Cinematic Artist',
+          heroRoles: 'Cinematics · Lighting · Animation · Interactive Experiences',
+          enterPortfolio: 'ENTER PORTFOLIO'
+        },
+        es: {
+          brandTag: 'Unreal · Tiempo real · Inmersivo',
+          navAbout: 'Perfil',
+          navCinematics: 'Cinemáticas',
+          navMarketing: 'Marketing · Motion · UI/UX',
+          navSkills: 'Habilidades',
+          navContact: 'Contacto',
+          emailBtn: 'Email',
+          aboutKicker: 'Portfolio cinematográfico',
+          aboutTitle: 'David Bastida',
+          aboutLeadStrong: 'Artista cinematográfico en Unreal.',
+          aboutLead: 'Cinemáticas, lighting, VFX y prototipos interactivos.',
+          aboutP1: '<strong>5+ años en diseño y marketing</strong>, ahora enfocado en mundos cinematográficos, lighting, VFX y narrativa visual en tiempo real.',
+          featuredKicker: 'Cinemática destacada',
+          featuredTitle: 'Cinemáticas en Unreal',
+          featuredHint: 'Proyectos cinematográficos en tiempo real · UE5',
+          tabWork: 'Trabajo',
+          tabLinks: 'Links',
+          spotReelLine: 'Tiempo real • Cinemático • UE5',
+          reelBack: 'Volver 10s',
+          reelRestart: 'Reiniciar',
+          soundOff: 'Sonido: Off',
+          soundOn: 'Sonido: On',
+          openYoutube: 'Abrir en YouTube',
+          quickAccess: 'Acceso rápido',
+          jumpSections: 'Ir rápido.',
+          emailSocials: 'Email y redes.',
+          copyBtn: 'Copiar',
+          copied: 'Copiado',
+          quickInfo: 'Info rápida',
+          profileTitle: 'Perfil',
+          profileTag: 'Unreal · Cinemáticas · Interactivo',
+          locationTitle: 'Ubicación',
+          locationText: 'Las Vegas, NV (Presencial & remoto)',
+          focusTitle: 'Enfoque',
+          focusText: 'Escenas cortas • reels interactivos.',
+          toolsTitle: 'Herramientas',
+          capabilities: 'Capacidades',
+          marketingTitle: 'Interfaces & visuales de campaña',
+          marketingCopy: 'Motion, visuales de marketing y pruebas UI/UX.',
+          contactTitle: 'Construyamos algo',
+          contactCopy: 'Colaboraciones, freelance u oportunidades full-time.',
+          phoneTitle: 'Teléfono',
+          socialTitle: 'Redes',
+          heroSub: 'Artista cinematográfico en Unreal',
+          heroRoles: 'Cinemáticas · Lighting · Animación · Experiencias interactivas',
+          enterPortfolio: 'ENTRAR AL PORTFOLIO'
+        }
+      };
+
+      let currentLang = localStorage.getItem('portfolio-lang') || 'en';
+      if (!translations[currentLang]) currentLang = 'en';
+
+      const t = (key) => translations[currentLang][key] || translations.en[key] || key;
+
+      const applyLanguage = (lang) => {
+        currentLang = translations[lang] ? lang : 'en';
+        localStorage.setItem('portfolio-lang', currentLang);
+        document.documentElement.lang = currentLang;
+
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+          el.textContent = t(el.getAttribute('data-i18n'));
+        });
+
+        document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+          el.innerHTML = t(el.getAttribute('data-i18n-html'));
+        });
+
+        langButtons.forEach((button) => {
+          const active = button.getAttribute('data-lang') === currentLang;
+          button.classList.toggle('active', active);
+          button.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+
+        updateReelSoundLabel();
+      };
+
+      langButtons.forEach((button) => {
+        button.addEventListener('click', () => applyLanguage(button.getAttribute('data-lang')));
+      });
+
+      if (ambientVideo && ambientSoundBtn) {
+        ambientSoundBtn.addEventListener('click', () => {
+          ambientVideo.muted = !ambientVideo.muted;
+          if (!ambientVideo.muted) {
+            ambientVideo.volume = 0.35;
+            ambientSoundBtn.textContent = '🔇 Silenciar';
+          } else {
+            ambientSoundBtn.textContent = '🔊 Activar sonido';
+          }
+        });
+      }
+
+      // Mobile-only: move Spotlight (#spotlight) to the top (without moving Profile)
+      const aboutSection = document.getElementById('about');
+      const aboutPanel = aboutSection ? aboutSection.querySelector('.panel.pad') : null;
+      const spotlightEl = document.getElementById('spotlight');
+      let spotlightPlaceholder = null;
+
+      const placeSpotlightForViewport = () => {
+        if (!spotlightEl || !aboutPanel) return;
+
+        const isMobile = window.matchMedia('(max-width: 520px)').matches;
+
+        // Create placeholder once at the original location (inside the aside)
+        if (!spotlightPlaceholder) {
+          spotlightPlaceholder = document.createComment('spotlight-placeholder');
+          spotlightEl.parentNode.insertBefore(spotlightPlaceholder, spotlightEl);
+        }
+
+        if (isMobile) {
+          // Move spotlight to the very top of the About panel
+          if (spotlightEl.parentNode !== aboutPanel) {
+            aboutPanel.insertBefore(spotlightEl, aboutPanel.firstChild);
+          }
+        } else {
+          // Restore spotlight back to where it was
+          if (spotlightPlaceholder && spotlightPlaceholder.parentNode) {
+            spotlightPlaceholder.parentNode.insertBefore(spotlightEl, spotlightPlaceholder.nextSibling);
+          }
+        }
+      };
+
+      // Presentation layout keeps spotlight in place; it remains hidden in this design.
+
+      // Mobile-only: place Marketing BETWEEN Cinematics and Quick Info (inside the right panel)
+      const marketingSection = document.getElementById('marketing');
+      let marketingPlaceholder = null;
+
+      const placeMarketingForViewport = () => {
+        if (!marketingSection || !aboutSection) return;
+
+        const isMobile = window.matchMedia('(max-width: 520px)').matches;
+
+        // Create placeholder once at the original location (where Marketing lived)
+        if (!marketingPlaceholder) {
+          marketingPlaceholder = document.createComment('marketing-placeholder');
+          marketingSection.parentNode.insertBefore(marketingPlaceholder, marketingSection);
+        }
+
+        if (isMobile) {
+          const asidePanel = aboutSection.querySelector('aside.panel.pad');
+          if (!asidePanel) return;
+
+          // Quick Info block is the first `.section` inside the aside
+          const quickInfoBlock = asidePanel.querySelector('.section');
+
+          // Insert Marketing right before Quick Info
+          if (quickInfoBlock) {
+            if (marketingSection.parentNode !== asidePanel || marketingSection.nextSibling !== quickInfoBlock) {
+              asidePanel.insertBefore(marketingSection, quickInfoBlock);
+            }
+          } else {
+            // Fallback: append at the end of the aside
+            if (marketingSection.parentNode !== asidePanel) {
+              asidePanel.appendChild(marketingSection);
+            }
+          }
+        } else {
+          // Restore Marketing back to its original position
+          if (marketingPlaceholder && marketingPlaceholder.parentNode) {
+            marketingPlaceholder.parentNode.insertBefore(marketingSection, marketingPlaceholder.nextSibling);
+          }
+        }
+      };
+
+      // Presentation layout keeps Marketing as its own slide on all viewports.
+
+      const setMenuOpen = (open) => {
+        document.body.classList.toggle('menu-open', !!open);
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+
+      function enter(opts = {}){
+        setMenuOpen(false);
+        document.body.classList.add('entered');
+        if (overlay) overlay.setAttribute('aria-hidden', 'true');
+        if (!opts.keepScroll) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+
+      if (btn) {
+        btn.addEventListener('click', () => enter());
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') enter();
+        });
+      }
+
+
+      // Hamburger menu (mobile)
+      if (menuBtn && primaryNav) {
+        menuBtn.addEventListener('click', () => {
+          const isOpen = document.body.classList.contains('menu-open');
+          setMenuOpen(!isOpen);
+        });
+
+        // Close when tapping a link
+        primaryNav.querySelectorAll('a').forEach((a) => {
+          a.addEventListener('click', () => setMenuOpen(false));
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') setMenuOpen(false);
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!document.body.classList.contains('menu-open')) return;
+          const t = e.target;
+          if (menuBtn.contains(t) || primaryNav.contains(t)) return;
+          setMenuOpen(false);
+        });
+      }
+
+
+
+      // Carousel for Unreal Cinematics (top)
+      const carouselTop = document.getElementById('videoCarouselTop');
+      const prevTop = document.getElementById('carPrevTop');
+      const nextTop = document.getElementById('carNextTop');
+
+      if (carouselTop && prevTop && nextTop) {
+        const stepTop = () => Math.max(280, Math.floor(carouselTop.clientWidth * 0.9));
+
+        prevTop.addEventListener('click', () => {
+          carouselTop.scrollBy({ left: -stepTop(), behavior: 'smooth' });
+        });
+
+        nextTop.addEventListener('click', () => {
+          carouselTop.scrollBy({ left: stepTop(), behavior: 'smooth' });
+        });
+      }
+
+
+      // Carousel for Marketing / Motion / UI
+      const carouselMkt = document.getElementById('videoCarouselMkt');
+      const prevMkt = document.getElementById('carPrevMkt');
+      const nextMkt = document.getElementById('carNextMkt');
+
+      if (carouselMkt && prevMkt && nextMkt) {
+        const stepMkt = () => Math.max(280, Math.floor(carouselMkt.clientWidth * 0.9));
+
+        prevMkt.addEventListener('click', () => {
+          carouselMkt.scrollBy({ left: -stepMkt(), behavior: 'smooth' });
+        });
+
+        nextMkt.addEventListener('click', () => {
+          carouselMkt.scrollBy({ left: stepMkt(), behavior: 'smooth' });
+        });
+      }
+
+
+
+      // --- Spotlight tabs + actions ---
+      const spotlight = document.getElementById('spotlight');
+      if (spotlight) {
+        const tabs = Array.from(spotlight.querySelectorAll('.tab-btn'));
+        const panels = Array.from(spotlight.querySelectorAll('.spot-panel'));
+
+        tabs.forEach((t) => {
+          t.addEventListener('click', () => {
+            const target = t.getAttribute('data-tab');
+            tabs.forEach((b) => {
+              b.classList.toggle('active', b === t);
+              b.setAttribute('aria-selected', b === t ? 'true' : 'false');
+            });
+            panels.forEach((p) => p.classList.toggle('active', p.getAttribute('data-panel') === target));
+          });
+        });
+      }
+
+      // --- YouTube Reel sound control (autoplay must start muted) ---
+      let reelPlayer = null;
+      const reelSoundBtn = document.getElementById('reelSound');
+      const reelBackBtn = document.getElementById('reelBack');
+      const reelRestartBtn = document.getElementById('reelRestart');
+
+      const updateReelSoundLabel = () => {
+        if (!reelSoundBtn) return;
+        const muted = !reelPlayer || typeof reelPlayer.isMuted !== 'function' || reelPlayer.isMuted();
+        reelSoundBtn.textContent = muted ? t('soundOff') : t('soundOn');
+      };
+
+      // Load YouTube IFrame API
+      const ytApiId = 'yt-iframe-api';
+      if (!document.getElementById(ytApiId)) {
+        const tag = document.createElement('script');
+        tag.id = ytApiId;
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+      }
+
+      // YouTube calls this globally when ready
+      window.onYouTubeIframeAPIReady = () => {
+        const iframe = document.getElementById('reelPlayer');
+        if (!iframe || !window.YT || !YT.Player) return;
+
+        reelPlayer = new YT.Player('reelPlayer', {
+          events: {
+            onReady: (e) => {
+              // Keep muted so autoplay works; user can enable sound via button
+              try {
+                e.target.mute();
+                e.target.playVideo();
+              } catch {}
+              updateReelSoundLabel();
+            }
+          }
+        });
+      };
+
+      if (reelSoundBtn) {
+        reelSoundBtn.addEventListener('click', () => {
+          if (!reelPlayer) return;
+          try {
+            if (reelPlayer.isMuted()) {
+              reelPlayer.unMute();
+              reelPlayer.setVolume(80);
+            } else {
+              reelPlayer.mute();
+            }
+          } catch {}
+          updateReelSoundLabel();
+        });
+      }
+
+      // Rewind video 10 seconds
+      if (reelBackBtn) {
+        reelBackBtn.addEventListener('click', () => {
+          if (!reelPlayer) return;
+          try {
+            const t = typeof reelPlayer.getCurrentTime === 'function' ? reelPlayer.getCurrentTime() : 0;
+            reelPlayer.seekTo(Math.max(0, t - 10), true);
+            reelPlayer.playVideo();
+          } catch {}
+        });
+      }
+
+      // Restart video from the beginning
+      if (reelRestartBtn) {
+        reelRestartBtn.addEventListener('click', () => {
+          if (!reelPlayer) return;
+          try {
+            reelPlayer.seekTo(0, true);
+            reelPlayer.playVideo();
+          } catch {}
+        });
+      }
+
+      // Pause reel when leaving the Reel tab, resume when returning
+      if (spotlight) {
+        const tabs2 = Array.from(spotlight.querySelectorAll('.tab-btn'));
+        tabs2.forEach((t) => {
+          t.addEventListener('click', () => {
+            const target = t.getAttribute('data-tab');
+            if (!reelPlayer) return;
+            try {
+              if (target === 'reel') reelPlayer.playVideo();
+              else reelPlayer.pauseVideo();
+            } catch {}
+          });
+        });
+      }
+
+
+      const presentationSlides = Array.from(document.querySelectorAll('.presentation-slide'));
+      const slideDots = Array.from(document.querySelectorAll('.slide-dot'));
+
+      const setActiveSlide = (id) => {
+        presentationSlides.forEach((slide) => {
+          slide.classList.toggle('is-active', slide.id === id);
+        });
+
+        slideDots.forEach((dot) => {
+          dot.classList.toggle('is-active', dot.dataset.target === id);
+        });
+      };
+
+      const slideObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSlide(entry.target.id);
+          }
+        });
+      }, {
+        threshold: 0.52,
+        rootMargin: '-8% 0px -8% 0px'
+      });
+
+      presentationSlides.forEach((slide) => slideObserver.observe(slide));
+
+      const go = (id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        setMenuOpen(false);
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+
+      document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          const id = link.getAttribute('href').slice(1);
+          if (!id || !document.getElementById(id)) return;
+          e.preventDefault();
+          go(id);
+        });
+      });
+
+      const heroScroll = document.querySelector('.hero-scroll');
+      if (heroScroll) heroScroll.addEventListener('click', () => go('video-showcase'));
+
+      slideDots.forEach((dot) => {
+        dot.addEventListener('click', () => go(dot.dataset.target));
+      });
+
+      const spotToWork = document.getElementById('spotToWork');
+      if (spotToWork) spotToWork.addEventListener('click', () => go('work'));
+
+      const spotToSkills = document.getElementById('spotToSkills');
+      if (spotToSkills) spotToSkills.addEventListener('click', () => go('skills'));
+
+      const spotToContact = document.getElementById('spotToContact');
+      if (spotToContact) spotToContact.addEventListener('click', () => go('contact'));
+
+      const spotToContactEmail = document.getElementById('spotToContactEmail');
+      if (spotToContactEmail) spotToContactEmail.addEventListener('click', () => go('contact'));
+
+      const spotOpenFirst = document.getElementById('spotOpenFirst');
+      if (spotOpenFirst) spotOpenFirst.addEventListener('click', () => go('cinematics'));
+
+      const spotCopyEmail = document.getElementById('spotCopyEmail');
+      if (spotCopyEmail) {
+        spotCopyEmail.addEventListener('click', async () => {
+          // Keep this synced with the Contact section
+          const email = 'davidrramirez61@gmail.com';
+          try {
+            await navigator.clipboard.writeText(email);
+            spotCopyEmail.textContent = t('copied');
+            setTimeout(() => (spotCopyEmail.textContent = t('copyBtn')), 1200);
+          } catch {
+            window.prompt('Copy this email:', email);
+          }
+        });
+      }
+
+      applyLanguage(currentLang);
+
+    })();
+  </script>
+</body>
+</html>
