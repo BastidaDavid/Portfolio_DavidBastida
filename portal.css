@@ -130,7 +130,7 @@ a {
   position: absolute;
   top: -20%;
   bottom: -20%;
-  left: 47.8%;
+  left: 48.7%;
   z-index: 1;
   width: 12px;
   content: "";
@@ -171,7 +171,7 @@ a {
     72px 72px,
     72px 72px,
     auto;
-  clip-path: polygon(58% 0, 100% 0, 100% 100%, 41% 100%);
+  clip-path: polygon(59.5% 0, 100% 0, 100% 100%, 42.5% 100%);
   box-shadow:
     inset 40px 0 90px rgba(255, 255, 255, 0.035),
     inset 0 0 120px rgba(0, 0, 0, 0.55);
@@ -194,7 +194,7 @@ a {
   z-index: -1;
   pointer-events: none;
   opacity: 0.46;
-  clip-path: polygon(0 0, 58% 0, 41% 100%, 0 100%);
+  clip-path: polygon(0 0, 59.5% 0, 42.5% 100%, 0 100%);
   background:
     radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.035), transparent 30%),
     radial-gradient(ellipse at -8% 92%, transparent 0 48%, rgba(0, 0, 0, 0.04) 48.2% 48.55%, transparent 48.75% 100%),
