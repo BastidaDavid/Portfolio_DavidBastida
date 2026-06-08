@@ -8,7 +8,8 @@
   --paper-2: #05070a;
   --mint: #3ad29f;
   --shadow: 0 28px 80px rgba(20, 24, 28, 0.18);
-  --stage-min-height: max(100svh, 760px);
+  --stage-width: 1680px;
+  --stage-min-height: max(100svh, 900px);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -114,6 +115,7 @@ a {
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  width: max(100vw, var(--stage-width));
   min-height: 100vh;
   min-height: var(--stage-min-height);
   overflow: hidden;
@@ -225,7 +227,7 @@ a {
   align-items: center;
   min-height: 100vh;
   min-height: var(--stage-min-height);
-  padding: 126px clamp(28px, 6vw, 98px) 118px;
+  padding: 126px 98px 118px;
   z-index: 2;
 }
 
@@ -242,11 +244,11 @@ a {
 .path-content {
   position: relative;
   z-index: 4;
-  width: min(430px, 100%);
+  width: 450px;
 }
 
 .founder-panel .path-content {
-  width: min(440px, 100%);
+  width: 470px;
 }
 
 .path-number {
@@ -280,7 +282,7 @@ h1,
 h2 {
   margin: 0;
   color: #111111;
-  font-size: clamp(42px, min(4.7vw, 8svh), 76px);
+  font-size: 76px;
   line-height: 0.98;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -373,14 +375,14 @@ h2 {
   z-index: 10;
   display: grid;
   justify-items: center;
-  width: clamp(250px, 26vw, 340px);
-  transform: translate(-50%, -41%);
+  width: 360px;
+  transform: translate(-50%, -43%);
   text-align: center;
   animation: portraitIn 0.9s ease both;
 }
 
 .portrait-frame {
-  width: clamp(190px, min(21vw, 31svh), 320px);
+  width: 340px;
   aspect-ratio: 1;
   margin: 0;
   overflow: hidden;
@@ -433,7 +435,7 @@ h2 {
 
 .center-name .first-name {
   gap: 0.28em;
-  font-size: clamp(1.2rem, min(2.3vw, 3.6svh), 2.05rem);
+  font-size: 2.2rem;
   font-weight: 300;
   letter-spacing: 0.12em;
 }
@@ -441,7 +443,7 @@ h2 {
 .center-name .last-name {
   gap: 0.12em;
   margin-top: 8px;
-  font-size: clamp(2.45rem, min(4.6vw, 7svh), 4.35rem);
+  font-size: 4.8rem;
   font-weight: 800;
   letter-spacing: 0.04em;
 }
@@ -467,7 +469,7 @@ h2 {
   align-items: center;
   gap: 0.42em;
   margin-top: 18px;
-  font-size: clamp(0.58rem, min(0.72vw, 1.25svh), 0.68rem);
+  font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -540,86 +542,6 @@ h2 {
   }
 }
 
-@media (max-width: 1380px), (max-height: 820px) {
-  :root {
-    --stage-min-height: max(100svh, 700px);
-  }
-
-  .path-panel {
-    padding: 112px clamp(24px, 5vw, 72px) 96px;
-  }
-
-  .path-content,
-  .founder-panel .path-content {
-    width: min(390px, 100%);
-  }
-
-  h1,
-  h2 {
-    font-size: clamp(38px, min(4.15vw, 7svh), 64px);
-  }
-
-  .path-copy {
-    max-width: 340px;
-    margin-top: 34px;
-    font-size: clamp(15px, 1.1vw, 17px);
-  }
-
-  .path-link {
-    margin-top: 32px;
-  }
-
-  .portrait-frame {
-    width: clamp(178px, min(18vw, 29svh), 280px);
-    border-width: 7px;
-  }
-
-  .center-name .last-name {
-    font-size: clamp(2.25rem, min(4.1vw, 6.4svh), 3.85rem);
-  }
-}
-
-@media (max-height: 700px) and (min-width: 1101px) {
-  :root {
-    --stage-min-height: max(100svh, 640px);
-  }
-
-  .portal-header {
-    min-height: 70px;
-  }
-
-  .path-panel {
-    padding-top: 92px;
-    padding-bottom: 78px;
-  }
-
-  .path-label {
-    margin-bottom: 18px;
-  }
-
-  .path-copy {
-    margin-top: 26px;
-    line-height: 1.5;
-  }
-
-  .path-copy::before {
-    margin-bottom: 18px;
-  }
-
-  .center-identity {
-    transform: translate(-50%, -39%);
-  }
-
-  .portrait-frame {
-    width: clamp(168px, min(16vw, 27svh), 240px);
-  }
-
-  .name-lockup,
-  .center-name {
-    margin-top: 16px;
-  }
-}
-
 @keyframes leftIn {
   from {
     opacity: 0;
@@ -645,6 +567,7 @@ h2 {
 @media (max-width: 1100px) {
   .portal {
     grid-template-columns: 1fr;
+    width: 100%;
   }
 
   .diagonal-plane {
