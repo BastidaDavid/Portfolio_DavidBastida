@@ -9,7 +9,7 @@
   --mint: #3ad29f;
   --shadow: 0 28px 80px rgba(20, 24, 28, 0.18);
   --stage-width: 100vw;
-  --stage-min-height: 100svh;
+  --stage-min-height: 100dvh;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -29,7 +29,7 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
-  background: #ffffff;
+  background: #05070a;
   color: var(--ink);
 }
 
@@ -118,6 +118,7 @@ a {
   width: 100%;
   min-height: 100vh;
   min-height: var(--stage-min-height);
+  height: var(--stage-min-height);
   overflow: hidden;
   isolation: isolate;
   background:
@@ -227,6 +228,7 @@ a {
   align-items: center;
   min-height: 100vh;
   min-height: var(--stage-min-height);
+  height: var(--stage-min-height);
   padding: clamp(92px, 9vh, 108px) clamp(40px, 4.2vw, 68px) clamp(58px, 7vh, 82px);
   z-index: 2;
 }
@@ -489,7 +491,7 @@ h2 {
 .portal-footer {
   position: absolute;
   right: clamp(24px, 4vw, 64px);
-  bottom: 28px;
+  bottom: clamp(18px, 2.5vh, 28px);
   left: clamp(24px, 4vw, 64px);
   z-index: 8;
   display: flex;
@@ -515,13 +517,13 @@ h2 {
 .scroll-note {
   display: grid;
   justify-items: center;
-  gap: 14px;
+  gap: 10px;
   color: rgba(255, 255, 255, 0.66);
 }
 
 .scroll-note span {
-  width: 22px;
-  height: 42px;
+  width: 20px;
+  height: 36px;
   border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 999px;
 }
