@@ -2445,8 +2445,12 @@
     }
 
     @media (max-width:720px){
+      html{
+        scroll-snap-type:none;
+      }
+
       body{
-        background:#050505 url("DAVEVISION-poster.jpg") center / cover no-repeat fixed;
+        background:#050505 url("DAVEVISION-poster.jpg") center top / cover no-repeat scroll;
       }
 
       body::before,
@@ -2468,6 +2472,39 @@
         display:none !important;
       }
 
+      .slide-dots,
+      .video-showcase,
+      .hero-scroll{
+        display:none !important;
+      }
+
+      .presentation-slide,
+      .presentation-slide.is-active{
+        min-height:auto;
+        scroll-snap-align:none;
+        scroll-snap-stop:normal;
+        overflow:visible;
+        opacity:1 !important;
+        transform:none !important;
+        filter:none !important;
+        transition:none !important;
+      }
+
+      .video-hero{
+        min-height:auto;
+        padding-top:120px;
+        padding-bottom:58px;
+      }
+
+      #cinematics,
+      #marketing,
+      #skills,
+      #profile,
+      #contact{
+        padding-top:58px;
+        padding-bottom:58px;
+      }
+
       .sound-toggle{
         display:none !important;
       }
@@ -2482,8 +2519,8 @@
 </head>
 
 <body>
-  <video class="ambient-video" autoplay loop muted playsinline webkit-playsinline preload="auto" poster="DAVEVISION-poster.jpg" disablepictureinpicture disableremoteplayback controlslist="nodownload noplaybackrate noremoteplayback" aria-hidden="true">
-    <source src="DAVEVISION.mp4" type="video/mp4">
+  <video class="ambient-video" autoplay loop muted playsinline webkit-playsinline preload="metadata" poster="DAVEVISION-poster.jpg" disablepictureinpicture disableremoteplayback controlslist="nodownload noplaybackrate noremoteplayback" aria-hidden="true">
+    <source src="DAVEVISION.mp4" type="video/mp4" media="(min-width: 721px)">
   </video>
   <div class="ambient-wash" aria-hidden="true"></div>
   <div class="page-transition" aria-hidden="true"></div>
@@ -2590,7 +2627,7 @@
                 <div class="carousel aside-carousel" id="videoCarouselTop">
 
                   <div class="slide">
-                    <iframe class="spot-video"
+                    <iframe loading="lazy" class="spot-video"
                       src="https://www.youtube.com/embed/XiZJGeGGw0U?rel=0"
                       title="Urban Sphere Concept"
                       frameborder="0" allowfullscreen></iframe>
@@ -2601,7 +2638,7 @@
                   </div>
 
                   <div class="slide">
-                    <iframe class="spot-video"
+                    <iframe loading="lazy" class="spot-video"
                       src="https://www.youtube.com/embed/kf7VlwMG_es?rel=0"
                       title="Nebula Remastered"
                       frameborder="0" allowfullscreen></iframe>
@@ -2612,7 +2649,7 @@
                   </div>
 
                   <div class="slide">
-                    <iframe class="spot-video"
+                    <iframe loading="lazy" class="spot-video"
                       src="https://www.youtube.com/embed/vUENtyi--oc?rel=0"
                       title="Sphere Study"
                       frameborder="0" allowfullscreen></iframe>
@@ -2623,7 +2660,7 @@
                   </div>
 
                   <div class="slide">
-                    <iframe class="spot-video"
+                    <iframe loading="lazy" class="spot-video"
                       src="https://www.youtube.com/embed/WJrMHcr9IcM?rel=0"
                       title="Stratosphere | Unreal Engine 5 Cinematic"
                       frameborder="0" allowfullscreen></iframe>
@@ -2634,7 +2671,7 @@
                   </div>
 
                   <div class="slide">
-                    <iframe class="spot-video"
+                    <iframe loading="lazy" class="spot-video"
                       src="https://www.youtube.com/embed/rY88MFnzNOw?rel=0"
                       title="Proyecto Nebula | Unreal Engine 5 Cinematic"
                       frameborder="0" allowfullscreen></iframe>
@@ -2645,7 +2682,7 @@
                   </div>
 
                   <div class="slide">
-                    <iframe class="spot-video"
+                    <iframe loading="lazy" class="spot-video"
                       src="https://www.youtube.com/embed/IR8AVaGo17A?rel=0"
                       title="Unreal Engine 3D Cinematic"
                       frameborder="0" allowfullscreen></iframe>
@@ -2656,7 +2693,7 @@
                   </div>
 
                   <div class="slide">
-                    <iframe class="spot-video"
+                    <iframe loading="lazy" class="spot-video"
                       src="https://www.youtube.com/embed/e0UuZlQwPLY?rel=0"
                       title="Eventus | Unreal Engine 5"
                       frameborder="0" allowfullscreen></iframe>
@@ -2667,7 +2704,7 @@
                   </div>
 
                   <div class="slide">
-                    <iframe class="spot-video"
+                    <iframe loading="lazy" class="spot-video"
                       src="https://www.youtube.com/embed/3Zq-hA4e-Hc?rel=0"
                       title="3D Stylized Lantern with Fire Simulation"
                       frameborder="0" allowfullscreen></iframe>
@@ -2678,7 +2715,7 @@
                   </div>
 
                   <div class="slide">
-                    <iframe class="spot-video"
+                    <iframe loading="lazy" class="spot-video"
                       src="https://www.youtube.com/embed/AqndOPh2c_8?rel=0"
                       title="David Bastida | Unreal Cinematic Artist Reel"
                       frameborder="0" allowfullscreen></iframe>
@@ -2713,7 +2750,7 @@
                 <div class="spotline" data-i18n="spotReelLine">Realtime • Cinematic • UE5</div>
 
                 <div class="spot-video-wrap" aria-label="YouTube Reel">
-                  <iframe
+                  <iframe loading="lazy"
                     id="reelPlayer"
                     class="spot-video"
                     src="https://www.youtube.com/embed/AqndOPh2c_8?enablejsapi=1&autoplay=1&mute=1&playsinline=1&loop=1&playlist=AqndOPh2c_8&controls=0&modestbranding=1&rel=0&vq=hd1080"
@@ -2827,7 +2864,7 @@
 
                 <!-- 1st: user requested to place the 3rd link first -->
                 <div class="slide">
-                  <iframe class="spot-video"
+                  <iframe loading="lazy" class="spot-video"
                     src="https://www.youtube.com/embed/TSsdgmXNYKc?rel=0"
                     title="Marketing / Motion / UI — Video 1"
                     frameborder="0" allowfullscreen></iframe>
@@ -2838,7 +2875,7 @@
                 </div>
 
                 <div class="slide">
-                  <iframe class="spot-video"
+                  <iframe loading="lazy" class="spot-video"
                     src="https://www.youtube.com/embed/496xMlmHVrg?rel=0"
                     title="Marketing / Motion / UI — Video 4"
                     frameborder="0" allowfullscreen></iframe>
@@ -2849,7 +2886,7 @@
                 </div>
 
                 <div class="slide">
-                  <iframe class="spot-video"
+                  <iframe loading="lazy" class="spot-video"
                     src="https://www.youtube.com/embed/uaMw_UBLJ6s?rel=0"
                     title="Marketing / Motion / UI — Video 2"
                     frameborder="0" allowfullscreen></iframe>
@@ -2965,6 +3002,7 @@
       const langButtons = Array.from(document.querySelectorAll('.lang-btn'));
       const ambientVideo = document.querySelector('.ambient-video');
       const ambientSoundBtn = document.getElementById('ambientSound');
+      const isMobilePortfolio = window.matchMedia('(max-width: 720px)').matches;
 
       const translations = {
         en: {
@@ -3302,7 +3340,7 @@
 
       // Load YouTube IFrame API
       const ytApiId = 'yt-iframe-api';
-      if (!document.getElementById(ytApiId)) {
+      if (!isMobilePortfolio && !document.getElementById(ytApiId)) {
         const tag = document.createElement('script');
         tag.id = ytApiId;
         tag.src = 'https://www.youtube.com/iframe_api';
@@ -3395,18 +3433,20 @@
         });
       };
 
-      const slideObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSlide(entry.target.id);
-          }
+      if (!isMobilePortfolio) {
+        const slideObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveSlide(entry.target.id);
+            }
+          });
+        }, {
+          threshold: 0.52,
+          rootMargin: '-8% 0px -8% 0px'
         });
-      }, {
-        threshold: 0.52,
-        rootMargin: '-8% 0px -8% 0px'
-      });
 
-      presentationSlides.forEach((slide) => slideObserver.observe(slide));
+        presentationSlides.forEach((slide) => slideObserver.observe(slide));
+      }
 
       const go = (id) => {
         const el = document.getElementById(id);

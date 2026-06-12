@@ -1,6 +1,7 @@
 const slides = [...document.querySelectorAll(".portfolio-slide")];
 const dots = [...document.querySelectorAll(".slide-dot")];
 const links = [...document.querySelectorAll(".nav-links a")];
+const isMobilePage = window.matchMedia("(max-width: 640px)").matches;
 
 const setActiveSlide = (id) => {
   slides.forEach((slide) => {
@@ -23,16 +24,18 @@ const goToSlide = (id) => {
   slide.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) setActiveSlide(entry.target.id);
-    });
-  },
-  { threshold: 0.52, rootMargin: "-8% 0px -8% 0px" }
-);
+if (!isMobilePage) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActiveSlide(entry.target.id);
+      });
+    },
+    { threshold: 0.52, rootMargin: "-8% 0px -8% 0px" }
+  );
 
-slides.forEach((slide) => observer.observe(slide));
+  slides.forEach((slide) => observer.observe(slide));
+}
 
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", (event) => {
@@ -48,4 +51,6 @@ dots.forEach((dot) => {
 });
 
 setActiveSlide(location.hash?.slice(1) || "home");
-document.documentElement.classList.add("js-ready");
+if (!isMobilePage) {
+  document.documentElement.classList.add("js-ready");
+}

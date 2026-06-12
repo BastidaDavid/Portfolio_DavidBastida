@@ -581,9 +581,15 @@ h2 {
 }
 
 @media (max-width: 640px) {
+  html {
+    scroll-snap-type: none;
+  }
+
   .site-header {
+    position: sticky;
     min-height: 68px;
     padding: 0 18px;
+    background: rgba(2, 4, 7, .88);
   }
 
   .brand {
@@ -591,8 +597,29 @@ h2 {
   }
 
   .portfolio-slide {
-    min-height: 100svh;
-    padding: 92px 18px 42px;
+    min-height: auto;
+    scroll-snap-align: none;
+    overflow: visible;
+    padding: 54px 18px;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  .js-ready .portfolio-slide {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .hero-slide {
+    min-height: auto;
+    padding-top: 44px;
+  }
+
+  .about-slide {
+    padding-top: 36px;
   }
 
   h1 {
@@ -609,7 +636,11 @@ h2 {
 
   .hero-media img {
     object-position: 62% 14%;
-    opacity: .34;
+    opacity: .28;
+  }
+
+  .portrait-panel {
+    min-height: 320px;
   }
 
   .social-rail {
